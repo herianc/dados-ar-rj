@@ -35,7 +35,7 @@ def estacao_indisponivel():
     dicionario['NO2'] = 'ND'
     dicionario['SO2'] = 'ND'
     dicionario['IQAr'] = 'ND'
-    dicionario['classificacao'] = 'NA'
+    dicionario['classificacao'] = 'ND'
 
     return dicionario
 
@@ -50,6 +50,6 @@ def criando_dicionario(lista: list) -> dict:
     dicionario['NO2'] = lista[4]
     dicionario['SO2'] = lista[5]
     dicionario['IQAr'] = lista[6]
-    dicionario['classificacao'] = lista[-1]
+    dicionario['classificacao'] = lista[7]
 
     return dicionario
