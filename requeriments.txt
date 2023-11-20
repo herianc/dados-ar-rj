@@ -1,0 +1,10 @@
+Bibliotecas necessárias para o código
+
+Para instalar basta abrir o prompt de comando/powershell (ou digitar no terminal do vscode) e digitar:
+
+python -m pip install bs4
+python -m pip install pandas
+python -m pip install requests
+python -m pip install openpyxl
+
+Espere a instalação de cada um terminar
