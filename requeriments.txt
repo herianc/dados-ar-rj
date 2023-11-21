@@ -6,5 +6,9 @@ python -m pip install bs4
 python -m pip install pandas
 python -m pip install requests
 python -m pip install openpyxl
+python -m pip install plotly
+python -m pip install kaleido
+python -m pip install flet
 
-Espere a instalação de cada um terminar
+
+Espere a instalação de cada um terminar cara executar a proxima instalação

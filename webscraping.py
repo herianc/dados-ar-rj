@@ -29,8 +29,9 @@ class ConsultaMensal:
             inicio = None
             fim = None
             data_final = tratamento_dados.tratando_dias(mes)
+
+            # For para requisição dos dados dia a dia
             for dia in range(1, data_final):
-                # Requisitos para o requests.get
                 data = f'?data={dia}/{mes}/{ano}'
                 url = 'https://jeap.rio.rj.gov.br/je-metinfosmac/boletim'+data
 
@@ -43,13 +44,19 @@ class ConsultaMensal:
                 conteudo_selecionado = conteudo.find_all(
                     'td', attrs=('td_st_name', 'td_value_bold', 'td_value'))
 
+                ## DADOS EM HTML ##
+
+                # For para saber se a Estação de Irajá está disponível no site  (Caso esteja, pega a sua posição na lista)
                 for i, linha in enumerate(conteudo_selecionado):
-                    if linha.get_text() == 'Irajá':  # Verificando se a estação de Irajá está na tabela
+                    if linha.get_text() == 'Irajá':
                         # Coletando a posição de inicio e fim do conteúdo desejado
                         inicio = i+1
                         fim = inicio + 8
+
                     else:  # Se não estiver, os dados estão indisponíveis
                         dados_final = tratamento_dados.estacao_indisponivel()
+
+                ## REALIZANDO O TRATAMENTO DOS DADOS ##
 
                 # Verificando se existe as variaveis inicio e fim (confirmando se a estação realmente foi encontrada)
                 if inicio and fim:
@@ -58,16 +65,21 @@ class ConsultaMensal:
                     for dado in lista_selecionada:
                         dados_brutos.append(dado.text.strip())
                         # Verificando se os dados da estação estão disponíveis
-                    if dados_brutos[0] != 'Temporariamente indisponível' and dados_brutos[0] != 'Temporariamente desativada':
-                        dados_tratados = tratamento_dados.tratando_dados(
-                            dados_brutos, self.mes, self.ano)
-                        dados_final = tratamento_dados.criando_dicionario(
-                            dados_tratados, self.mes, self.ano)
-                    else:
-                        dados_final = tratamento_dados.estacao_indisponivel()
+                    if len(dados_brutos) > 0:
+                        if dados_brutos[0] != 'Temporariamente indisponível' and dados_brutos[0] != 'Temporariamente desativada':
+                            dados_tratados = tratamento_dados.tratando_dados(
+                                dados_brutos, self.mes, self.ano)
+                            dados_final = tratamento_dados.criando_dicionario(
+                                dados_tratados, self.mes, self.ano)
+                        else:
+                            dados_final = tratamento_dados.estacao_indisponivel()
 
+                # FIM DA REQUISIÇÃO (APENAS UM DIA)
+
+                # Guardando o dicionário dos dados do dia no dicionário do mes
                 self.dados_mes[f'{dia}-{self.mes}-{self.ano}'] = dados_final
                 print(dia, self.dados_mes[f'{dia}-{self.mes}-{self.ano}'])
+
         except ConnectionError:
             print('Erro de Conexão/Internet')
 
@@ -212,6 +224,10 @@ class ConsultaAnual(ConsultaMensal):
         with open(f'dados{self.ano}.json', 'w') as arquivo:
             json.dump(self.dados_ano, arquivo, indent=4)
 
-    def obter_json_semestre(self):
+    def obter_json_semestre1(self):
+        with open(f'dados{self.ano}-{self.semestre}.json', 'w') as arquivo:
+            json.dump(self.dados_semestre, arquivo, indent=4)
+
+    def obter_json_semestre2(self):
         with open(f'dados{self.ano}-{self.semestre}.json', 'w') as arquivo:
             json.dump(self.dados_semestre, arquivo, indent=4)

@@ -1,4 +1,4 @@
-def tratando_dias(mes: int):
+def tratando_dias(mes: int) -> int:
     # Função que retorna o número de dias do mês + 1
     if mes in [1, 3, 5, 7, 8, 10, 12]:
         return 32
@@ -8,7 +8,7 @@ def tratando_dias(mes: int):
         return 29
 
 
-def tratando_dados(lista: list, mes, ano) -> list:
+def tratando_dados(lista: list, mes: int, ano: int) -> list:
     """Função que trata os dados tirando os espaços em branco e convertendo os dados str para os tipos númericos (quando possível).
     A estrutura da lista recebida muda com o ano da consulta"""
     if ano > 2019:
