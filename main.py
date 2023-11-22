@@ -324,8 +324,8 @@ def app(page: Page):
                         raise Exception
 
                 # Consulta OK! Plotando o gráfico
-                tabela = pd.DataFrame(consulta_mes.dados_mes)
-                tabela = tabela.transpose()
+                tabela = pd.DataFrame.from_dict(
+                    consulta_mes.dados_mes, orient='index')
                 fig = px.line(tabela[['IQAr']],
                               title=f'Índice de Qualidade do Ar de {mes_consulta}-{ano_consulta}',
                               range_y=(0, 400)
