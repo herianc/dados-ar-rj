@@ -16,10 +16,6 @@ class ConsultaMensal:
         self.mes = mes
         self.ano = ano
         try:
-            if self.__class__.__name__ == 'ConsultaMensal':
-                print(
-                    f'Iniciando consulta mensal...\nO procedimento pode demorar alguns segundos. Por favor, aguarde.')
-
             # Período que nenhuma estação esteve disponível
             if mes == 6 and ano == 2020:
                 dados_final = tratamento_dados.estacao_indisponivel()

@@ -327,7 +327,8 @@ def app(page: Page):
                 tabela = pd.DataFrame(consulta_mes.dados_mes)
                 tabela = tabela.transpose()
                 fig = px.line(tabela[['IQAr']],
-                              title=f'Índice de Qualidade do Ar de {mes_consulta}-{ano_consulta}'
+                              title=f'Índice de Qualidade do Ar de {mes_consulta}-{ano_consulta}',
+                              range_y=(0, 400)
                               )
                 system('cls')
                 print(consulta_mes.obter_texto())
