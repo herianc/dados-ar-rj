@@ -8,7 +8,7 @@ from flet import CrossAxisAlignment, MainAxisAlignment
 from webscraping import ConsultaAnual, ConsultaMensal, ConsultaSemestral
 from os import system
 
-fonte = 'Comfortaa'
+limpa_terminal = system('cls')
 
 
 def app(page: Page):
@@ -104,6 +104,7 @@ def app(page: Page):
                         raise Exception
 
                 # Consulta OK!
+                limpa_terminal
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
                               size=25, font_family=fonte),
@@ -167,6 +168,7 @@ def app(page: Page):
                         raise Exception
 
                 # Consulta OK!
+                limpa_terminal
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
                               size=30, font_family=fonte),
@@ -230,6 +232,7 @@ def app(page: Page):
                         raise Exception
 
                 # Consulta OK!
+                system('cls')
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
                               size=30, font_family=fonte),
