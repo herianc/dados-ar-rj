@@ -5,17 +5,21 @@ import json
 from flet.plotly_chart import PlotlyChart
 from flet import Page, AppBar, ElevatedButton, Text, TextField, Image
 from flet import CrossAxisAlignment, MainAxisAlignment
-from webscraping import ConsultaAnual, ConsultaMensal
+from webscraping import ConsultaAnual, ConsultaMensal, ConsultaSemestral
 
 fonte = 'Comfortaa'
 consulta_ano = ConsultaAnual()
 consulta_mes = ConsultaMensal()
+consulta_semestre = ConsultaSemestral()
+
+
+# CRIAR OS BOTÕES DE EXCEL E CSV PARA CONSULTA DE ANO E SEMESTRE
 
 
 def app(page: Page):
 
     # Estilização da janela da aplicação
-    page.title = 'Consulta'
+    page.title = 'Boletim de Poluição de Irajá'
     page.theme_mode = ft.ThemeMode.LIGHT
     page.window_height = 720
     page.window_width = 1024
@@ -25,6 +29,8 @@ def app(page: Page):
 
     ## Página de consulta anual ##
     def consulta_anual(e):
+        consulta_ano.dados_ano = {}
+        consulta_semestre. dados_semestre = {}
         page.clean()
         global ano
         ano = TextField(label='Ano', value='', width=200, max_length=4)
@@ -58,6 +64,9 @@ def app(page: Page):
 
     def consulta_anual_click(e):
         try:
+            if not ano.value:
+                ano.error_text = 'Digite ano'
+                page.update()
             if not int(ano.value) in range(2017, 2022):
                 ano.error_text = 'Ano inválido ❌'
                 page.update()
@@ -65,7 +74,7 @@ def app(page: Page):
                 ano.error_text = 'Digite apenas números'
                 page.update()
 
-            if int(ano.value) in range(2017, 2024):
+            if int(ano.value) in range(2017, 2023):
                 ano_consulta = int(ano.value)
                 page.clean()
                 page.add(
@@ -76,23 +85,30 @@ def app(page: Page):
 
                 # Realizando a consulta anual
                 try:
-                    consulta_ano.consulta(ano_consulta)
-                except Exception:
-                    page.clean()
-                    page.add(Text(value='Erro na consulta 🥴',
-                                  font_family=fonte, size=25),
-                             ElevatedButton(text='Voltar',
-                                            on_click=lambda _: main()),
-                             )
-                    raise Exception
+                    with open(f'dados{ano_consulta}.json', 'r') as arquivo:
+                        consulta_ano.dados_ano = json.load(arquivo)
+                except FileNotFoundError:
+                    try:
+                        consulta_ano.consulta(ano_consulta)
+                        consulta_ano.obter_json()
+                    except Exception:
+                        page.clean()
+                        page.add(Text(value='Erro na consulta 🤯',
+                                      font_family=fonte, size=25),
+                                 ElevatedButton(text='Voltar',
+                                                on_click=lambda _: main()),
+                                 )
+                        raise Exception
 
                 # Consulta feita com sucesso
                 page.clean()
                 page.add(Text(value='Consulta realizada ☝️🤓',
                               size=25, font_family=fonte),
                          ft.Row(controls=[
-                             ElevatedButton(on_click=lambda _: consulta_ano.obter_json(),
-                                            text='Obter json'),
+                             ElevatedButton(on_click=lambda _: consulta_ano.obter_excel(),
+                                            text='Obter Planilha'),
+                             ElevatedButton(on_click=lambda _: consulta_ano.obter_csv(),
+                                            text='Obter .csv'),
                              ElevatedButton(text='Voltar',
                                             on_click=lambda _: main())],
                                 alignment='center'
@@ -100,10 +116,15 @@ def app(page: Page):
                          )
 
         except:
-            ...
+            raise Exception
+        finally:
+            print('Consulta anual clicada')
 
     def consulta_semestre1_click(e):
         try:
+            if not ano.value:
+                ano.error_text = 'Digite ano'
+            # Verificando a entrada do usuário
             if not int(ano.value) in range(2017, 2022):
                 ano.error_text = 'Ano inválido ❌'
                 page.update()
@@ -111,7 +132,7 @@ def app(page: Page):
                 ano.error_text = 'Digite apenas números'
                 page.update()
 
-            if int(ano.value) in range(2017, 2024):
+            if int(ano.value) in range(2017, 2023):
                 ano_consulta = int(ano.value)
                 page.clean()
                 page.add(
@@ -119,26 +140,32 @@ def app(page: Page):
                          size=25, font_family=fonte
                          )
                 )
-
-                # Realizando a consulta anual
+                # Entrada do usuário satisfatória para consulta
                 try:
-                    consulta_ano.consulta_semestral1(ano_consulta)
-                except Exception:
-                    page.clean()
-                    page.add(Text(value='Erro na consulta 🥴',
-                                  font_family=fonte, size=25),
-                             ElevatedButton(text='Voltar',
-                                            on_click=lambda _: main()),
-                             )
-                    raise Exception
+                    with open(f'dados{ano_consulta}-semestre{1}.json', 'r') as arquivo:
+                        consulta_semestre.dados_semestre = json.load(arquivo)
+                except FileNotFoundError:
+                    try:
+                        consulta_semestre.consulta(1, ano_consulta)
+                        consulta_semestre.obter_json()
+                    except Exception:
+                        page.clean()
+                        page.add(Text(value='Erro na consulta 🤯',
+                                      font_family=fonte, size=25),
+                                 ElevatedButton(text='Voltar',
+                                                on_click=lambda _: main()),
+                                 )
+                        raise Exception
 
                 # Consulta feita com sucesso
                 page.clean()
-                page.add(Text(value='Consulta realizada ☝️🤓',
+                page.add(Text(value='Consulta realizada 🤓👌',
                               size=25, font_family=fonte),
                          ft.Row(controls=[
-                             ElevatedButton(on_click=lambda _: consulta_ano.obter_json_semestre1(),
-                                            text='Obter json'),
+                             ElevatedButton(on_click=lambda _: consulta_semestre.obter_csv(),
+                                            text='Obter .csv'),
+                             ElevatedButton(on_click=lambda _: consulta_semestre.obter_excel(),
+                                            text='Obter Planilha'),
                              ElevatedButton(text='Voltar',
                                             on_click=lambda _: main())],
                                 alignment='center'
@@ -146,17 +173,22 @@ def app(page: Page):
                          )
         except:
             raise Exception
+        finally:
+            print('Consulta semestral clicada e finalizada')
 
     def consulta_semestre2_click(e):
         try:
-            if not int(ano.value) in range(2017, 2022):
+            # Verificando a entrada do usuário
+            if not ano.value:
+                ano.error_text = 'Digite ano'
+            if not int(ano.value) in range(2017, 2023):
                 ano.error_text = 'Ano inválido ❌'
                 page.update()
             if not ano.value.isdigit():
                 ano.error_text = 'Digite apenas números'
                 page.update()
 
-            if int(ano.value) in range(2017, 2024):
+            if int(ano.value) in range(2017, 2023):
                 ano_consulta = int(ano.value)
                 page.clean()
                 page.add(
@@ -164,25 +196,32 @@ def app(page: Page):
                          size=25, font_family=fonte
                          )
                 )
-
-                # Realizando a consulta anual
+                # Entrada do usuário satisfatória para consulta
                 try:
-                    consulta_ano.consulta_semestral2(ano_consulta)
-                except:
-                    page.clean()
-                    page.add(Text(value='Erro na consulta 🥴',
-                                  font_family=fonte, size=25),
-                             ElevatedButton(text='Voltar',
-                                            on_click=lambda _: main()),
-                             )
+                    with open(f'dados{ano_consulta}-semestre{2}.json', 'r') as arquivo:
+                        consulta_semestre.dados_semestre = json.load(arquivo)
+                except FileNotFoundError:
+                    try:
+                        consulta_semestre.consulta(2, ano_consulta)
+                        consulta_semestre.obter_json()
+                    except Exception:
+                        page.clean()
+                        page.add(Text(value='Erro na consulta 🤯',
+                                      font_family=fonte, size=25),
+                                 ElevatedButton(text='Voltar',
+                                                on_click=lambda _: main()),
+                                 )
+                        raise Exception
 
                 # Consulta feita com sucesso
                 page.clean()
-                page.add(Text(value='Consulta realizada ☝️🤓',
+                page.add(Text(value='Consulta realizada 🤓👌',
                               size=25, font_family=fonte),
                          ft.Row(controls=[
-                             ElevatedButton(on_click=lambda _: consulta_ano.obter_json_semestre2(),
-                                            text='Obter json'),
+                             ElevatedButton(on_click=lambda _: consulta_semestre.obter_csv(),
+                                            text='Obter .csv'),
+                             ElevatedButton(on_click=lambda _: consulta_semestre.obter_excel(),
+                                            text='Obter Planilha'),
                              ElevatedButton(text='Voltar',
                                             on_click=lambda _: main())],
                                 alignment='center'
@@ -190,9 +229,12 @@ def app(page: Page):
                          )
         except:
             raise Exception
+        finally:
+            print('Consulta semestral clicada')
 
     ## Página de consulta mensal ##
     def consulta_mensal(e):
+        consulta_mes.dados_mes = {}
         page.clean()
         global mes, ano
         mes = TextField(label='Mês', value='', width=200, max_length=2)
@@ -218,7 +260,6 @@ def app(page: Page):
 
     ## Página de consulta mensal após executar a consulta ##
     def consulta_mensal_click(e):
-        print(int(mes.value), int(ano.value))
         try:
             if not int(mes.value) in range(1, 13):
                 mes.error_text = 'Mês inválido ❌'
@@ -238,7 +279,7 @@ def app(page: Page):
                               size=25, font_family=fonte
                               )
                          )
-                # Fazendo a raspagem dos dados
+                # Fazendo a consulta
                 try:
                     with open(f'dados{mes_consulta}-{ano_consulta}.json', 'r') as arquivo:
                         dados = json.load(arquivo)
@@ -246,6 +287,7 @@ def app(page: Page):
                     try:
                         dados = consulta_mes.consulta(
                             mes_consulta, ano_consulta)
+                        consulta_mes.obter_json()
                     except Exception:
                         page.clean()
                         page.add(Text(value='Erro na consulta 🥴',
@@ -255,26 +297,23 @@ def app(page: Page):
                                  )
                         raise Exception
 
-                # Plotando o gráfico
+                # Consulta OK! Plotando o gráfico
                 tabela = pd.DataFrame(dados)
                 tabela = tabela.transpose()
                 fig = px.line(tabela[['IQAr']],
                               title=f'Índice de Qualidade do Ar de {mes_consulta}-{ano_consulta}'
                               )
 
-                # APÓS A CONSULTA #
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
                               size=30, font_family=fonte
                               ),
                          ft.Row(
                     controls=[
-                        ElevatedButton(text='Obter Excel',
+                        ElevatedButton(text='Obter Planilha',
                                        on_click=lambda _: consulta_mes.obter_excel()),
-                        ElevatedButton(text='Obter csv',
+                        ElevatedButton(text='Obter .csv',
                                        on_click=lambda _: consulta_mes.obter_csv()),
-                        ElevatedButton(text='Obter json',
-                                       on_click=lambda _: consulta_mes.obter_json()),
                         ElevatedButton(text='Voltar',
                                        on_click=lambda _: main())
                     ],
@@ -289,6 +328,9 @@ def app(page: Page):
     ## Menu Principal ##
 
     def main():
+        consulta_ano.dados_ano = None
+        consulta_semestre.dados_semestre = None
+
         page.clean()
         page.add(
             AppBar(title=Text('Menu Principal', font_family=fonte)),
@@ -306,9 +348,6 @@ def app(page: Page):
                            on_click=lambda _: page.window_close()))
 
     main()
-
-    page.vertical_alignment = MainAxisAlignment.CENTER
-    page.horizontal_alignment = CrossAxisAlignment.CENTER
 
 
 if __name__ == '__main__':

@@ -19,12 +19,17 @@ class ConsultaMensal:
         self.ano = None
 
     def consulta(self, mes: int, ano: int) -> dict:
+
         try:
             if self.__class__.__name__ == 'ConsultaMensal':
                 print(
                     f'Iniciando consulta mensal...\nO procedimento pode demorar alguns segundos. Por favor, aguarde.')
             self.mes = mes
             self.ano = ano
+
+            if mes == 6 and ano == 2020:
+                # Período que nenhuma estação esteve disponível
+                dados_final = tratamento_dados.estacao_indisponivel()
 
             inicio = None
             fim = None
@@ -34,9 +39,6 @@ class ConsultaMensal:
             for dia in range(1, data_final):
                 data = f'?data={dia}/{mes}/{ano}'
                 url = 'https://jeap.rio.rj.gov.br/je-metinfosmac/boletim'+data
-
-                headers = {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0'}
 
                 site = requests.get(url)  # Caso apresente erro headers=headers
                 conteudo = BeautifulSoup(site.content, 'html.parser')
@@ -56,7 +58,7 @@ class ConsultaMensal:
                     else:  # Se não estiver, os dados estão indisponíveis
                         dados_final = tratamento_dados.estacao_indisponivel()
 
-                ## REALIZANDO O TRATAMENTO DOS DADOS ##
+                ## REALIZANDO O TRATAMENTO DOS DADOS##
 
                 # Verificando se existe as variaveis inicio e fim (confirmando se a estação realmente foi encontrada)
                 if inicio and fim:
@@ -108,126 +110,78 @@ class ConsultaMensal:
 class ConsultaAnual(ConsultaMensal):
     def __init__(self):
         super().__init__()
-        self.dados_ano = {}
-        self.dados_semestre = {}
+        self.dados_ano = None
         self.ano = None
-        self.semestre = None
 
     def consulta(self, ano: int):
-
+        self.dados_ano = {}
         self.ano = ano
         print('Iniciando consulta anual... Esse procedimento pode levar alguns minutos\nPor favor, aguarde.')
         for mes in range(1, 13):
             print(f'Consultando mês {mes}...\nPor favor aguarde.')
-            match mes:
+            self.dados_ano = ConsultaMensal.consulta(self, mes, self.ano)
 
-                case 1:
-                    self.dados_ano[f'Jan-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                self.ano)
-                case 2:
-                    self.dados_ano[f'Fev-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                self.ano)
-                case 3:
-                    self.dados_ano[f'Mar-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                self.ano)
-                case 4:
-                    self.dados_ano[f'Abr-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                self.ano)
-                case 5:
-                    self.dados_ano[f'Mai-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                self.ano)
-                case 6:
-                    self.dados_ano[f'Jun-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                self.ano)
-                case 7:
-                    self.dados_ano[f'Jul-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                self.ano)
-                case 8:
-                    self.dados_ano[f'Ago-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                self.ano)
-                case 9:
-                    self.dados_ano[f'Set-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                self.ano)
-                case 10:
-                    self.dados_ano[f'Out-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                self.ano)
-                case 11:
-                    self.dados_ano[f'Nov-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                self.ano)
-                case 12:
-                    self.dados_ano[f'Dez-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                self.ano)
         print('Consulta anual finalizada')
         return self.dados_ano
-
-    def consulta_semestral1(self, ano):
-        self.ano = ano
-        self.semestre = 1
-        print('Iniciando consulta anual... Esse procedimento pode levar alguns minutos\nPor favor, aguarde.')
-        for mes in range(1, 7):
-            print(f'Consultando mês {mes}...\nPor favor aguarde.')
-            match mes:
-
-                case 1:
-                    self.dados_semestre[f'Jan-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                     self.ano)
-                case 2:
-                    self.dados_semestre[f'Fev-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                     self.ano)
-                case 3:
-                    self.dados_semestre[f'Mar-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                     self.ano)
-                case 4:
-                    self.dados_semestre[f'Abr-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                     self.ano)
-                case 5:
-                    self.dados_semestre[f'Mai-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                     self.ano)
-                case 6:
-                    self.dados_semestre[f'Jun-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                     self.ano)
-
-        print('Consulta semestral finalizada')
-        return self.dados_semestre
-
-    def consulta_semestral2(self, ano):
-        self.ano = ano
-        self.semestre = 2
-        print('Iniciando consulta anual... Esse procedimento pode levar alguns minutos\nPor favor, aguarde.')
-        for mes in range(7, 13):
-            print(f'Consultando mês {mes}...\nPor favor aguarde.')
-            match mes:
-
-                case 7:
-                    self.dados_semestre[f'Jul-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                     self.ano)
-                case 8:
-                    self.dados_semestre[f'Ago-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                     self.ano)
-                case 9:
-                    self.dados_semestre[f'Set-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                     self.ano)
-                case 10:
-                    self.dados_semestre[f'Out-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                     self.ano)
-                case 11:
-                    self.dados_semestre[f'Nov-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                     self.ano)
-                case 12:
-                    self.dados_semestre[f'Dez-{self.ano}'] = ConsultaMensal.consulta(self, mes,
-                                                                                     self.ano)
-
-        print('Consulta semestral finalizada')
-        return self.dados_semestre
 
     def obter_json(self):
         with open(f'dados{self.ano}.json', 'w') as arquivo:
             json.dump(self.dados_ano, arquivo, indent=4)
 
-    def obter_json_semestre1(self):
-        with open(f'dados{self.ano}-{self.semestre}.json', 'w') as arquivo:
+    def obter_csv(self):
+        df = pd.DataFrame(self.dados_ano)
+        df = df.transpose()
+        df.to_csv(f'dados{self.ano}.csv')
+
+    def obter_excel(self):
+        df = pd.DataFrame(self.dados_ano)
+        df = df.transpose()
+        df.to_excel(f'dados{self.ano}.xlsx')
+
+
+class ConsultaSemestral(ConsultaMensal):
+    def __init__(self) -> None:
+        super().__init__()
+        self.dados_semestre = None
+        self.semestre = None
+
+    def consulta(self, semestre: int, ano: int) -> dict:
+        self.dados_semestre = {}
+        if semestre == 1:
+            self.semestre = 1
+            self.ano = ano
+            print(
+                'Iniciando consulta anual... Esse procedimento pode levar alguns minutos\nPor favor, aguarde.')
+            for mes in range(1, 7):
+                print(f'Consultando mês {mes}...\nPor favor aguarde.')
+                self.dados_semestre = ConsultaMensal.consulta(
+                    self, mes, self.ano)
+
+            print('Consulta semestral finalizada')
+            return self.dados_semestre
+        if semestre == 2:
+            self.semestre = 2
+            self.ano = ano
+            print(
+                'Iniciando consulta anual... Esse procedimento pode levar alguns minutos\nPor favor, aguarde.')
+            for mes in range(6, 13):
+                print(f'Consultando mês {mes}...\nPor favor aguarde.')
+                self.dados_semestre = ConsultaMensal.consulta(
+                    self, mes, self.ano)
+
+            print('Consulta anual finalizada')
+            return self.dados_semestre
+
+    def obter_json(self):
+        with open(f'dados{self.ano}-semestre{self.semestre}.json', 'w') as arquivo:
             json.dump(self.dados_semestre, arquivo, indent=4)
 
-    def obter_json_semestre2(self):
-        with open(f'dados{self.ano}-{self.semestre}.json', 'w') as arquivo:
-            json.dump(self.dados_semestre, arquivo, indent=4)
+    def obter_csv(self):
+        df = pd.DataFrame(self.dados_semestre)
+        df = df.transpose()
+        df.to_csv(f'dados{self.ano}-semestre{self.semestre}.csv')
+
+    def obter_excel(self):
+        df = pd.DataFrame(self.dados_mes)
+        df = df.transpose()
+        df.to_excel(f'dados{self.ano}-semestre{self.semestre}.xlsx')
