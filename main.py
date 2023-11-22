@@ -13,9 +13,6 @@ consulta_mes = ConsultaMensal()
 consulta_semestre = ConsultaSemestral()
 
 
-# CRIAR OS BOTÕES DE EXCEL E CSV PARA CONSULTA DE ANO E SEMESTRE
-
-
 def app(page: Page):
 
     # Estilização da janela da aplicação
@@ -62,6 +59,7 @@ def app(page: Page):
         )
         page.update()
 
+    ## Página de consulta anual ##
     def consulta_anual_click(e):
         try:
             if not ano.value:
@@ -117,9 +115,8 @@ def app(page: Page):
 
         except:
             raise Exception
-        finally:
-            print('Consulta anual clicada')
 
+    ## Página de consulta semestral 1 após apertar o botão ##
     def consulta_semestre1_click(e):
         try:
             if not ano.value:
@@ -173,9 +170,8 @@ def app(page: Page):
                          )
         except:
             raise Exception
-        finally:
-            print('Consulta semestral clicada e finalizada')
 
+    ## Página de consulta semestral 2 após apertar o botão ##
     def consulta_semestre2_click(e):
         try:
             # Verificando a entrada do usuário
@@ -229,8 +225,6 @@ def app(page: Page):
                          )
         except:
             raise Exception
-        finally:
-            print('Consulta semestral clicada')
 
     ## Página de consulta mensal ##
     def consulta_mensal(e):
@@ -323,10 +317,9 @@ def app(page: Page):
                 )
                 page.update()
         except:
-            page.update()
+            raise Exception
 
     ## Menu Principal ##
-
     def main():
         consulta_ano.dados_ano = None
         consulta_semestre.dados_semestre = None
