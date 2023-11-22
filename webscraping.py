@@ -4,13 +4,6 @@ from bs4 import BeautifulSoup
 import tratamento_dados
 import pandas as pd
 
-'''TRATAR EXCEÇÕES
-- Limitar os anos de requisição
-    - [2017, 2023] Consulta Mensal
-    - [2017, 2022] Consulta Anual
-- Tratar possíveis erros de conexão na requisição
-'''
-
 
 class ConsultaMensal:
     def __init__(self) -> None:
@@ -27,15 +20,15 @@ class ConsultaMensal:
             self.mes = mes
             self.ano = ano
 
+            # Período que nenhuma estação esteve disponível
             if mes == 6 and ano == 2020:
-                # Período que nenhuma estação esteve disponível
                 dados_final = tratamento_dados.estacao_indisponivel()
 
             inicio = None
             fim = None
             data_final = tratamento_dados.tratando_dias(mes)
 
-            # For para requisição dos dados dia a dia
+            # For para requisição dos dados desde o primeiro dia do mês até o ultimo
             for dia in range(1, data_final):
                 data = f'?data={dia}/{mes}/{ano}'
                 url = 'https://jeap.rio.rj.gov.br/je-metinfosmac/boletim'+data
@@ -68,12 +61,18 @@ class ConsultaMensal:
                         dados_brutos.append(dado.text.strip())
                         # Verificando se os dados da estação estão disponíveis
                     if len(dados_brutos) > 0:
+                        # A primeira posição da lista indica ou não se a estação está com dados disponíveis
+                        # É preciso realizar esta etapa pois nem sempre que a estação está no site os dados estão disponíveis
                         if dados_brutos[0] != 'Temporariamente indisponível' and dados_brutos[0] != 'Temporariamente desativada':
+
+                            # Transformando digistos em int ou float
                             dados_tratados = tratamento_dados.tratando_dados(
                                 dados_brutos, self.mes, self.ano)
+                            # Criando o dicionário que armazena cada valor a seu poluente
                             dados_final = tratamento_dados.criando_dicionario(
                                 dados_tratados, self.mes, self.ano)
                         else:
+                            # Se nenhuma condição foi verdadeira, a estação está com dados indisponíveis
                             dados_final = tratamento_dados.estacao_indisponivel()
 
                 # FIM DA REQUISIÇÃO (APENAS UM DIA)
@@ -117,8 +116,9 @@ class ConsultaAnual(ConsultaMensal):
         self.dados_ano = {}
         self.ano = ano
         print('Iniciando consulta anual... Esse procedimento pode levar alguns minutos\nPor favor, aguarde.')
+
+        # For que realiza a raspagem dos dados durante todo o ano
         for mes in range(1, 13):
-            print(f'Consultando mês {mes}...\nPor favor aguarde.')
             self.dados_ano = ConsultaMensal.consulta(self, mes, self.ano)
 
         print('Consulta anual finalizada')
@@ -150,8 +150,8 @@ class ConsultaSemestral(ConsultaMensal):
         if semestre == 1:
             self.semestre = 1
             self.ano = ano
-            print(
-                'Iniciando consulta anual... Esse procedimento pode levar alguns minutos\nPor favor, aguarde.')
+
+            # For que realiza a raspagem no primeiro semestre
             for mes in range(1, 7):
                 print(f'Consultando mês {mes}...\nPor favor aguarde.')
                 self.dados_semestre = ConsultaMensal.consulta(
@@ -162,8 +162,8 @@ class ConsultaSemestral(ConsultaMensal):
         if semestre == 2:
             self.semestre = 2
             self.ano = ano
-            print(
-                'Iniciando consulta anual... Esse procedimento pode levar alguns minutos\nPor favor, aguarde.')
+
+            # For que realiza a raspagem no segundo semestre
             for mes in range(6, 13):
                 print(f'Consultando mês {mes}...\nPor favor aguarde.')
                 self.dados_semestre = ConsultaMensal.consulta(

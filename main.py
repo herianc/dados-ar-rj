@@ -61,6 +61,7 @@ def app(page: Page):
 
     ## Página de consulta anual ##
     def consulta_anual_click(e):
+        # Verificando os inputs do usuário
         try:
             if not ano.value:
                 ano.error_text = 'Digite ano'
@@ -71,36 +72,41 @@ def app(page: Page):
             if not ano.value.isdigit():
                 ano.error_text = 'Digite apenas números'
                 page.update()
-
             if int(ano.value) in range(2017, 2023):
                 ano_consulta = int(ano.value)
                 page.clean()
                 page.add(
+
                     Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🤏🥸⏳',
                          size=25, font_family=fonte
                          )
                 )
-                # Realizando a consulta anual
+                # Inputs OK! Obtendo os dados
                 try:
+                    # Verificando se o usuário já tem os dados
                     with open(f'dados\dados{ano_consulta}.json', 'r') as arquivo:
                         consulta_ano.dados_ano = json.load(arquivo)
                 except FileNotFoundError:
+                    # Caso não tenha os dados, executa a raspagem no site
                     try:
                         consulta_ano.consulta(ano_consulta)
                         consulta_ano.obter_json()
                     except Exception:
+                        # Ocorreu algum erro durante a raspagem
                         page.clean()
-                        page.add(Text(value='Erro na consulta 🤯',
+                        page.add(Text(value='Erro na consulta 🥴',
                                       font_family=fonte, size=25),
                                  ElevatedButton(text='Voltar',
                                                 on_click=lambda _: main()),
                                  )
                         raise Exception
 
-                # Consulta feita com sucesso
+                # Consulta OK!
                 page.clean()
-                page.add(Text(value='Consulta realizada ☝️🤓',
+                page.add(Text(value='Consulta realizada 🤓👌',
                               size=25, font_family=fonte),
+                         Text(value=f'Dados de poluição de {ano_consulta} estão disponíveis',
+                              font_family=fonte),
                          ft.Row(controls=[
                              ElevatedButton(on_click=lambda _: consulta_ano.obter_excel(),
                                             text='Obter Planilha'),
@@ -117,17 +123,16 @@ def app(page: Page):
 
     ## Página de consulta semestral 1 após apertar o botão ##
     def consulta_semestre1_click(e):
+        # Verificando os inputs do usuário
         try:
             if not ano.value:
                 ano.error_text = 'Digite ano'
-            # Verificando a entrada do usuário
             if not int(ano.value) in range(2017, 2022):
                 ano.error_text = 'Ano inválido ❌'
                 page.update()
             if not ano.value.isdigit():
                 ano.error_text = 'Digite apenas números'
                 page.update()
-
             if int(ano.value) in range(2017, 2023):
                 ano_consulta = int(ano.value)
                 page.clean()
@@ -136,27 +141,33 @@ def app(page: Page):
                          size=25, font_family=fonte
                          )
                 )
-                # Entrada do usuário satisfatória para consulta
+
+                # Inputs OK! Obtendo os dados
                 try:
+                    # Verificando se o usuário já tem os dados
                     with open(f'dados\dados{ano_consulta}-semestre{1}.json', 'r') as arquivo:
                         consulta_semestre.dados_semestre = json.load(arquivo)
                 except FileNotFoundError:
+                    # Caso não tenha os dados, executa a raspagem no site
                     try:
                         consulta_semestre.consulta(1, ano_consulta)
                         consulta_semestre.obter_json()
                     except Exception:
+                        # Ocorreu algum erro durante a raspagem
                         page.clean()
-                        page.add(Text(value='Erro na consulta 🤯',
-                                      font_family=fonte, size=25),
+                        page.add(Text(value='Erro na consulta 🥴',
+                                      font_family=fonte, size=30),
                                  ElevatedButton(text='Voltar',
                                                 on_click=lambda _: main()),
                                  )
                         raise Exception
 
-                # Consulta feita com sucesso
+                # Consulta OK!
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
-                              size=25, font_family=fonte),
+                              size=30, font_family=fonte),
+                         Text(value=f'Dados de poluição do 1º Semestre {ano_consulta} estão disponíveis',
+                              font_family=fonte),
                          ft.Row(controls=[
                              ElevatedButton(on_click=lambda _: consulta_semestre.obter_csv(),
                                             text='Obter .csv'),
@@ -173,7 +184,7 @@ def app(page: Page):
     ## Página de consulta semestral 2 após apertar o botão ##
     def consulta_semestre2_click(e):
         try:
-            # Verificando a entrada do usuário
+            # Verificando os inputs do usuário
             if not ano.value:
                 ano.error_text = 'Digite ano'
             if not int(ano.value) in range(2017, 2023):
@@ -191,27 +202,33 @@ def app(page: Page):
                          size=25, font_family=fonte
                          )
                 )
-                # Entrada do usuário satisfatória para consulta
+
+                # Inputs OK! Obtendo os dados
                 try:
+                    # Verificando se o usuário já tem os dados
                     with open(f'dados\dados{ano_consulta}-semestre{2}.json', 'r') as arquivo:
                         consulta_semestre.dados_semestre = json.load(arquivo)
                 except FileNotFoundError:
+                    # Usuário ainda não tem os dados, executando a consulta
                     try:
                         consulta_semestre.consulta(2, ano_consulta)
                         consulta_semestre.obter_json()
                     except Exception:
+                        # Ocorreu algum erro durante a raspagem
                         page.clean()
-                        page.add(Text(value='Erro na consulta 🤯',
-                                      font_family=fonte, size=25),
+                        page.add(Text(value='Erro na consulta 🥴',
+                                      font_family=fonte, size=30),
                                  ElevatedButton(text='Voltar',
                                                 on_click=lambda _: main()),
                                  )
                         raise Exception
 
-                # Consulta feita com sucesso
+                # Consulta OK!
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
-                              size=25, font_family=fonte),
+                              size=30, font_family=fonte),
+                         Text(value=f'Dados de poluição do 2º Semestre {ano_consulta} estão disponíveis',
+                              font_family=fonte),
                          ft.Row(controls=[
                              ElevatedButton(on_click=lambda _: consulta_semestre.obter_csv(),
                                             text='Obter .csv'),
@@ -254,6 +271,7 @@ def app(page: Page):
     ## Página de consulta mensal após executar a consulta ##
     def consulta_mensal_click(e):
         try:
+            # Verificando os inputs do usuário
             if not int(mes.value) in range(1, 13):
                 mes.error_text = 'Mês inválido ❌'
                 page.update()
@@ -261,7 +279,7 @@ def app(page: Page):
                 ano.error_text = 'Ano inválido ❌'
                 page.update()
             if int(ano.value) == 2023 and int(mes.value) >= 11:
-                mes.error_text = 'Não disponível'  # Tratando temporariamente
+                mes.error_text = 'Não disponível'
                 page.update()
 
             elif int(mes.value) in range(1, 13) and int(ano.value) in range(2017, 2024):
@@ -272,16 +290,20 @@ def app(page: Page):
                               size=25, font_family=fonte
                               )
                          )
-                # Fazendo a consulta
+
+                # Inputs OK! Obtendo os dados
                 try:
+                    # Verificando se o usuário já tem os dados
                     with open(f'dados\dados{mes_consulta}-{ano_consulta}.json', 'r') as arquivo:
                         dados = json.load(arquivo)
                 except FileNotFoundError:
                     try:
+                        # Caso não tenha os dados, executa a raspagem no site
                         dados = consulta_mes.consulta(
                             mes_consulta, ano_consulta)
                         consulta_mes.obter_json()
                     except Exception:
+                        # Ocorreu algum erro durante a raspagem
                         page.clean()
                         page.add(Text(value='Erro na consulta 🥴',
                                       font_family=fonte, size=25),
