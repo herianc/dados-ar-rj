@@ -3,6 +3,7 @@ import json
 from bs4 import BeautifulSoup
 import tratamento_dados
 import pandas as pd
+from os import system
 
 
 class ConsultaMensal:
@@ -12,13 +13,12 @@ class ConsultaMensal:
         self.ano = None
 
     def consulta(self, mes: int, ano: int) -> dict:
-
+        self.mes = mes
+        self.ano = ano
         try:
             if self.__class__.__name__ == 'ConsultaMensal':
                 print(
                     f'Iniciando consulta mensal...\nO procedimento pode demorar alguns segundos. Por favor, aguarde.')
-            self.mes = mes
-            self.ano = ano
 
             # Período que nenhuma estação esteve disponível
             if mes == 6 and ano == 2020:

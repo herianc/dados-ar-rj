@@ -6,14 +6,15 @@ from flet.plotly_chart import PlotlyChart
 from flet import Page, AppBar, ElevatedButton, Text, TextField, Image
 from flet import CrossAxisAlignment, MainAxisAlignment
 from webscraping import ConsultaAnual, ConsultaMensal, ConsultaSemestral
+from os import system
 
 fonte = 'Comfortaa'
-consulta_ano = ConsultaAnual()
-consulta_mes = ConsultaMensal()
-consulta_semestre = ConsultaSemestral()
 
 
 def app(page: Page):
+    consulta_ano = ConsultaAnual()
+    consulta_mes = ConsultaMensal()
+    consulta_semestre = ConsultaSemestral()
 
     # Estilização da janela da aplicação
     page.title = 'Boletim de Poluição de Irajá'
@@ -86,6 +87,7 @@ def app(page: Page):
                     # Verificando se o usuário já tem os dados
                     with open(f'dados\dados{ano_consulta}.json', 'r') as arquivo:
                         consulta_ano.dados_ano = json.load(arquivo)
+                        consulta_ano.ano = ano_consulta
                 except FileNotFoundError:
                     # Caso não tenha os dados, executa a raspagem no site
                     try:
@@ -147,6 +149,8 @@ def app(page: Page):
                     # Verificando se o usuário já tem os dados
                     with open(f'dados\dados{ano_consulta}-semestre{1}.json', 'r') as arquivo:
                         consulta_semestre.dados_semestre = json.load(arquivo)
+                        consulta_semestre.ano = ano_consulta
+                        consulta_semestre.semestre = 1
                 except FileNotFoundError:
                     # Caso não tenha os dados, executa a raspagem no site
                     try:
@@ -208,6 +212,8 @@ def app(page: Page):
                     # Verificando se o usuário já tem os dados
                     with open(f'dados\dados{ano_consulta}-semestre{2}.json', 'r') as arquivo:
                         consulta_semestre.dados_semestre = json.load(arquivo)
+                        consulta_semestre.ano = ano_consulta
+                        consulta_semestre.semestre = 2
                 except FileNotFoundError:
                     # Usuário ainda não tem os dados, executando a consulta
                     try:
@@ -295,11 +301,13 @@ def app(page: Page):
                 try:
                     # Verificando se o usuário já tem os dados
                     with open(f'dados\dados{mes_consulta}-{ano_consulta}.json', 'r') as arquivo:
-                        dados = json.load(arquivo)
+                        consulta_mes.dados_mes = json.load(arquivo)
+                        consulta_mes.mes = mes_consulta
+                        consulta_mes.ano = ano_consulta
                 except FileNotFoundError:
                     try:
                         # Caso não tenha os dados, executa a raspagem no site
-                        dados = consulta_mes.consulta(
+                        consulta_mes.consulta(
                             mes_consulta, ano_consulta)
                         consulta_mes.obter_json()
                     except Exception:
@@ -313,12 +321,13 @@ def app(page: Page):
                         raise Exception
 
                 # Consulta OK! Plotando o gráfico
-                tabela = pd.DataFrame(dados)
+                tabela = pd.DataFrame(consulta_mes.dados_mes)
                 tabela = tabela.transpose()
                 fig = px.line(tabela[['IQAr']],
                               title=f'Índice de Qualidade do Ar de {mes_consulta}-{ano_consulta}'
                               )
-
+                system('cls')
+                print(consulta_mes.obter_texto())
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
                               size=30, font_family=fonte
@@ -342,8 +351,6 @@ def app(page: Page):
 
     ## Menu Principal ##
     def main():
-        consulta_ano.dados_ano = None
-        consulta_semestre.dados_semestre = None
 
         page.clean()
         page.add(
