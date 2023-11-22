@@ -88,18 +88,18 @@ class ConsultaMensal:
         return self.dados_mes
 
     def obter_json(self):
-        with open(f'dados{self.mes}-{self.ano}.json', 'w') as arquivo:
+        with open(f'dados\dados{self.mes}-{self.ano}.json', 'w') as arquivo:
             json.dump(self.dados_mes, arquivo, indent=4)
 
     def obter_csv(self):
         df = pd.DataFrame(self.dados_mes)
         df = df.transpose()
-        df.to_csv(f'dados{self.mes}-{self.ano}.csv')
+        df.to_csv(f'dados\dados{self.mes}-{self.ano}.csv')
 
     def obter_excel(self):
         df = pd.DataFrame(self.dados_mes)
         df = df.transpose()
-        df.to_excel(f'dados{self.mes}-{self.ano}.xlsx')
+        df.to_excel(f'dados\dados{self.mes}-{self.ano}.xlsx')
 
     def obter_texto(self):
         df = pd.DataFrame(self.dados_mes)
@@ -125,18 +125,18 @@ class ConsultaAnual(ConsultaMensal):
         return self.dados_ano
 
     def obter_json(self):
-        with open(f'dados{self.ano}.json', 'w') as arquivo:
+        with open(f'dados\dados{self.ano}.json', 'w') as arquivo:
             json.dump(self.dados_ano, arquivo, indent=4)
 
     def obter_csv(self):
         df = pd.DataFrame(self.dados_ano)
         df = df.transpose()
-        df.to_csv(f'dados{self.ano}.csv')
+        df.to_csv(f'dados\dados{self.ano}.csv')
 
     def obter_excel(self):
         df = pd.DataFrame(self.dados_ano)
         df = df.transpose()
-        df.to_excel(f'dados{self.ano}.xlsx')
+        df.to_excel(f'dados\dados{self.ano}.xlsx')
 
 
 class ConsultaSemestral(ConsultaMensal):
@@ -173,15 +173,15 @@ class ConsultaSemestral(ConsultaMensal):
             return self.dados_semestre
 
     def obter_json(self):
-        with open(f'dados{self.ano}-semestre{self.semestre}.json', 'w') as arquivo:
+        with open(f'dados\dados{self.ano}-semestre{self.semestre}.json', 'w') as arquivo:
             json.dump(self.dados_semestre, arquivo, indent=4)
 
     def obter_csv(self):
         df = pd.DataFrame(self.dados_semestre)
         df = df.transpose()
-        df.to_csv(f'dados{self.ano}-semestre{self.semestre}.csv')
+        df.to_csv(f'dados\dados{self.ano}-semestre{self.semestre}.csv')
 
     def obter_excel(self):
         df = pd.DataFrame(self.dados_mes)
         df = df.transpose()
-        df.to_excel(f'dados{self.ano}-semestre{self.semestre}.xlsx')
+        df.to_excel(f'dados\dados{self.ano}-semestre{self.semestre}.xlsx')

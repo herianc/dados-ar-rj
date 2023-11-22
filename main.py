@@ -80,10 +80,9 @@ def app(page: Page):
                          size=25, font_family=fonte
                          )
                 )
-
                 # Realizando a consulta anual
                 try:
-                    with open(f'dados{ano_consulta}.json', 'r') as arquivo:
+                    with open(f'dados\dados{ano_consulta}.json', 'r') as arquivo:
                         consulta_ano.dados_ano = json.load(arquivo)
                 except FileNotFoundError:
                     try:
@@ -139,7 +138,7 @@ def app(page: Page):
                 )
                 # Entrada do usuário satisfatória para consulta
                 try:
-                    with open(f'dados{ano_consulta}-semestre{1}.json', 'r') as arquivo:
+                    with open(f'dados\dados{ano_consulta}-semestre{1}.json', 'r') as arquivo:
                         consulta_semestre.dados_semestre = json.load(arquivo)
                 except FileNotFoundError:
                     try:
@@ -194,7 +193,7 @@ def app(page: Page):
                 )
                 # Entrada do usuário satisfatória para consulta
                 try:
-                    with open(f'dados{ano_consulta}-semestre{2}.json', 'r') as arquivo:
+                    with open(f'dados\dados{ano_consulta}-semestre{2}.json', 'r') as arquivo:
                         consulta_semestre.dados_semestre = json.load(arquivo)
                 except FileNotFoundError:
                     try:
@@ -275,7 +274,7 @@ def app(page: Page):
                          )
                 # Fazendo a consulta
                 try:
-                    with open(f'dados{mes_consulta}-{ano_consulta}.json', 'r') as arquivo:
+                    with open(f'dados\dados{mes_consulta}-{ano_consulta}.json', 'r') as arquivo:
                         dados = json.load(arquivo)
                 except FileNotFoundError:
                     try:
