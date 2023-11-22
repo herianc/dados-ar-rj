@@ -16,7 +16,10 @@
 
 `requests` - Para requisição do conteúdo do site
 `BeautifulSoup` - Para raspagem e tratamento do conteúdo do site
+pandas
 `json` - Para armazenamento dos dados coletados
+openpyxl
+plotly
 
 ## Dados Coletados
 
@@ -37,8 +40,6 @@ Para mais informações em relação as categorizações da Qualidade do Ar: [Ac
 
 ---
 
-- Coleta dos dados de outras estações
-- Coleta dos dados anuais
 - Tratamento de erros
 
 ---

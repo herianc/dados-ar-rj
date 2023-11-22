@@ -24,7 +24,6 @@ def app(page: Page):
     fonte = 'comfortaa'  # Fonte usada nos textos
 
     ## Página de consulta anual ##
-
     def consulta_anual(e):
         page.clean()
         global ano
@@ -193,7 +192,6 @@ def app(page: Page):
             raise Exception
 
     ## Página de consulta mensal ##
-
     def consulta_mensal(e):
         page.clean()
         global mes, ano
@@ -220,6 +218,7 @@ def app(page: Page):
 
     ## Página de consulta mensal após executar a consulta ##
     def consulta_mensal_click(e):
+        print(int(mes.value), int(ano.value))
         try:
             if not int(mes.value) in range(1, 13):
                 mes.error_text = 'Mês inválido ❌'
@@ -228,9 +227,10 @@ def app(page: Page):
                 ano.error_text = 'Ano inválido ❌'
                 page.update()
             if int(ano.value) == 2023 and int(mes.value) >= 11:
-                ano.error_text = 'Consulta ainda não disponível'  # Tratando temporariamente
+                mes.error_text = 'Não disponível'  # Tratando temporariamente
                 page.update()
-            if int(mes.value) in range(1, 13) and int(ano.value) in range(2017, 2024):
+
+            elif int(mes.value) in range(1, 13) and int(ano.value) in range(2017, 2024):
                 mes_consulta = int(mes.value)
                 ano_consulta = int(ano.value)
                 page.clean()
@@ -238,7 +238,6 @@ def app(page: Page):
                               size=25, font_family=fonte
                               )
                          )
-
                 # Fazendo a raspagem dos dados
                 try:
                     with open(f'dados{mes_consulta}-{ano_consulta}.json', 'r') as arquivo:
