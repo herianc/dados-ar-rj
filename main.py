@@ -2,6 +2,7 @@ import plotly.express as px
 import flet as ft
 import pandas as pd
 import json
+import webbrowser as wb
 from flet.plotly_chart import PlotlyChart
 from flet import Page, AppBar, ElevatedButton, Text, TextField, Image
 from flet import CrossAxisAlignment, MainAxisAlignment
@@ -23,6 +24,7 @@ def app(page: Page):
     page.window_width = 1024
     page.vertical_alignment = MainAxisAlignment.CENTER
     page.horizontal_alignment = CrossAxisAlignment.CENTER
+    page.window_center()
     fonte = 'comfortaa'  # Fonte usada nos textos
 
     ## Página de consulta anual ##
@@ -80,7 +82,8 @@ def app(page: Page):
 
                     Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🤏🥸⏳',
                          size=25, font_family=fonte
-                         )
+                         ),
+                    ft.ProgressRing()
                 )
                 # Inputs OK! Obtendo os dados
                 try:
@@ -142,7 +145,8 @@ def app(page: Page):
                 page.add(
                     Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🤏🥸⏳',
                          size=25, font_family=fonte
-                         )
+                         ),
+                    ft.ProgressRing()
                 )
 
                 # Inputs OK! Obtendo os dados
@@ -206,7 +210,8 @@ def app(page: Page):
                 page.add(
                     Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🤏🥸⏳',
                          size=25, font_family=fonte
-                         )
+                         ),
+                    ft.ProgressRing()
                 )
 
                 # Inputs OK! Obtendo os dados
@@ -297,7 +302,8 @@ def app(page: Page):
                 page.clean()
                 page.add(Text(value='Realizando consulta...\nPode levar alguns instantes. Por favor, aguarde. 🙂🙃⏳',
                               size=25, font_family=fonte
-                              )
+                              ),
+                         ft.ProgressRing()
                          )
 
                 # Inputs OK! Obtendo os dados
@@ -327,8 +333,7 @@ def app(page: Page):
                 tabela = pd.DataFrame.from_dict(
                     consulta_mes.dados_mes, orient='index')
                 fig = px.line(tabela[['IQAr']],
-                              title=f'Índice de Qualidade do Ar de {mes_consulta}-{ano_consulta}',
-                              range_y=(0, 400)
+                              title=f'Índice de Qualidade do Ar de {mes_consulta}-{ano_consulta}'
                               )
                 system('cls')
                 print(consulta_mes.obter_texto())
@@ -353,6 +358,9 @@ def app(page: Page):
         except:
             raise Exception
 
+    def abrir_site(e):
+        boletim = wb.open('https://jeap.rio.rj.gov.br/je-metinfosmac/boletim')
+
     ## Menu Principal ##
     def main():
 
@@ -368,6 +376,8 @@ def app(page: Page):
                            on_click=consulta_mensal),
             ElevatedButton(text='Consulta Anual', width=170,
                            on_click=consulta_anual),
+            ElevatedButton(text='Boletim', width=170,
+                           on_click=abrir_site),
             ElevatedButton(text='Sair',
                            width=170,
                            on_click=lambda _: page.window_close()))
