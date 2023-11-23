@@ -1,28 +1,133 @@
 import requests
 import json
 from bs4 import BeautifulSoup
-import tratamento_dados
 import pandas as pd
-from os import system
+
+
+def tratando_dias(mes: int) -> int:
+    # Função que retorna o número de dias do mês + 1
+    if mes in [1, 3, 5, 7, 8, 10, 12]:
+        return 32
+    elif mes in [4, 6, 9, 11]:
+        return 31
+    elif mes == 2:
+        return 29
+
+
+def tratando_dados(lista: list, mes: int, ano: int) -> list:
+    """Função que trata os dados tirando os espaços em branco e convertendo os dados str para os tipos númericos (quando possível).
+    A estrutura da lista recebida muda com o ano da consulta"""
+    if ano > 2019:
+        for i in range(len(lista)-1):
+            if lista[i] == 'ND' or lista[i] == 'NM':
+                lista[i] = 'NA'
+            elif ',' in lista[i]:
+                lista[i] = (lista[i].replace(',', '.'))
+                lista[i] = float(lista[i])
+            elif i == len(lista) - 1:
+                continue
+            else:
+                lista[i] = int(lista[i])
+    elif ano <= 2019:
+        if ano == 2019 and mes == 12:
+            for i in range(len(lista)-1):
+                if lista[i] == 'ND' or lista[i] == 'NM':
+                    lista[i] = 'NA'
+                elif ',' in lista[i]:
+                    lista[i] = (lista[i].replace(',', '.'))
+                    lista[i] = float(lista[i])
+                elif i == len(lista) - 1:
+                    continue
+
+                else:
+                    lista[i] = int(lista[i])
+        else:
+            for i in range(len(lista)-2):
+
+                if lista[i] == 'ND' or lista[i] == 'NM':
+                    lista[i] = 'NA'
+                elif ',' in lista[i]:
+                    lista[i] = (lista[i].replace(',', '.'))
+                    lista[i] = float(lista[i])
+                elif i == len(lista) - 1:
+                    continue
+
+                else:
+                    lista[i] = int(lista[i])
+
+    return lista
+
+
+def estacao_indisponivel() -> dict:
+    '''Função que cria um dicionário com os dados faltantes quando a estação não está disponível '''
+    dicionario = {}
+
+    dicionario['MP10'] = 'NA'
+    dicionario['MP2.5'] = 'NA'
+    dicionario['O3'] = 'NA'
+    dicionario['CO'] = 'NA'
+    dicionario['NO2'] = 'NA'
+    dicionario['SO2'] = 'NA'
+    dicionario['IQAr'] = 'NA'
+    dicionario['classificacao'] = 'NA'
+
+    return dicionario
+
+
+def criando_dicionario(lista: list, mes, ano) -> dict:
+    '''Função que cria dicionário de acordo com o ano da consulta'''
+    dicionario = {}
+    if ano >= 2020:
+        dicionario['MP10'] = lista[0]
+        dicionario['MP2.5'] = lista[1]
+        dicionario['O3'] = lista[2]
+        dicionario['CO'] = lista[3]
+        dicionario['NO2'] = lista[4]
+        dicionario['SO2'] = lista[5]
+        dicionario['IQAr'] = lista[6]
+        dicionario['classificacao'] = lista[7]
+    elif ano <= 2019:
+        if ano == 2019 and mes == 12:
+            dicionario['MP10'] = lista[0]
+            dicionario['MP2.5'] = lista[1]
+            dicionario['O3'] = lista[2]
+            dicionario['CO'] = lista[3]
+            dicionario['NO2'] = lista[4]
+            dicionario['SO2'] = lista[5]
+            dicionario['IQAr'] = lista[6]
+            dicionario['classificacao'] = lista[7]
+        else:
+            dicionario['MP10'] = lista[0]
+            dicionario['MP2.5'] = 'NA'
+            dicionario['O3'] = lista[1]
+            dicionario['CO'] = lista[2]
+            dicionario['NO2'] = lista[3]
+            dicionario['SO2'] = lista[4]
+            dicionario['IQAr'] = lista[5]
+            dicionario['classificacao'] = lista[-2]
+
+    return dicionario
 
 
 class ConsultaMensal:
     def __init__(self) -> None:
-        self.dados_mes = {}
-        self.mes = None
-        self.ano = None
+        self.dados_mes = {}  # dicionário que conterá todos os dados obtidos na consulta
+        self.mes = None  # atributo para saber o mês consultado
+        self.ano = None  # atributo para saber o ano consultado
 
     def consulta(self, mes: int, ano: int) -> dict:
+        '''Método que realiza a consulta no site do boletim de dados de qualidade do ar'''
+
         self.mes = mes
         self.ano = ano
         try:
             # Período que nenhuma estação esteve disponível
             if mes == 6 and ano == 2020:
-                dados_final = tratamento_dados.estacao_indisponivel()
+                dados_final = estacao_indisponivel()
 
             inicio = None
             fim = None
-            data_final = tratamento_dados.tratando_dias(mes)
+            data_final = tratando_dias(mes)
 
             # For para requisição dos dados desde o primeiro dia do mês até o ultimo
             for dia in range(1, data_final):
@@ -45,7 +150,7 @@ class ConsultaMensal:
                         fim = inicio + 8
 
                     else:  # Se não estiver, os dados estão indisponíveis
-                        dados_final = tratamento_dados.estacao_indisponivel()
+                        dados_final = estacao_indisponivel()
 
                 ## REALIZANDO O TRATAMENTO DOS DADOS##
 
@@ -62,14 +167,14 @@ class ConsultaMensal:
                         if dados_brutos[0] != 'Temporariamente indisponível' and dados_brutos[0] != 'Temporariamente desativada':
 
                             # Transformando digistos em int ou float
-                            dados_tratados = tratamento_dados.tratando_dados(
+                            dados_tratados = tratando_dados(
                                 dados_brutos, self.mes, self.ano)
                             # Criando o dicionário que armazena cada valor a seu poluente
-                            dados_final = tratamento_dados.criando_dicionario(
+                            dados_final = criando_dicionario(
                                 dados_tratados, self.mes, self.ano)
                         else:
                             # Se nenhuma condição foi verdadeira, a estação está com dados indisponíveis
-                            dados_final = tratamento_dados.estacao_indisponivel()
+                            dados_final = estacao_indisponivel()
 
                 # FIM DA REQUISIÇÃO (APENAS UM DIA)
 

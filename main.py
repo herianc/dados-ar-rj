@@ -12,20 +12,24 @@ from os import system
 limpa_terminal = system('cls')
 
 
+def abrir_site(e):
+    wb.open('https://jeap.rio.rj.gov.br/je-metinfosmac/boletim')
+
+
 def app(page: Page):
     consulta_ano = ConsultaAnual()
     consulta_mes = ConsultaMensal()
     consulta_semestre = ConsultaSemestral()
 
     # Estilização da janela da aplicação
-    page.title = 'Boletim de Poluição de Irajá'
+
     page.theme_mode = ft.ThemeMode.LIGHT
     page.window_height = 720
     page.window_width = 1024
     page.vertical_alignment = MainAxisAlignment.CENTER
     page.horizontal_alignment = CrossAxisAlignment.CENTER
     page.window_center()
-    fonte = 'comfortaa'  # Fonte usada nos textos
+    FONTE = 'comfortaa'  # Fonte usada nos textos
 
     ## Página de consulta anual ##
     def consulta_anual(e):
@@ -48,8 +52,8 @@ def app(page: Page):
                                       )
 
         page.add(
-            AppBar(title=Text('Consulta Anual', font_family=fonte)),
-            Text(value='Dados disponíveis de 2017 a 2022', font_family=fonte),
+            AppBar(title=Text('Consulta Anual', font_family=FONTE)),
+            Text(value='Dados disponíveis de 2017 a 2022', font_family=FONTE),
             ano,
             ft.Row(
                 controls=[botao_consulta,
@@ -81,7 +85,7 @@ def app(page: Page):
                 page.add(
 
                     Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🤏🥸⏳',
-                         size=25, font_family=fonte
+                         size=25, font_family=FONTE
                          ),
                     ft.ProgressRing()
                 )
@@ -100,7 +104,7 @@ def app(page: Page):
                         # Ocorreu algum erro durante a raspagem
                         page.clean()
                         page.add(Text(value='Erro na consulta 🥴',
-                                      font_family=fonte, size=25),
+                                      font_family=FONTE, size=25),
                                  ElevatedButton(text='Voltar',
                                                 on_click=lambda _: main()),
                                  )
@@ -110,9 +114,9 @@ def app(page: Page):
                 limpa_terminal
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
-                              size=25, font_family=fonte),
+                              size=25, font_family=FONTE),
                          Text(value=f'Dados de poluição de {ano_consulta} estão disponíveis',
-                              font_family=fonte),
+                              font_family=FONTE),
                          ft.Row(controls=[
                              ElevatedButton(on_click=lambda _: consulta_ano.obter_excel(),
                                             text='Obter Planilha'),
@@ -144,7 +148,7 @@ def app(page: Page):
                 page.clean()
                 page.add(
                     Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🤏🥸⏳',
-                         size=25, font_family=fonte
+                         size=25, font_family=FONTE
                          ),
                     ft.ProgressRing()
                 )
@@ -165,7 +169,7 @@ def app(page: Page):
                         # Ocorreu algum erro durante a raspagem
                         page.clean()
                         page.add(Text(value='Erro na consulta 🥴',
-                                      font_family=fonte, size=30),
+                                      font_family=FONTE, size=30),
                                  ElevatedButton(text='Voltar',
                                                 on_click=lambda _: main()),
                                  )
@@ -175,9 +179,9 @@ def app(page: Page):
                 limpa_terminal
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
-                              size=30, font_family=fonte),
+                              size=30, font_family=FONTE),
                          Text(value=f'Dados de poluição do 1º Semestre {ano_consulta} estão disponíveis',
-                              font_family=fonte),
+                              font_family=FONTE),
                          ft.Row(controls=[
                              ElevatedButton(on_click=lambda _: consulta_semestre.obter_csv(),
                                             text='Obter .csv'),
@@ -209,7 +213,7 @@ def app(page: Page):
                 page.clean()
                 page.add(
                     Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🤏🥸⏳',
-                         size=25, font_family=fonte
+                         size=25, font_family=FONTE
                          ),
                     ft.ProgressRing()
                 )
@@ -230,7 +234,7 @@ def app(page: Page):
                         # Ocorreu algum erro durante a raspagem
                         page.clean()
                         page.add(Text(value='Erro na consulta 🥴',
-                                      font_family=fonte, size=30),
+                                      font_family=FONTE, size=30),
                                  ElevatedButton(text='Voltar',
                                                 on_click=lambda _: main()),
                                  )
@@ -240,9 +244,9 @@ def app(page: Page):
                 system('cls')
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
-                              size=30, font_family=fonte),
+                              size=30, font_family=FONTE),
                          Text(value=f'Dados de poluição do 2º Semestre {ano_consulta} estão disponíveis',
-                              font_family=fonte),
+                              font_family=FONTE),
                          ft.Row(controls=[
                              ElevatedButton(on_click=lambda _: consulta_semestre.obter_csv(),
                                             text='Obter .csv'),
@@ -269,8 +273,8 @@ def app(page: Page):
         )
 
         page.add(
-            AppBar(title=Text('Consulta Mensal', font_family=fonte)),
-            Text(value='Dados disponíveis de 2017 a 2023', font_family=fonte),
+            AppBar(title=Text('Consulta Mensal', font_family=FONTE)),
+            Text(value='Dados disponíveis de 2017 a 2023', font_family=FONTE),
             ft.Row(controls=[mes, ano], alignment='center'),
             ft.Row(controls=[
                 botao_consulta,
@@ -301,7 +305,7 @@ def app(page: Page):
                 ano_consulta = int(ano.value)
                 page.clean()
                 page.add(Text(value='Realizando consulta...\nPode levar alguns instantes. Por favor, aguarde. 🙂🙃⏳',
-                              size=25, font_family=fonte
+                              size=25, font_family=FONTE
                               ),
                          ft.ProgressRing()
                          )
@@ -323,7 +327,7 @@ def app(page: Page):
                         # Ocorreu algum erro durante a raspagem
                         page.clean()
                         page.add(Text(value='Erro na consulta 🥴',
-                                      font_family=fonte, size=25),
+                                      font_family=FONTE, size=25),
                                  ElevatedButton(text='Voltar',
                                                 on_click=lambda _: main()),
                                  )
@@ -335,11 +339,14 @@ def app(page: Page):
                 fig = px.line(tabela[['IQAr']],
                               title=f'Índice de Qualidade do Ar de {mes_consulta}-{ano_consulta}'
                               )
+                fig.update_yaxes(title='Índice')
+                fig.update_xaxes(title='Dias', )
+
                 system('cls')
                 print(consulta_mes.obter_texto())
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
-                              size=30, font_family=fonte
+                              size=30, font_family=FONTE
                               ),
                          ft.Row(
                     controls=[
@@ -358,19 +365,16 @@ def app(page: Page):
         except:
             raise Exception
 
-    def abrir_site(e):
-        boletim = wb.open('https://jeap.rio.rj.gov.br/je-metinfosmac/boletim')
-
     ## Menu Principal ##
     def main():
 
         page.clean()
         page.add(
-            AppBar(title=Text('Menu Principal', font_family=fonte)),
-            Image('ufrj-logo-1-removebg.png',
+            AppBar(title=Text('Menu Principal', font_family=FONTE)),
+            Image('ufrj-logo.png',
                   width=200, height=200),
             Text(value='Dados de Poluição de Irajá'.upper(),
-                 font_family=fonte, size=30),
+                 font_family=FONTE, size=30),
             ElevatedButton(text='Consulta Mensal',
                            width=170,
                            on_click=consulta_mensal),
@@ -387,4 +391,4 @@ def app(page: Page):
 
 if __name__ == '__main__':
     ft.app(target=app,
-           assets_dir='ufrj-logo-1-removebg.png')
+           assets_dir='ufrj-logo.png')
