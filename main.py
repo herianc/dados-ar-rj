@@ -3,9 +3,10 @@ import flet as ft
 import pandas as pd
 import json
 import webbrowser as wb
+import numpy as np
 from flet.plotly_chart import PlotlyChart
 from flet import Page, AppBar, ElevatedButton, Text, TextField, Image
-from flet import CrossAxisAlignment, MainAxisAlignment
+from flet import CrossAxisAlignment, MainAxisAlignment, ProgressRing
 from webscraping import ConsultaAnual, ConsultaMensal, ConsultaSemestral
 from os import system
 
@@ -17,24 +18,25 @@ def abrir_site(e):
 
 
 def app(page: Page):
-    consulta_ano = ConsultaAnual()
-    consulta_mes = ConsultaMensal()
-    consulta_semestre = ConsultaSemestral()
+    consulta_anual = ConsultaAnual()
+    consulta_mensal = ConsultaMensal()
+    consulta_semestral = ConsultaSemestral()
 
     # Estilização da janela da aplicação
-
     page.theme_mode = ft.ThemeMode.LIGHT
     page.window_height = 720
     page.window_width = 1024
     page.vertical_alignment = MainAxisAlignment.CENTER
     page.horizontal_alignment = CrossAxisAlignment.CENTER
     page.window_center()
-    FONTE = 'comfortaa'  # Fonte usada nos textos
+    page.title = 'Boletim de Poluição de Irajá'
+    FONTE = 'comfortaa'
 
     ## Página de consulta anual ##
+
     def consulta_anual(e):
-        consulta_ano.dados_ano = {}
-        consulta_semestre. dados_semestre = {}
+        consulta_anual.dados_ano = {}
+        consulta_semestral.dados_semestre = {}
         page.clean()
         global ano
         ano = TextField(label='Ano', value='', width=200, max_length=4)
@@ -42,10 +44,10 @@ def app(page: Page):
                                         on_click=consulta_anual_click
                                         )
         botao_semestre1 = ElevatedButton(text='Dados do 1º Semestre',
-                                         on_click=consulta_semestre1_click
+                                         on_click=consulta_semestral1_click
                                          )
         botoa_semestre2 = ElevatedButton(text='Dados do 2º Semestre',
-                                         on_click=consulta_semestre2_click
+                                         on_click=consulta_semestral2_click
                                          )
         botao_voltar = ElevatedButton(text='Voltar',
                                       on_click=lambda _: main()
@@ -66,7 +68,7 @@ def app(page: Page):
         )
         page.update()
 
-    ## Página de consulta anual ##
+    ## Página de consulta anual após o click no botão ##
     def consulta_anual_click(e):
         # Verificando os inputs do usuário
         try:
@@ -85,21 +87,23 @@ def app(page: Page):
                 page.add(
 
                     Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🤏🥸⏳',
-                         size=25, font_family=FONTE
+                         size=20, font_family=FONTE
                          ),
-                    ft.ProgressRing()
+                    Text('A consulta anual pode durar cerca de 3-4 minutos',
+                         font_family=FONTE, size=14),
+                    ProgressRing()
                 )
                 # Inputs OK! Obtendo os dados
                 try:
                     # Verificando se o usuário já tem os dados
                     with open(f'dados\dados{ano_consulta}.json', 'r') as arquivo:
-                        consulta_ano.dados_ano = json.load(arquivo)
-                        consulta_ano.ano = ano_consulta
+                        consulta_anual.dados_ano = json.load(arquivo)
+                        consulta_anual.ano = ano_consulta
                 except FileNotFoundError:
                     # Caso não tenha os dados, executa a raspagem no site
                     try:
-                        consulta_ano.consulta(ano_consulta)
-                        consulta_ano.obter_json()
+                        consulta_anual.consulta(ano_consulta)
+                        consulta_anual.obter_json()
                     except Exception:
                         # Ocorreu algum erro durante a raspagem
                         page.clean()
@@ -110,6 +114,14 @@ def app(page: Page):
                                  )
                         raise Exception
 
+                tabela = pd.DataFrame.from_dict(consulta_anual.dados_ano,
+                                                orient='index')
+
+                dados_iqr = tabela[['IQAr']].replace('NA', np.nan)
+                media = dados_iqr.dropna().mean().to_string()[4:]
+                minimo = dados_iqr.dropna().min().to_string()[4:]
+                maximo = dados_iqr.dropna().max().to_string()[4:]
+
                 # Consulta OK!
                 limpa_terminal
                 page.clean()
@@ -117,10 +129,12 @@ def app(page: Page):
                               size=25, font_family=FONTE),
                          Text(value=f'Dados de poluição de {ano_consulta} estão disponíveis',
                               font_family=FONTE),
+                         Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
+                         font_family=FONTE, size=12),
                          ft.Row(controls=[
-                             ElevatedButton(on_click=lambda _: consulta_ano.obter_excel(),
+                             ElevatedButton(on_click=lambda _: consulta_anual.obter_excel(),
                                             text='Obter Planilha'),
-                             ElevatedButton(on_click=lambda _: consulta_ano.obter_csv(),
+                             ElevatedButton(on_click=lambda _: consulta_anual.obter_csv(),
                                             text='Obter .csv'),
                              ElevatedButton(text='Voltar',
                                             on_click=lambda _: main())],
@@ -131,8 +145,8 @@ def app(page: Page):
         except:
             raise Exception
 
-    ## Página de consulta semestral 1 após apertar o botão ##
-    def consulta_semestre1_click(e):
+    ## Página de consulta semestral 1 após apertar o click no botão ##
+    def consulta_semestral1_click(e):
         # Verificando os inputs do usuário
         try:
             if not ano.value:
@@ -148,23 +162,23 @@ def app(page: Page):
                 page.clean()
                 page.add(
                     Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🤏🥸⏳',
-                         size=25, font_family=FONTE
+                         size=20, font_family=FONTE
                          ),
-                    ft.ProgressRing()
+                    ProgressRing()
                 )
 
                 # Inputs OK! Obtendo os dados
                 try:
                     # Verificando se o usuário já tem os dados
                     with open(f'dados\dados{ano_consulta}-semestre{1}.json', 'r') as arquivo:
-                        consulta_semestre.dados_semestre = json.load(arquivo)
-                        consulta_semestre.ano = ano_consulta
-                        consulta_semestre.semestre = 1
+                        consulta_semestral.dados_semestre = json.load(arquivo)
+                        consulta_semestral.ano = ano_consulta
+                        consulta_semestral.semestre = 1
                 except FileNotFoundError:
                     # Caso não tenha os dados, executa a raspagem no site
                     try:
-                        consulta_semestre.consulta(1, ano_consulta)
-                        consulta_semestre.obter_json()
+                        consulta_semestral.consulta(1, ano_consulta)
+                        consulta_semestral.obter_json()
                     except Exception:
                         # Ocorreu algum erro durante a raspagem
                         page.clean()
@@ -176,16 +190,25 @@ def app(page: Page):
                         raise Exception
 
                 # Consulta OK!
+                tabela = pd.DataFrame.from_dict(consulta_semestral.dados_semestre,
+                                                orient='index')
+                dados_iqr = tabela[['IQAr']].replace('NA', np.nan)
+                media = dados_iqr.dropna().mean().to_string()[4:]
+                minimo = dados_iqr.dropna().min().to_string()[4:]
+                maximo = dados_iqr.dropna().max().to_string()[4:]
+
                 limpa_terminal
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
                               size=30, font_family=FONTE),
                          Text(value=f'Dados de poluição do 1º Semestre {ano_consulta} estão disponíveis',
                               font_family=FONTE),
+                         Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
+                         font_family=FONTE, size=12),
                          ft.Row(controls=[
-                             ElevatedButton(on_click=lambda _: consulta_semestre.obter_csv(),
+                             ElevatedButton(on_click=lambda _: consulta_semestral.obter_csv(),
                                             text='Obter .csv'),
-                             ElevatedButton(on_click=lambda _: consulta_semestre.obter_excel(),
+                             ElevatedButton(on_click=lambda _: consulta_semestral.obter_excel(),
                                             text='Obter Planilha'),
                              ElevatedButton(text='Voltar',
                                             on_click=lambda _: main())],
@@ -196,7 +219,7 @@ def app(page: Page):
             raise Exception
 
     ## Página de consulta semestral 2 após apertar o botão ##
-    def consulta_semestre2_click(e):
+    def consulta_semestral2_click(e):
         try:
             # Verificando os inputs do usuário
             if not ano.value:
@@ -215,21 +238,21 @@ def app(page: Page):
                     Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🤏🥸⏳',
                          size=25, font_family=FONTE
                          ),
-                    ft.ProgressRing()
+                    ProgressRing()
                 )
 
                 # Inputs OK! Obtendo os dados
                 try:
                     # Verificando se o usuário já tem os dados
                     with open(f'dados\dados{ano_consulta}-semestre{2}.json', 'r') as arquivo:
-                        consulta_semestre.dados_semestre = json.load(arquivo)
-                        consulta_semestre.ano = ano_consulta
-                        consulta_semestre.semestre = 2
+                        consulta_semestral.dados_semestre = json.load(arquivo)
+                        consulta_semestral.ano = ano_consulta
+                        consulta_semestral.semestre = 2
                 except FileNotFoundError:
                     # Usuário ainda não tem os dados, executando a consulta
                     try:
-                        consulta_semestre.consulta(2, ano_consulta)
-                        consulta_semestre.obter_json()
+                        consulta_semestral.consulta(2, ano_consulta)
+                        consulta_semestral.obter_json()
                     except Exception:
                         # Ocorreu algum erro durante a raspagem
                         page.clean()
@@ -241,16 +264,25 @@ def app(page: Page):
                         raise Exception
 
                 # Consulta OK!
-                system('cls')
+                limpa_terminal
+                tabela = pd.DataFrame.from_dict(consulta_semestral.dados_semestre,
+                                                orient='index')
+                dados_iqr = tabela[['IQAr']].replace('NA', np.nan)
+                media = dados_iqr.dropna().mean().to_string()[4:]
+                minimo = dados_iqr.dropna().min().to_string()[4:]
+                maximo = dados_iqr.dropna().max().to_string()[4:]
+
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
                               size=30, font_family=FONTE),
                          Text(value=f'Dados de poluição do 2º Semestre {ano_consulta} estão disponíveis',
                               font_family=FONTE),
+                         Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
+                         font_family=FONTE, size=12),
                          ft.Row(controls=[
-                             ElevatedButton(on_click=lambda _: consulta_semestre.obter_csv(),
+                             ElevatedButton(on_click=lambda _: consulta_semestral.obter_csv(),
                                             text='Obter .csv'),
-                             ElevatedButton(on_click=lambda _: consulta_semestre.obter_excel(),
+                             ElevatedButton(on_click=lambda _: consulta_semestral.obter_excel(),
                                             text='Obter Planilha'),
                              ElevatedButton(text='Voltar',
                                             on_click=lambda _: main())],
@@ -262,7 +294,7 @@ def app(page: Page):
 
     ## Página de consulta mensal ##
     def consulta_mensal(e):
-        consulta_mes.dados_mes = {}
+        consulta_mensal.dados_mes = {}
         page.clean()
         global mes, ano
         mes = TextField(label='Mês', value='', width=200, max_length=2)
@@ -314,15 +346,15 @@ def app(page: Page):
                 try:
                     # Verificando se o usuário já tem os dados
                     with open(f'dados\dados{mes_consulta}-{ano_consulta}.json', 'r') as arquivo:
-                        consulta_mes.dados_mes = json.load(arquivo)
-                        consulta_mes.mes = mes_consulta
-                        consulta_mes.ano = ano_consulta
+                        consulta_mensal.dados_mes = json.load(arquivo)
+                        consulta_mensal.mes = mes_consulta
+                        consulta_mensal.ano = ano_consulta
                 except FileNotFoundError:
                     try:
                         # Caso não tenha os dados, executa a raspagem no site
-                        consulta_mes.consulta(
+                        consulta_mensal.consulta(
                             mes_consulta, ano_consulta)
-                        consulta_mes.obter_json()
+                        consulta_mensal.obter_json()
                     except Exception:
                         # Ocorreu algum erro durante a raspagem
                         page.clean()
@@ -335,15 +367,22 @@ def app(page: Page):
 
                 # Consulta OK! Plotando o gráfico
                 tabela = pd.DataFrame.from_dict(
-                    consulta_mes.dados_mes, orient='index')
+                    consulta_mensal.dados_mes, orient='index')
+
                 fig = px.line(tabela[['IQAr']],
                               title=f'Índice de Qualidade do Ar de {mes_consulta}-{ano_consulta}'
                               )
                 fig.update_yaxes(title='Índice')
                 fig.update_xaxes(title='Dias', )
 
-                system('cls')
-                print(consulta_mes.obter_texto())
+                # Obtendo min, media e max do parametro 'IQAr'
+                dados_iqr = tabela[['IQAr']].replace('NA', np.nan)
+                media = dados_iqr.dropna().mean().to_string()[4:]
+                minimo = dados_iqr.dropna().min().to_string()[4:]
+                maximo = dados_iqr.dropna().max().to_string()[4:]
+
+                limpa_terminal
+                print(consulta_mensal.obter_texto())
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
                               size=30, font_family=FONTE
@@ -351,14 +390,16 @@ def app(page: Page):
                          ft.Row(
                     controls=[
                         ElevatedButton(text='Obter Planilha',
-                                       on_click=lambda _: consulta_mes.obter_excel()),
+                                       on_click=lambda _: consulta_mensal.obter_excel()),
                         ElevatedButton(text='Obter .csv',
-                                       on_click=lambda _: consulta_mes.obter_csv()),
+                                       on_click=lambda _: consulta_mensal.obter_csv()),
                         ElevatedButton(text='Voltar',
                                        on_click=lambda _: main())
                     ],
                     alignment='center'
                 ),
+                    Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
+                         font_family=FONTE, size=12),
                     PlotlyChart(fig, expand=True)
                 )
                 page.update()

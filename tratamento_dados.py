@@ -13,52 +13,60 @@ def tratando_dados(lista: list, mes: int, ano: int) -> list:
     A estrutura da lista recebida muda com o ano da consulta"""
     if ano > 2019:
         for i in range(len(lista)-1):
-            if lista[i] == 'ND' or lista[i] == 'NM':
+            if lista[i] == 'ND' or lista[i] == 'NM':  # Poluente não medido no dia
                 lista[i] = 'NA'
-            elif ',' in lista[i]:
+
+            elif ',' in lista[i]:  # Dados decimais
                 lista[i] = (lista[i].replace(',', '.'))
                 lista[i] = float(lista[i])
-            elif i == len(lista) - 1:
+
+            elif i == len(lista) - 1:  # Classificação EX: "Bom ou Moderado"
                 continue
+
             else:
-                lista[i] = int(lista[i])
+                lista[i] = int(lista[i])  # String de dígito inteiro
+
     elif ano <= 2019:
-        if ano == 2019 and mes == 12:
+        if ano == 2019 and mes == 12:  # Mês que MP2.5 foi adicionado ao site
             for i in range(len(lista)-1):
-                if lista[i] == 'ND' or lista[i] == 'NM':
+                if lista[i] == 'ND' or lista[i] == 'NM':  # Poluente não medido no dia
                     lista[i] = 'NA'
-                elif ',' in lista[i]:
+
+                elif ',' in lista[i]:  # Dados decimais
                     lista[i] = (lista[i].replace(',', '.'))
                     lista[i] = float(lista[i])
-                elif i == len(lista) - 1:
+
+                elif i == len(lista) - 1:  # Classificação Ex: Bom ou Péssimo
                     continue
 
                 else:
-                    lista[i] = int(lista[i])
+                    lista[i] = int(lista[i])  # String de digito inteiro
         else:
             for i in range(len(lista)-2):
 
-                if lista[i] == 'ND' or lista[i] == 'NM':
+                if lista[i] == 'ND' or lista[i] == 'NM':  # Poluente não medido no dia
                     lista[i] = 'NA'
-                elif ',' in lista[i]:
+
+                elif ',' in lista[i]:  # Dados decimais
                     lista[i] = (lista[i].replace(',', '.'))
                     lista[i] = float(lista[i])
-                elif i == len(lista) - 1:
+
+                elif i == len(lista) - 1:  # Classificação Ex: Bom ou Péssimo
                     continue
 
                 else:
-                    lista[i] = int(lista[i])
+                    lista[i] = int(lista[i])  # String de digito inteiro
 
     return lista
 
 
 def estacao_indisponivel() -> dict:
-    '''Função que cria um dicionário com os dados faltantes quando a estação não está disponível '''
+    '''Função que cria um dicionário com os dados NA quando a estação não está disponível'''
     dicionario = {}
 
-    dicionario['MP10'] = 'NA'
-    dicionario['MP2.5'] = 'NA'
-    dicionario['O3'] = 'NA'
+    dicionario['MP10'] = 'NaN'
+    dicionario['MP2.5'] = 'NaN'
+    dicionario['O3'] = 'NaN'
     dicionario['CO'] = 'NA'
     dicionario['NO2'] = 'NA'
     dicionario['SO2'] = 'NA'
@@ -80,6 +88,7 @@ def criando_dicionario(lista: list, mes, ano) -> dict:
         dicionario['SO2'] = lista[5]
         dicionario['IQAr'] = lista[6]
         dicionario['classificacao'] = lista[7]
+
     elif ano <= 2019:
         if ano == 2019 and mes == 12:
             dicionario['MP10'] = lista[0]
@@ -90,14 +99,16 @@ def criando_dicionario(lista: list, mes, ano) -> dict:
             dicionario['SO2'] = lista[5]
             dicionario['IQAr'] = lista[6]
             dicionario['classificacao'] = lista[7]
+
         else:
             dicionario['MP10'] = lista[0]
-            dicionario['MP2.5'] = 'NA'
+            dicionario['MP2.5'] = 'NA'  # MP2.5 não era medido
             dicionario['O3'] = lista[1]
             dicionario['CO'] = lista[2]
             dicionario['NO2'] = lista[3]
             dicionario['SO2'] = lista[4]
             dicionario['IQAr'] = lista[5]
+            # Entre 2017 a 11/2019 os dados
             dicionario['classificacao'] = lista[-2]
 
     return dicionario

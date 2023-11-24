@@ -1,20 +1,43 @@
+from abc import ABC, abstractmethod
 import requests
 import json
 from bs4 import BeautifulSoup
 import pandas as pd
 from tratamento_dados import criando_dicionario, estacao_indisponivel, tratando_dados, tratando_dias
 from os import mkdir
-try:
-    mkdir('./dados')
-except FileExistsError:
-    pass
 
 
-class ConsultaMensal:
+class Consulta(ABC):
+    def __init__(self) -> None:
+        super().__init__()
+
+    @abstractmethod
+    def consulta(self):
+        pass
+
+    @abstractmethod
+    def obter_json(self):
+        pass
+
+    @abstractmethod
+    def obter_csv(self):
+        pass
+
+    @abstractmethod
+    def obter_excel(self):
+        pass
+
+
+class ConsultaMensal(Consulta):
     def __init__(self) -> None:
         self.dados_mes = {}  # dicionário que conterá todos os dados obtidos na consulta
         self.mes = None  # atributo para saber o mês consultado
         self.ano = None  # atributo para saber o ano consultado
+
+        try:
+            mkdir('./dados')  # cria o diretório onde os dados serão salvos
+        except FileExistsError:
+            pass
 
     def consulta(self, mes: int, ano: int) -> dict:
         '''Método que realiza a consulta no site do boletim de dados de qualidade do ar'''
@@ -78,7 +101,6 @@ class ConsultaMensal:
                             dados_final = estacao_indisponivel()
 
                 # FIM DA REQUISIÇÃO (APENAS UM DIA)
-
                 # Guardando o dicionário dos dados do dia no dicionário do mes
                 self.dados_mes[f'{dia}-{self.mes}-{self.ano}'] = dados_final
                 print(dia, self.dados_mes[f'{dia}-{self.mes}-{self.ano}'])
@@ -93,18 +115,27 @@ class ConsultaMensal:
             json.dump(self.dados_mes, arquivo, indent=4)
 
     def obter_csv(self):
+        try:
+            mkdir('./csv')
+        except FileExistsError:
+            pass
+
         df = pd.DataFrame(self.dados_mes)
         df = df.transpose()
-        df.to_csv(f'./dados/dados{self.mes}-{self.ano}.csv')
+        df.to_csv(f'./csv/dados{self.mes}-{self.ano}.csv')
 
     def obter_excel(self):
+        try:
+            mkdir('./excel')
+        except FileExistsError:
+            pass
+
         df = pd.DataFrame(self.dados_mes)
         df = df.transpose()
-        df.to_excel(f'./dados/dados{self.mes}-{self.ano}.xlsx')
+        df.to_excel(f'./excel/dados{self.mes}-{self.ano}.xlsx')
 
     def obter_texto(self):
-        df = pd.DataFrame(self.dados_mes)
-        df = df.transpose()
+        df = pd.DataFrame.from_dict(self.dados_mes, orient='index')
         return df.to_string()
 
 
@@ -117,13 +148,11 @@ class ConsultaAnual(ConsultaMensal):
     def consulta(self, ano: int):
         self.dados_ano = {}
         self.ano = ano
-        print('Iniciando consulta anual... Esse procedimento pode levar alguns minutos\nPor favor, aguarde.')
 
         # For que realiza a raspagem dos dados durante todo o ano
         for mes in range(1, 13):
             self.dados_ano = ConsultaMensal.consulta(self, mes, self.ano)
 
-        print('Consulta anual finalizada')
         return self.dados_ano
 
     def obter_json(self):
@@ -131,14 +160,24 @@ class ConsultaAnual(ConsultaMensal):
             json.dump(self.dados_ano, arquivo, indent=4)
 
     def obter_csv(self):
+        try:
+            mkdir('.\csv')
+        except FileExistsError:
+            pass
+
         df = pd.DataFrame(self.dados_ano)
         df = df.transpose()
-        df.to_csv(f'dados\dados{self.ano}.csv')
+        df.to_csv(f'./csv/dados{self.ano}.csv')
 
     def obter_excel(self):
+        try:
+            mkdir('./excel')
+        except FileExistsError:
+            ...
+
         df = pd.DataFrame(self.dados_ano)
         df = df.transpose()
-        df.to_excel(f'dados\dados{self.ano}.xlsx')
+        df.to_excel(f'./excel/dados{self.ano}.xlsx')
 
 
 class ConsultaSemestral(ConsultaMensal):
@@ -146,6 +185,12 @@ class ConsultaSemestral(ConsultaMensal):
         super().__init__()
         self.dados_semestre = None
         self.semestre = None
+
+        # Criando a pasta onde os dados serão guardados
+        try:
+            mkdir('./dados')
+        except FileExistsError:
+            pass
 
     def consulta(self, semestre: int, ano: int) -> dict:
         self.dados_semestre = {}
@@ -179,11 +224,22 @@ class ConsultaSemestral(ConsultaMensal):
             json.dump(self.dados_semestre, arquivo, indent=4)
 
     def obter_csv(self):
+        try:
+            mkdir('.\csv')
+        except FileExistsError:
+            pass
+
         df = pd.DataFrame(self.dados_semestre)
         df = df.transpose()
-        df.to_csv(f'dados\dados{self.ano}-semestre{self.semestre}.csv')
+        df.to_csv(f'.\csv\dados{self.ano}-semestre{self.semestre}.csv')
 
     def obter_excel(self):
+        try:
+            mkdir('.\excel')
+        except FileExistsError:
+            ...
+
         df = pd.DataFrame(self.dados_mes)
         df = df.transpose()
-        df.to_excel(f'dados\dados{self.ano}-semestre{self.semestre}.xlsx')
+        df.to_excel(
+            f'.\excel\dados{self.ano}-semestre{self.semestre}.xlsx')
