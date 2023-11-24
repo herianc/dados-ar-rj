@@ -130,6 +130,8 @@ def app(page: Page):
                               size=25, font_family=FONTE),
                          Text(value=f'Dados de poluição de {ano_consulta} estão disponíveis',
                               font_family=FONTE),
+                         Text(value=f'Índice de Qualidade do Ar no ano',
+                              font_family=FONTE),
                          Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
                          font_family=FONTE, size=12),
                          ft.Row(controls=[
@@ -204,6 +206,8 @@ def app(page: Page):
                               size=30, font_family=FONTE),
                          Text(value=f'Dados de poluição do 1º Semestre {ano_consulta} estão disponíveis',
                               font_family=FONTE),
+                         Text(value=f'Índice de Qualidade do Ar no Semestre',
+                              font_family=FONTE),
                          Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
                          font_family=FONTE, size=12),
                          ft.Row(controls=[
@@ -277,6 +281,8 @@ def app(page: Page):
                 page.add(Text(value='Consulta realizada 🤓👌',
                               size=30, font_family=FONTE),
                          Text(value=f'Dados de poluição do 2º Semestre {ano_consulta} estão disponíveis',
+                              font_family=FONTE),
+                         Text(value=f'Índice de Qualidade do Ar no Semestre',
                               font_family=FONTE),
                          Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
                          font_family=FONTE, size=12),
@@ -415,7 +421,7 @@ def app(page: Page):
         page.clean()
         page.add(
             AppBar(title=Text('Menu Principal', font_family=FONTE)),
-            Image('ufrj-logo.png',
+            Image('minerva_logo.png',
                   width=200, height=200),
             Text(value='Dados de Poluição de Irajá'.upper(),
                  font_family=FONTE, size=30),

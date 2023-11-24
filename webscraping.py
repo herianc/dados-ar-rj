@@ -41,7 +41,6 @@ class ConsultaMensal(Consulta):
 
     def consulta(self, mes: int, ano: int) -> dict:
         '''Método que realiza a consulta no site do boletim de dados de qualidade do ar'''
-
         self.mes = mes
         self.ano = ano
         self.dados_mes.clear()
@@ -66,7 +65,7 @@ class ConsultaMensal(Consulta):
                     'td', attrs=('td_st_name', 'td_value_bold', 'td_value'))
 
                 ## DADOS EM HTML ##
-
+                # Pré tratamento dos dados
                 # For para saber se a Estação de Irajá está disponível no site  (Caso esteja, pega a sua posição na lista)
                 for i, linha in enumerate(conteudo_selecionado):
                     if linha.get_text() == 'Irajá':
