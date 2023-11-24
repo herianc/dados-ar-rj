@@ -3,6 +3,11 @@ import json
 from bs4 import BeautifulSoup
 import pandas as pd
 from tratamento_dados import criando_dicionario, estacao_indisponivel, tratando_dados, tratando_dias
+from os import mkdir
+try:
+    mkdir('./dados')
+except FileExistsError:
+    pass
 
 
 class ConsultaMensal:
@@ -84,18 +89,18 @@ class ConsultaMensal:
         return self.dados_mes
 
     def obter_json(self):
-        with open(f'dados\dados{self.mes}-{self.ano}.json', 'w') as arquivo:
+        with open(f'./dados/dados{self.mes}-{self.ano}.json', 'w') as arquivo:
             json.dump(self.dados_mes, arquivo, indent=4)
 
     def obter_csv(self):
         df = pd.DataFrame(self.dados_mes)
         df = df.transpose()
-        df.to_csv(f'dados\dados{self.mes}-{self.ano}.csv')
+        df.to_csv(f'./dados/dados{self.mes}-{self.ano}.csv')
 
     def obter_excel(self):
         df = pd.DataFrame(self.dados_mes)
         df = df.transpose()
-        df.to_excel(f'dados\dados{self.mes}-{self.ano}.xlsx')
+        df.to_excel(f'./dados/dados{self.mes}-{self.ano}.xlsx')
 
     def obter_texto(self):
         df = pd.DataFrame(self.dados_mes)
