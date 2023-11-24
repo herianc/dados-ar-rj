@@ -44,6 +44,7 @@ class ConsultaMensal(Consulta):
 
         self.mes = mes
         self.ano = ano
+        self.dados_mes.clear()
         try:
             # Período que nenhuma estação esteve disponível
             if mes == 6 and ano == 2020:

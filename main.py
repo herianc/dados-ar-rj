@@ -34,20 +34,21 @@ def app(page: Page):
 
     ## Página de consulta anual ##
 
-    def consulta_anual(e):
+    def page_consulta_anual(e):
         consulta_anual.dados_ano = {}
         consulta_semestral.dados_semestre = {}
+
         page.clean()
         global ano
         ano = TextField(label='Ano', value='', width=200, max_length=4)
         botao_consulta = ElevatedButton(text='Consultar',
-                                        on_click=consulta_anual_click
+                                        on_click=page_consulta_anual_click
                                         )
         botao_semestre1 = ElevatedButton(text='Dados do 1º Semestre',
-                                         on_click=consulta_semestral1_click
+                                         on_click=page_consulta_semestral1_click
                                          )
         botoa_semestre2 = ElevatedButton(text='Dados do 2º Semestre',
-                                         on_click=consulta_semestral2_click
+                                         on_click=page_consulta_semestral2_click
                                          )
         botao_voltar = ElevatedButton(text='Voltar',
                                       on_click=lambda _: main()
@@ -69,7 +70,7 @@ def app(page: Page):
         page.update()
 
     ## Página de consulta anual após o click no botão ##
-    def consulta_anual_click(e):
+    def page_consulta_anual_click(e):
         # Verificando os inputs do usuário
         try:
             if not ano.value:
@@ -146,7 +147,7 @@ def app(page: Page):
             raise Exception
 
     ## Página de consulta semestral 1 após apertar o click no botão ##
-    def consulta_semestral1_click(e):
+    def page_consulta_semestral1_click(e):
         # Verificando os inputs do usuário
         try:
             if not ano.value:
@@ -206,10 +207,10 @@ def app(page: Page):
                          Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
                          font_family=FONTE, size=12),
                          ft.Row(controls=[
-                             ElevatedButton(on_click=lambda _: consulta_semestral.obter_csv(),
-                                            text='Obter .csv'),
                              ElevatedButton(on_click=lambda _: consulta_semestral.obter_excel(),
                                             text='Obter Planilha'),
+                             ElevatedButton(on_click=lambda _: consulta_semestral.obter_csv(),
+                                            text='Obter .csv'),
                              ElevatedButton(text='Voltar',
                                             on_click=lambda _: main())],
                                 alignment='center'
@@ -219,7 +220,7 @@ def app(page: Page):
             raise Exception
 
     ## Página de consulta semestral 2 após apertar o botão ##
-    def consulta_semestral2_click(e):
+    def page_consulta_semestral2_click(e):
         try:
             # Verificando os inputs do usuário
             if not ano.value:
@@ -280,10 +281,10 @@ def app(page: Page):
                          Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
                          font_family=FONTE, size=12),
                          ft.Row(controls=[
-                             ElevatedButton(on_click=lambda _: consulta_semestral.obter_csv(),
-                                            text='Obter .csv'),
                              ElevatedButton(on_click=lambda _: consulta_semestral.obter_excel(),
                                             text='Obter Planilha'),
+                             ElevatedButton(on_click=lambda _: consulta_semestral.obter_csv(),
+                                            text='Obter .csv'),
                              ElevatedButton(text='Voltar',
                                             on_click=lambda _: main())],
                                 alignment='center'
@@ -293,7 +294,7 @@ def app(page: Page):
             raise Exception
 
     ## Página de consulta mensal ##
-    def consulta_mensal(e):
+    def page_consulta_mensal(e):
         consulta_mensal.dados_mes = {}
         page.clean()
         global mes, ano
@@ -301,7 +302,7 @@ def app(page: Page):
         ano = TextField(label='Ano', value='', width=200, max_length=4)
         botao_consulta = ElevatedButton(
             text='Consultar',
-            on_click=consulta_mensal_click
+            on_click=page_consulta_mensal_click
         )
 
         page.add(
@@ -319,7 +320,7 @@ def app(page: Page):
         page.update()
 
     ## Página de consulta mensal após executar a consulta ##
-    def consulta_mensal_click(e):
+    def page_consulta_mensal_click(e):
         try:
             # Verificando os inputs do usuário
             if not int(mes.value) in range(1, 13):
@@ -398,6 +399,8 @@ def app(page: Page):
                     ],
                     alignment='center'
                 ),
+                    Text(value='Índice de Qualidade do Ar no mês',
+                         font_family=FONTE, size=12),
                     Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
                          font_family=FONTE, size=12),
                     PlotlyChart(fig, expand=True)
@@ -418,9 +421,9 @@ def app(page: Page):
                  font_family=FONTE, size=30),
             ElevatedButton(text='Consulta Mensal',
                            width=170,
-                           on_click=consulta_mensal),
+                           on_click=page_consulta_mensal),
             ElevatedButton(text='Consulta Anual', width=170,
-                           on_click=consulta_anual),
+                           on_click=page_consulta_anual),
             ElevatedButton(text='Boletim', width=170,
                            on_click=abrir_site),
             ElevatedButton(text='Sair',
