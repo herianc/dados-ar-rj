@@ -11,7 +11,7 @@ Sistema de informação que facilita a obtenção dos dados de poluição do ar 
 
 ## Objetivo
 
-Aplicação que realiza a Extração, Tratamento e o Carregamento (Pipeline ETL) dos índices de poluição da estação de monitoramento de Irajá. O objetivo principal é facilitar a obtenção dos dados mensais/semestrais/anuais da estação para medição/estudo da poluição no bairro, tendo em vista que o próprio boletim **não disponibiliza** os dados de forma conjunta por períodos.
+Aplicação que realiza a Extração, Tratamento e o Carregamento (Pipeline ETL) dos índices de poluição da estação de monitoramento de Irajá. O objetivo principal é facilitar a obtenção dos dados mensais/semestrais/anuais da estação para medição/estudo da poluição no bairro, tendo em vista que o próprio boletim **não disponibiliza** os dados de forma conjunta por períodos. Ao final de cada consulta um arquivo json é gerado com os dados estruturados e tratados e há dando a opção ao usuário de obter uma planilha ou um arquivo csv. 
 
 ![Boletim de Qualidade do Ar](https://github.com/herianc/dados_arRJ/blob/main/imagens/site.png?raw=true)
 
@@ -61,7 +61,7 @@ A  Super Classe do sistema é a `ConsultaMensal`, onde ocorre a lógica de repet
 
 Os métodos `obter_json()`, `obter_csv()`, `obter_excel()` e `obter_texto()` (este último para obter a tabela dos dados consultados no prompt) são métodos que executam funções das bibliotecas json/pandas para obter o os dados em diferentes tipos de arquivos.
 
-As demais classes apenas aplicam o método `consulta()` da classe `ConsultaMensal` para os respectivos períodos de tempo, porém utilizando o poliformismo para executar essas consultas, tendo em vista que a consulta mensal é realizada por outro for para indicar o número de meses que serão consultados.  
+As demais classes executam o método `consulta()` da classe `ConsultaMensal` para os respectivos períodos de tempo, porém utilizando o poliformismo para executar essas consultas, tendo em vista que a consulta mensal é realizada por dentro de outro for para indicar o número de meses que serão consultados.  
 
 ---
 
