@@ -48,7 +48,7 @@ Outras: `os`, `numpy`
 
 O Sistema conta com 3 arquivos Python para diferentes funções.
 
-`main.py` - É a parte da interface gráfica e de toda a lógica por trás das interações com o usuário (“front-end”)
+`main.py` - É a parte da interface gráfica e de toda a lógica por trás das interações com o usuário.
 
 `webscraping.py` - É o módulo que contém todas as classes criadas para o projeto ConsultaMensal, ConsultaAnual, ConsultaSemestral. É onde ocorre o processo de raspagem de dados, estruturação dos dados coletados e saída dos arquivos em diferentes formatos.
 
