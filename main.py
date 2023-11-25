@@ -127,7 +127,7 @@ def app(page: Page):
                 limpa_terminal
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
-                              size=25, font_family=FONTE),
+                              size=30, font_family=FONTE),
                          Text(value=f'Dados de poluição de {ano_consulta} estão disponíveis',
                               font_family=FONTE),
                          Text(value=f'Índice de Qualidade do Ar no ano',
