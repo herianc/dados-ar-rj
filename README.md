@@ -110,4 +110,4 @@ Página de erro
 ![Página de erro](https://github.com/herianc/dados_arRJ/blob/main/imagens/08_page_error.png?raw=true)
 
 Terminal consulta mensal finalizada
-![Terminal consulta mensal finalizada](https://github.com/herianc/dados_arRJ/blob/main/imagens/09_consulta_mensal_terminal.png?raw=true)
+![](https://github.com/herianc/dados_arRJ/blob/main/imagens/09_consulta_mensal_terminal.png?raw=true)
