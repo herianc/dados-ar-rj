@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from tratamento_dados import criando_dicionario, estacao_indisponivel, tratando_dados, tratando_dias
 from os import mkdir
+import datetime as dt
 
 
 class Consulta(ABC):
@@ -43,18 +44,15 @@ class ConsultaMensal(Consulta):
         '''Método que realiza a consulta no site do boletim de dados de qualidade do ar'''
         self.mes = mes
         self.ano = ano
-        self.dados_mes.clear()
         try:
-            # Período que nenhuma estação esteve disponível
-            if mes == 6 and ano == 2020:
-                dados_final = estacao_indisponivel()
+            dados_do_dia = estacao_indisponivel()
 
             inicio = None
             fim = None
-            data_final = tratando_dias(mes)
+            fim_do_mes = tratando_dias(mes)
 
             # For para requisição dos dados desde o primeiro dia do mês até o ultimo
-            for dia in range(1, data_final):
+            for dia in range(1, fim_do_mes):
                 data = f'?data={dia}/{mes}/{ano}'
                 url = 'https://jeap.rio.rj.gov.br/je-metinfosmac/boletim'+data
 
@@ -72,9 +70,6 @@ class ConsultaMensal(Consulta):
                         # Coletando a posição de inicio e fim do conteúdo desejado
                         inicio = i+1
                         fim = inicio + 8
-
-                    else:  # Se não estiver, os dados estão indisponíveis
-                        dados_final = estacao_indisponivel()
 
                 ## REALIZANDO O TRATAMENTO DOS DADOS##
 
@@ -94,16 +89,18 @@ class ConsultaMensal(Consulta):
                             dados_tratados = tratando_dados(
                                 dados_brutos, self.mes, self.ano)
                             # Criando o dicionário que armazena cada valor a seu poluente
-                            dados_final = criando_dicionario(
+                            dados_do_dia = criando_dicionario(
                                 dados_tratados, self.mes, self.ano)
                         else:
                             # Se nenhuma condição foi verdadeira, a estação está com dados indisponíveis
-                            dados_final = estacao_indisponivel()
+                            dados_do_dia = estacao_indisponivel()
+
+                data = dt.date(ano, mes, dia)
 
                 # FIM DA REQUISIÇÃO (APENAS UM DIA)
                 # Guardando o dicionário dos dados do dia no dicionário do mes
-                self.dados_mes[f'{dia}-{self.mes}-{self.ano}'] = dados_final
-                print(dia, self.dados_mes[f'{dia}-{self.mes}-{self.ano}'])
+                self.dados_mes[f'{data}'] = dados_do_dia
+                print(data, self.dados_mes[f'{data}'])
 
         except ConnectionError:
             print('Erro de Conexão/Internet')
@@ -111,7 +108,7 @@ class ConsultaMensal(Consulta):
         return self.dados_mes
 
     def obter_json(self):
-        with open(f'./dados/dados{self.mes}-{self.ano}.json', 'w') as arquivo:
+        with open(f'./dados/dados{self.ano}-{self.mes}.json', 'w') as arquivo:
             json.dump(self.dados_mes, arquivo, indent=4)
 
     def obter_csv(self):
@@ -122,7 +119,7 @@ class ConsultaMensal(Consulta):
 
         df = pd.DataFrame(self.dados_mes)
         df = df.transpose()
-        df.to_csv(f'./csv/dados{self.mes}-{self.ano}.csv')
+        df.to_csv(f'./csv/dados{self.ano}-{self.mes}.csv')
 
     def obter_excel(self):
         try:
@@ -132,7 +129,7 @@ class ConsultaMensal(Consulta):
 
         df = pd.DataFrame(self.dados_mes)
         df = df.transpose()
-        df.to_excel(f'./excel/dados{self.mes}-{self.ano}.xlsx')
+        df.to_excel(f'./excel/dados{self.ano}-{self.mes}.xlsx')
 
     def obter_texto(self):
         df = pd.DataFrame.from_dict(self.dados_mes, orient='index')
@@ -142,11 +139,10 @@ class ConsultaMensal(Consulta):
 class ConsultaAnual(ConsultaMensal):
     def __init__(self):
         super().__init__()
-        self.dados_ano = None
+        self.dados_ano = {}
         self.ano = None
 
     def consulta(self, ano: int):
-        self.dados_ano = {}
         self.ano = ano
 
         # For que realiza a raspagem dos dados durante todo o ano
@@ -183,7 +179,7 @@ class ConsultaAnual(ConsultaMensal):
 class ConsultaSemestral(ConsultaMensal):
     def __init__(self) -> None:
         super().__init__()
-        self.dados_semestre = None
+        self.dados_semestre = {}
         self.semestre = None
 
         # Criando a pasta onde os dados serão guardados

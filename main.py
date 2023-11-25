@@ -9,8 +9,13 @@ from flet import Page, AppBar, ElevatedButton, Text, TextField, Image
 from flet import CrossAxisAlignment, MainAxisAlignment, ProgressRing
 from webscraping import ConsultaAnual, ConsultaMensal, ConsultaSemestral
 from os import system
+from datetime import date
 
 limpa_terminal = system('cls')
+
+consulta_anual = ConsultaAnual()
+consulta_mensal = ConsultaMensal()
+consulta_semestral = ConsultaSemestral()
 
 
 def abrir_site(e):
@@ -18,9 +23,6 @@ def abrir_site(e):
 
 
 def app(page: Page):
-    consulta_anual = ConsultaAnual()
-    consulta_mensal = ConsultaMensal()
-    consulta_semestral = ConsultaSemestral()
 
     # Estilização da janela da aplicação
     page.theme_mode = ft.ThemeMode.LIGHT
@@ -35,8 +37,9 @@ def app(page: Page):
     ## Página de consulta anual ##
 
     def page_consulta_anual(e):
-        consulta_anual.dados_ano = {}
-        consulta_semestral.dados_semestre = {}
+        consulta_anual.dados_ano.clear()
+        consulta_semestral.dados_semestre.clear()
+        consulta_mensal.dados_mes.clear()
 
         page.clean()
         global ano
@@ -115,15 +118,21 @@ def app(page: Page):
                                  )
                         raise Exception
 
+                # Consulta OK!
                 tabela = pd.DataFrame.from_dict(consulta_anual.dados_ano,
                                                 orient='index')
+
+                fig = px.line(tabela, y='IQAr', x=tabela.index,
+                              title=f'Índice de Qualidade do Ar de {ano_consulta}'
+                              )
+                fig.update_yaxes(title='Índice')
+                fig.update_xaxes(title='Meses', )
 
                 dados_iqr = tabela[['IQAr']].replace('NA', np.nan)
                 media = dados_iqr.dropna().mean().to_string()[4:]
                 minimo = dados_iqr.dropna().min().to_string()[4:]
                 maximo = dados_iqr.dropna().max().to_string()[4:]
 
-                # Consulta OK!
                 limpa_terminal
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
@@ -142,9 +151,11 @@ def app(page: Page):
                              ElevatedButton(text='Voltar',
                                             on_click=lambda _: main())],
                                 alignment='center'
-                                )
+                                ),
+                         PlotlyChart(fig, expand=True)
                          )
-
+        except ValueError:
+            pass
         except:
             raise Exception
 
@@ -192,9 +203,16 @@ def app(page: Page):
                                  )
                         raise Exception
 
-                # Consulta OK!
+                # Consulta OK! Plotando o Gráfico
                 tabela = pd.DataFrame.from_dict(consulta_semestral.dados_semestre,
                                                 orient='index')
+                fig = px.line(tabela, y='IQAr', x=tabela.index,
+                              title=f'Índice de Qualidade do Ar de {ano_consulta}'
+                              )
+                fig.update_yaxes(title='Índice')
+                fig.update_xaxes(title='Meses', )
+
+                # Obtendo as medidas resumo
                 dados_iqr = tabela[['IQAr']].replace('NA', np.nan)
                 media = dados_iqr.dropna().mean().to_string()[4:]
                 minimo = dados_iqr.dropna().min().to_string()[4:]
@@ -218,8 +236,11 @@ def app(page: Page):
                              ElevatedButton(text='Voltar',
                                             on_click=lambda _: main())],
                                 alignment='center'
-                                )
+                                ),
+                         PlotlyChart(fig, expand=True)
                          )
+        except ValueError:
+            pass
         except:
             raise Exception
 
@@ -268,10 +289,17 @@ def app(page: Page):
                                  )
                         raise Exception
 
-                # Consulta OK!
+                # Consulta OK! Plotando o Gráfico
                 limpa_terminal
                 tabela = pd.DataFrame.from_dict(consulta_semestral.dados_semestre,
                                                 orient='index')
+
+                fig = px.line(tabela, y='IQAr', x=tabela.index,
+                              title=f'Índice de Qualidade do Ar no ano de {ano_consulta}'
+                              )
+                fig.update_yaxes(title='Índice')
+                fig.update_xaxes(title='Meses')
+
                 dados_iqr = tabela[['IQAr']].replace('NA', np.nan)
                 media = dados_iqr.dropna().mean().to_string()[4:]
                 minimo = dados_iqr.dropna().min().to_string()[4:]
@@ -294,14 +322,17 @@ def app(page: Page):
                              ElevatedButton(text='Voltar',
                                             on_click=lambda _: main())],
                                 alignment='center'
-                                )
+                                ),
+                         PlotlyChart(fig, expand=True)
                          )
+        except ValueError:
+            pass
         except:
             raise Exception
 
     ## Página de consulta mensal ##
     def page_consulta_mensal(e):
-        consulta_mensal.dados_mes = {}
+        consulta_mensal.dados_mes.clear()
         page.clean()
         global mes, ano
         mes = TextField(label='Mês', value='', width=200, max_length=2)
@@ -352,7 +383,7 @@ def app(page: Page):
                 # Inputs OK! Obtendo os dados
                 try:
                     # Verificando se o usuário já tem os dados
-                    with open(f'dados\dados{mes_consulta}-{ano_consulta}.json', 'r') as arquivo:
+                    with open(f'dados\dados{ano_consulta}-{mes_consulta}.json', 'r') as arquivo:
                         consulta_mensal.dados_mes = json.load(arquivo)
                         consulta_mensal.mes = mes_consulta
                         consulta_mensal.ano = ano_consulta
@@ -376,8 +407,10 @@ def app(page: Page):
                 tabela = pd.DataFrame.from_dict(
                     consulta_mensal.dados_mes, orient='index')
 
-                fig = px.line(tabela[['IQAr']],
-                              title=f'Índice de Qualidade do Ar de {mes_consulta}-{ano_consulta}'
+                data = date(ano_consulta, mes_consulta, 1)
+
+                fig = px.line(tabela, y='IQAr', x=tabela.index,
+                              title=f'Índice de Qualidade do Ar de {data.month}/{data.year}'
                               )
                 fig.update_yaxes(title='Índice')
                 fig.update_xaxes(title='Dias', )
@@ -412,6 +445,8 @@ def app(page: Page):
                     PlotlyChart(fig, expand=True)
                 )
                 page.update()
+        except ValueError:
+            pass
         except:
             raise Exception
 
@@ -422,7 +457,7 @@ def app(page: Page):
         page.add(
             AppBar(title=Text('Menu Principal', font_family=FONTE)),
             Image('minerva_logo.png',
-                  width=200, height=200),
+                  width=150, height=150),
             Text(value='Dados de Poluição de Irajá'.upper(),
                  font_family=FONTE, size=30),
             ElevatedButton(text='Consulta Mensal',

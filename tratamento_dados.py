@@ -45,9 +45,9 @@ def estacao_indisponivel() -> dict:
     '''Função que cria um dicionário com os dados NA quando a estação não está disponível'''
     dicionario = {}
 
-    dicionario['MP10'] = 'NaN'
-    dicionario['MP2.5'] = 'NaN'
-    dicionario['O3'] = 'NaN'
+    dicionario['MP10'] = 'NA'
+    dicionario['MP2.5'] = 'NA'
+    dicionario['O3'] = 'NA'
     dicionario['CO'] = 'NA'
     dicionario['NO2'] = 'NA'
     dicionario['SO2'] = 'NA'
