@@ -19,22 +19,22 @@ Aplicação que realiza a Extração, Tratamento e o Carregamento (Pipeline ETL)
 
 ## Aplicação de POO no projeto
 
-- Abstração (classe, objeto e método):
+- **Abstração (classe, objeto e método):**
 Abstração de Consulta que tem os atributos (características) mês e/ou ano de consulta.
 
-- Herança (simples ou múltipla):
+- **Herança (simples ou múltipla):**
 Herança simples entre as classes ConsultaMensal -> ConsultaAnual e ConsultaMensal -> ConsultaSemestral.
-- Encapsulamento:
+- **Encapsulamento:**
 O encapsulamento não foi utilizado no código, pois não encontramos aplicação para o conceito.
-- Polimorfismo
+- **Polimorfismo**
 As classes derivadas ConsultaAnual e ConsultaSemestral executam o método consulta() de forma diferente da superclasse ConsultaMensal.
-- Classe abstrata/interface:  
+- **Classe abstrata/interface:**  
 Classe abstrata Consulta que é o “molde” para as classes ConsultaMensal, ConsultaAnual e ConsultaSemestral.
-- Tratamento de exceções:  
+- **Tratamento de exceções:**  
 Diversos tipos de tratamentos de exceções, principalmente na entrada do usuário, durante a execução da consulta e na persistência de dados.
-- Persistência de dados:
+- **Persistência de dados:**
 Opções ao usuário de armazenar os dados coletados em arquivos csv, excel. Também foi implementado um “sistema de cache” onde dados consultados pelo usuário geram um json, evitando que consultas já realizadas demandem outra extração no site.
-- Uso de bibliotecas diversas:
+- **Uso de bibliotecas diversas:**
 `requests`  - Requisição dos dados do site
 `BeautifulSoup` - tratamento e raspagem dos dados obtidos na requisição
 `Pandas` - Manipulação de dados e exportação de dados em formatos excel e csv
