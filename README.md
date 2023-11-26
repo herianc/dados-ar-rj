@@ -1,7 +1,7 @@
 # Consultor dos Índices de Poluição do Rio de Janeiro (Irajá)
 
 ---
-Projeto final da disciplina de Computação 2 na UFRJ. O trabalho consiste em criar um projeto que aborde tópicos de Programação Orientada a Objetos aplicados à assuntos do curso do discente (Ciências da Terra).
+Projeto final da disciplina de Computação 2 na UFRJ. O trabalho consiste em criar um projeto que aborde tópicos de Programação Orientada a Objetos aplicados a assuntos do curso do discente (Bacharelado em Ciências Matemáticas e da Terra).
 
 ## Ideia geral do projeto
 
