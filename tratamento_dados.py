@@ -1,5 +1,5 @@
-def tratando_dias(mes: int) -> int:
-    # Função que retorna o número de dias do mês + 1
+def dias_do_mes(mes: int) -> int:
+    '''Função que retorna o número de dias do mês + 1'''
     if mes in [1, 3, 5, 7, 8, 10, 12]:
         return 32
     elif mes in [4, 6, 9, 11]:

@@ -26,7 +26,7 @@ def app(page: Page):
 
     # Estilização da janela da aplicação
     page.theme_mode = ft.ThemeMode.LIGHT
-    page.window_height = 720
+    page.window_height = 800
     page.window_width = 1024
     page.vertical_alignment = MainAxisAlignment.CENTER
     page.horizontal_alignment = CrossAxisAlignment.CENTER
@@ -35,7 +35,6 @@ def app(page: Page):
     FONTE = 'comfortaa'
 
     ## Página de consulta anual ##
-
     def page_consulta_anual(e):
         consulta_anual.dados_ano.clear()
         consulta_semestral.dados_semestre.clear()

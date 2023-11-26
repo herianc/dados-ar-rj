@@ -3,7 +3,7 @@ import requests
 import json
 from bs4 import BeautifulSoup
 import pandas as pd
-from tratamento_dados import criando_dicionario, estacao_indisponivel, tratando_dados, tratando_dias
+from tratamento_dados import criando_dicionario, estacao_indisponivel, tratando_dados, dias_do_mes
 from os import mkdir
 import datetime as dt
 
@@ -49,7 +49,7 @@ class ConsultaMensal(Consulta):
 
             inicio = None
             fim = None
-            fim_do_mes = tratando_dias(mes)
+            fim_do_mes = dias_do_mes(mes)
 
             # For para requisição dos dados desde o primeiro dia do mês até o ultimo
             for dia in range(1, fim_do_mes):
@@ -104,6 +104,8 @@ class ConsultaMensal(Consulta):
 
         except ConnectionError:
             print('Erro de Conexão/Internet')
+        except:
+            raise Exception
 
         return self.dados_mes
 
