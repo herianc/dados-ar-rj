@@ -127,10 +127,12 @@ def app(page: Page):
                 fig.update_yaxes(title='Índice')
                 fig.update_xaxes(title='Meses', )
 
-                dados_iqr = tabela[['IQAr']].replace('NA', np.nan)
-                media = dados_iqr.dropna().mean().to_string()[4:]
-                minimo = dados_iqr.dropna().min().to_string()[4:]
-                maximo = dados_iqr.dropna().max().to_string()[4:]
+                dados_iqar = tabela[['IQAr']].replace('NA', np.nan)
+                dias_indisponivel = dados_iqar.isnull().sum().to_string()[
+                    7:]
+                media = dados_iqar.dropna().mean().to_string()[7:]
+                minimo = dados_iqar.dropna().min().to_string()[7:]
+                maximo = dados_iqar.dropna().max().to_string()[7:]
 
                 limpa_terminal
                 page.clean()
@@ -140,8 +142,9 @@ def app(page: Page):
                               font_family=FONTE),
                          Text(value=f'Índice de Qualidade do Ar no ano',
                               font_family=FONTE),
-                         Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
-                         font_family=FONTE, size=12),
+                         Text(value=f'''Mínimo: {minimo}      Média:{media}      Máximo: {maximo}
+Neste período a estação esteve indisponível {dias_indisponivel} dias.''',
+                              font_family=FONTE, size=12),
                          ft.Row(controls=[
                              ElevatedButton(on_click=lambda _: consulta_anual.obter_excel(),
                                             text='Obter Planilha'),
@@ -212,10 +215,12 @@ def app(page: Page):
                 fig.update_xaxes(title='Meses', )
 
                 # Obtendo as medidas resumo
-                dados_iqr = tabela[['IQAr']].replace('NA', np.nan)
-                media = dados_iqr.dropna().mean().to_string()[4:]
-                minimo = dados_iqr.dropna().min().to_string()[4:]
-                maximo = dados_iqr.dropna().max().to_string()[4:]
+                dados_iqar = tabela[['IQAr']].replace('NA', np.nan)
+                dias_indisponivel = dados_iqar.isnull().sum().to_string()[
+                    7:]
+                media = dados_iqar.dropna().mean().to_string()[7:]
+                minimo = dados_iqar.dropna().min().to_string()[7:]
+                maximo = dados_iqar.dropna().max().to_string()[7:]
 
                 limpa_terminal
                 page.clean()
@@ -225,8 +230,9 @@ def app(page: Page):
                               font_family=FONTE),
                          Text(value=f'Índice de Qualidade do Ar no Semestre',
                               font_family=FONTE),
-                         Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
-                         font_family=FONTE, size=12),
+                         Text(value=f'''Mínimo: {minimo}      Média:{media}      Máximo: {maximo}
+Neste período a estação esteve indisponível {dias_indisponivel} dias.''',
+                              font_family=FONTE),
                          ft.Row(controls=[
                              ElevatedButton(on_click=lambda _: consulta_semestral.obter_excel(),
                                             text='Obter Planilha'),
@@ -299,10 +305,12 @@ def app(page: Page):
                 fig.update_yaxes(title='Índice')
                 fig.update_xaxes(title='Meses')
 
-                dados_iqr = tabela[['IQAr']].replace('NA', np.nan)
-                media = dados_iqr.dropna().mean().to_string()[4:]
-                minimo = dados_iqr.dropna().min().to_string()[4:]
-                maximo = dados_iqr.dropna().max().to_string()[4:]
+                dados_iqar = tabela[['IQAr']].replace('NA', np.nan)
+                dias_indisponivel = dados_iqar.isnull().sum().to_string()[
+                    7:]
+                media = dados_iqar.dropna().mean().to_string()[7:]
+                minimo = dados_iqar.dropna().min().to_string()[7:]
+                maximo = dados_iqar.dropna().max().to_string()[7:]
 
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
@@ -311,8 +319,9 @@ def app(page: Page):
                               font_family=FONTE),
                          Text(value=f'Índice de Qualidade do Ar no Semestre',
                               font_family=FONTE),
-                         Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
-                         font_family=FONTE, size=12),
+                         Text(value=f'''Mínimo: {minimo}      Média:{media}      Máximo: {maximo}
+Neste período a estação esteve indisponível {dias_indisponivel} dias.''',
+                              font_family=FONTE),
                          ft.Row(controls=[
                              ElevatedButton(on_click=lambda _: consulta_semestral.obter_excel(),
                                             text='Obter Planilha'),
@@ -415,10 +424,12 @@ def app(page: Page):
                 fig.update_xaxes(title='Dias', )
 
                 # Obtendo min, media e max do parametro 'IQAr'
-                dados_iqr = tabela[['IQAr']].replace('NA', np.nan)
-                media = dados_iqr.dropna().mean().to_string()[4:]
-                minimo = dados_iqr.dropna().min().to_string()[4:]
-                maximo = dados_iqr.dropna().max().to_string()[4:]
+                dados_iqar = tabela[['IQAr']].replace('NA', np.nan)
+                dias_indisponivel = dados_iqar.isnull().sum().to_string()[
+                    7:]
+                media = dados_iqar.dropna().mean().to_string()[7:]
+                minimo = dados_iqar.dropna().min().to_string()[7:]
+                maximo = dados_iqar.dropna().max().to_string()[7:]
 
                 limpa_terminal
                 print(consulta_mensal.obter_texto())
@@ -439,8 +450,10 @@ def app(page: Page):
                 ),
                     Text(value='Índice de Qualidade do Ar no mês',
                          font_family=FONTE, size=12),
-                    Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
-                         font_family=FONTE, size=12),
+                    Text(value=f'''Mínimo: {minimo}      Média:{media}      Máximo: {maximo}
+Neste período a estação esteve indisponível {dias_indisponivel} dias.''',
+                         font_family=FONTE),
+
                     PlotlyChart(fig, expand=True)
                 )
                 page.update()

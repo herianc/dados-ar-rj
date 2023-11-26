@@ -9,35 +9,20 @@ def dias_do_mes(mes: int) -> int:
 
 
 def tratando_dados(lista: list, mes: int, ano: int) -> list:
-    if ano > 2019 or (ano == 2019 and mes == 12):
-        for i in range(len(lista)-1):
-            if lista[i] == 'ND' or lista[i] == 'NM':  # Poluente não medido no dia
-                lista[i] = 'NA'
+    for i in range(len(lista)-1):
+        if lista[i] == 'ND' or lista[i] == 'NM':  # Poluente não medido no dia
+            lista[i] = 'NA'
 
-            elif ',' in lista[i]:  # Dados decimais
-                lista[i] = (lista[i].replace(',', '.'))
-                lista[i] = float(lista[i])
+        elif ',' in lista[i]:  # Dados decimais
+            lista[i] = (lista[i].replace(',', '.'))
+            lista[i] = float(lista[i])
 
-            elif i == len(lista) - 1:  # Classificação EX: "Bom ou Moderado"
-                continue
+        elif i == len(lista) - 1:  # Classificação EX: "Bom ou Moderado"
+            continue
 
-            else:
-                lista[i] = int(lista[i])  # String de dígito inteiro
-    else:
-        for i in range(len(lista)-2):
+        else:
+            lista[i] = int(lista[i])  # String de dígito inteiro
 
-            if lista[i] == 'ND' or lista[i] == 'NM':  # Poluente não medido no dia
-                lista[i] = 'NA'
-
-            elif ',' in lista[i]:  # Dados decimais
-                lista[i] = (lista[i].replace(',', '.'))
-                lista[i] = float(lista[i])
-
-            elif i == len(lista) - 1:  # Classificação Ex: Bom ou Péssimo
-                continue
-
-            else:
-                lista[i] = int(lista[i])  # String de digito inteiro
     return lista
 
 
@@ -72,7 +57,7 @@ def criando_dicionario(lista: list, mes, ano) -> dict:
 
     else:
         dicionario['MP10'] = lista[0]
-        dicionario['MP2.5'] = 'NA'  # MP2.5 não era medido
+        dicionario['MP2.5'] = 'NA'  # MP2.5 não era medido antes de dez/2019
         dicionario['O3'] = lista[1]
         dicionario['CO'] = lista[2]
         dicionario['NO2'] = lista[3]
