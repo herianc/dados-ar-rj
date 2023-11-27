@@ -34,15 +34,75 @@ def app(page: Page):
     page.title = 'Boletim de Poluição de Irajá'
     FONTE = 'comfortaa'
 
+    # Estações disponíveis para consulta
+    estacoes = ['Centro', 'Copacabana', 'São Cristóvão',
+                'Tijuca', 'Irajá', 'Bangu', 'Campo Grande']
+
+    # Campo de entrada da Estação
+    estacao = TextField(label='Estação', value='', capitalization=True,
+                        width=200, max_length=20)
+
+    # Função que define a estação a partir do botão selecionado
+    def escolher_estacao(bairro):
+        match bairro:
+
+            case 'Centro':
+                estacao.value = 'Centro'
+                page.update()
+            case 'Copacabana':
+                estacao.value = 'Copacabana'
+                page.update()
+            case 'São Cristóvão':
+                estacao.value = 'São Cristóvão'
+                page.update()
+            case 'Tijuca':
+                estacao.value = 'Tijuca'
+                page.update()
+            case 'Irajá':
+                estacao.value = 'Irajá'
+                page.update()
+            case 'Bangu':
+                estacao.value = 'Bangu'
+                page.update()
+            case 'Campo Grande':
+                estacao.value = 'Campo Grande'
+                page.update()
+            case 'Pedra de Guaratiba':
+                estacao.value = 'Pedra de Guaratiba'
+                page.update()
+
+    # Botão que contem as opções de estações para consulta
+    botao_estacao = ft.PopupMenuButton(items=[
+        ft.PopupMenuItem(
+            text='Centro', on_click=lambda _: escolher_estacao('Centro')),
+        ft.PopupMenuItem(
+            text='Copacabana', on_click=lambda _: escolher_estacao('Copacabana')),
+        ft.PopupMenuItem(
+            text='São Cristóvão', on_click=lambda _: escolher_estacao('São Cristóvão')),
+        ft.PopupMenuItem(
+            text='Tijuca', on_click=lambda _: escolher_estacao('Tijuca')),
+        ft.PopupMenuItem(
+            text='Irajá', on_click=lambda _: escolher_estacao('Irajá')),
+        ft.PopupMenuItem(
+            text='Bangu', on_click=lambda _: escolher_estacao('Bangu')),
+        ft.PopupMenuItem(
+            text='Campo Grande', on_click=lambda _: escolher_estacao('Campo Grande')),
+        ft.PopupMenuItem(
+            text='Pedra de Guaratiba', on_click=lambda _: escolher_estacao('Pedra de Guaratiba')),
+    ])
+
     ## Página de consulta anual ##
+
     def page_consulta_anual(e):
         consulta_anual.dados_ano.clear()
         consulta_semestral.dados_semestre.clear()
         consulta_mensal.dados_mes.clear()
+        estacao.value = ''
 
         page.clean()
         global ano
         ano = TextField(label='Ano', value='', width=200, max_length=4)
+        estacao
         botao_consulta = ElevatedButton(text='Consultar',
                                         on_click=page_consulta_anual_click
                                         )
@@ -52,6 +112,7 @@ def app(page: Page):
         botoa_semestre2 = ElevatedButton(text='Dados do 2º Semestre',
                                          on_click=page_consulta_semestral2_click
                                          )
+
         botao_voltar = ElevatedButton(text='Voltar',
                                       on_click=lambda _: main()
                                       )
@@ -59,7 +120,8 @@ def app(page: Page):
         page.add(
             AppBar(title=Text('Consulta Anual', font_family=FONTE)),
             Text(value='Dados disponíveis de 2017 a 2022', font_family=FONTE),
-            ano,
+            ft.Row(controls=[ano, estacao, botao_estacao],
+                   alignment='center'),
             ft.Row(
                 controls=[botao_consulta,
                           botao_semestre1,
@@ -85,27 +147,35 @@ def app(page: Page):
                 ano.error_text = 'Digite apenas números'
                 page.update()
             if int(ano.value) in range(2017, 2023):
-                ano_consulta = int(ano.value)
-                page.clean()
-                page.add(
+                if estacao.value in estacoes:
+                    ano_consulta = int(ano.value)
+                    page.clean()
+                    page.add(
 
-                    Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🤏🥸⏳',
-                         size=20, font_family=FONTE
-                         ),
-                    Text('A consulta anual pode durar cerca de 3-4 minutos',
-                         font_family=FONTE, size=14),
-                    ProgressRing()
-                )
+                        Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🤏🥸⏳',
+                             size=20, font_family=FONTE
+                             ),
+                        Text('A consulta anual pode durar cerca de 3-4 minutos',
+                             font_family=FONTE, size=14),
+                        ProgressRing()
+                    )
+                elif not estacao.value in estacoes:
+                    estacao.error_text = 'Estação inválida ❌'
+                    page.update()
+                    return
+
                 # Inputs OK! Obtendo os dados
                 try:
                     # Verificando se o usuário já tem os dados
-                    with open(f'dados\dados{ano_consulta}.json', 'r') as arquivo:
+                    nome_arquivo = estacao.value.replace(' ', '_').lower()
+                    caminho = f'dados\{nome_arquivo}{ano_consulta}.json'
+                    with open(caminho, 'r') as arquivo:
                         consulta_anual.dados_ano = json.load(arquivo)
                         consulta_anual.ano = ano_consulta
                 except FileNotFoundError:
                     # Caso não tenha os dados, executa a raspagem no site
                     try:
-                        consulta_anual.consulta(ano_consulta)
+                        consulta_anual.consulta(estacao.value, ano_consulta)
                         consulta_anual.obter_json()
                     except Exception:
                         # Ocorreu algum erro durante a raspagem
@@ -122,7 +192,7 @@ def app(page: Page):
                                                 orient='index')
 
                 fig = px.line(tabela, y='IQAr', x=tabela.index,
-                              title=f'Índice de Qualidade do Ar de {ano_consulta}'
+                              title=f'Índice de Qualidade do Ar de {ano_consulta} - Estação {estacao.value}'
                               )
                 fig.update_yaxes(title='Índice')
                 fig.update_xaxes(title='Meses', )
@@ -142,9 +212,10 @@ def app(page: Page):
                               font_family=FONTE),
                          Text(value=f'Índice de Qualidade do Ar no ano',
                               font_family=FONTE),
-                         Text(value=f'''Mínimo: {minimo}      Média:{media}      Máximo: {maximo}
-Neste período a estação esteve indisponível {dias_indisponivel} dias.''',
+                         Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
                               font_family=FONTE, size=12),
+                         Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
+                         font_family=FONTE),
                          ft.Row(controls=[
                              ElevatedButton(on_click=lambda _: consulta_anual.obter_excel(),
                                             text='Obter Planilha'),
@@ -174,26 +245,33 @@ Neste período a estação esteve indisponível {dias_indisponivel} dias.''',
                 ano.error_text = 'Digite apenas números'
                 page.update()
             if int(ano.value) in range(2017, 2023):
-                ano_consulta = int(ano.value)
-                page.clean()
-                page.add(
-                    Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🤏🥸⏳',
-                         size=20, font_family=FONTE
-                         ),
-                    ProgressRing()
-                )
+                if estacao.value in estacoes:
+                    ano_consulta = int(ano.value)
+                    page.clean()
+                    page.add(
+                        Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🤏🥸⏳',
+                             size=20, font_family=FONTE
+                             ),
+                        ProgressRing()
+                    )
+                elif not estacao.value in estacoes:
+                    estacao.error_text = 'Estação Inválida! ❌'
+                    page.update()
 
                 # Inputs OK! Obtendo os dados
                 try:
                     # Verificando se o usuário já tem os dados
-                    with open(f'dados\dados{ano_consulta}-semestre{1}.json', 'r') as arquivo:
+                    nome_arquivo = estacao.value.replace(' ', '_').lower()
+                    caminho = f'dados\{nome_arquivo}{ano_consulta}-semestre{1}.json'
+                    with open(caminho, 'r') as arquivo:
                         consulta_semestral.dados_semestre = json.load(arquivo)
                         consulta_semestral.ano = ano_consulta
                         consulta_semestral.semestre = 1
                 except FileNotFoundError:
                     # Caso não tenha os dados, executa a raspagem no site
                     try:
-                        consulta_semestral.consulta(1, ano_consulta)
+                        consulta_semestral.consulta(
+                            estacao.value, 1, ano_consulta)
                         consulta_semestral.obter_json()
                     except Exception:
                         # Ocorreu algum erro durante a raspagem
@@ -230,9 +308,10 @@ Neste período a estação esteve indisponível {dias_indisponivel} dias.''',
                               font_family=FONTE),
                          Text(value=f'Índice de Qualidade do Ar no Semestre',
                               font_family=FONTE),
-                         Text(value=f'''Mínimo: {minimo}      Média:{media}      Máximo: {maximo}
-Neste período a estação esteve indisponível {dias_indisponivel} dias.''',
+                         Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
                               font_family=FONTE),
+                         Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
+                         font_family=FONTE),
                          ft.Row(controls=[
                              ElevatedButton(on_click=lambda _: consulta_semestral.obter_excel(),
                                             text='Obter Planilha'),
@@ -275,14 +354,17 @@ Neste período a estação esteve indisponível {dias_indisponivel} dias.''',
                 # Inputs OK! Obtendo os dados
                 try:
                     # Verificando se o usuário já tem os dados
-                    with open(f'dados\dados{ano_consulta}-semestre{2}.json', 'r') as arquivo:
+                    nome_arquivo = estacao.value.replace(' ', '_').lower()
+                    caminho = f'dados\{nome_arquivo}{ano_consulta}-semestre{2}.json'
+                    with open(caminho, 'r') as arquivo:
                         consulta_semestral.dados_semestre = json.load(arquivo)
                         consulta_semestral.ano = ano_consulta
                         consulta_semestral.semestre = 2
                 except FileNotFoundError:
                     # Usuário ainda não tem os dados, executando a consulta
                     try:
-                        consulta_semestral.consulta(2, ano_consulta)
+                        consulta_semestral.consulta(
+                            estacao.value, 2, ano_consulta)
                         consulta_semestral.obter_json()
                     except Exception:
                         # Ocorreu algum erro durante a raspagem
@@ -319,9 +401,10 @@ Neste período a estação esteve indisponível {dias_indisponivel} dias.''',
                               font_family=FONTE),
                          Text(value=f'Índice de Qualidade do Ar no Semestre',
                               font_family=FONTE),
-                         Text(value=f'''Mínimo: {minimo}      Média:{media}      Máximo: {maximo}
-Neste período a estação esteve indisponível {dias_indisponivel} dias.''',
+                         Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
                               font_family=FONTE),
+                         Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
+                         font_family=FONTE),
                          ft.Row(controls=[
                              ElevatedButton(on_click=lambda _: consulta_semestral.obter_excel(),
                                             text='Obter Planilha'),
@@ -341,6 +424,8 @@ Neste período a estação esteve indisponível {dias_indisponivel} dias.''',
     ## Página de consulta mensal ##
     def page_consulta_mensal(e):
         consulta_mensal.dados_mes.clear()
+        estacao.value = ''
+
         page.clean()
         global mes, ano
         mes = TextField(label='Mês', value='', width=200, max_length=2)
@@ -349,18 +434,20 @@ Neste período a estação esteve indisponível {dias_indisponivel} dias.''',
             text='Consultar',
             on_click=page_consulta_mensal_click
         )
+        voltar = ElevatedButton(text='Voltar',
+                                on_click=lambda _: main()
+                                )
 
         page.add(
             AppBar(title=Text('Consulta Mensal', font_family=FONTE)),
             Text(value='Dados disponíveis de 2017 a 2023', font_family=FONTE),
-            ft.Row(controls=[mes, ano], alignment='center'),
             ft.Row(controls=[
-                botao_consulta,
-                ElevatedButton(text='Voltar',
-                               on_click=lambda _: main()
-                               )],
-                   alignment='center'
-                   )
+                mes, ano, estacao, botao_estacao,], alignment='center'),
+            ft.Row(controls=[
+                botao_consulta, voltar
+            ],
+                alignment='center'
+            )
         )
         page.update()
 
@@ -379,27 +466,34 @@ Neste período a estação esteve indisponível {dias_indisponivel} dias.''',
                 page.update()
 
             elif int(mes.value) in range(1, 13) and int(ano.value) in range(2017, 2024):
-                mes_consulta = int(mes.value)
-                ano_consulta = int(ano.value)
-                page.clean()
-                page.add(Text(value='Realizando consulta...\nPode levar alguns instantes. Por favor, aguarde. 🙂🙃⏳',
-                              size=25, font_family=FONTE
-                              ),
-                         ft.ProgressRing()
-                         )
+                if estacao.value in estacoes:
+                    mes_consulta = int(mes.value)
+                    ano_consulta = int(ano.value)
+                    page.clean()
+                    page.add(Text(value='Realizando consulta...\nPode levar alguns instantes. Por favor, aguarde. 🙂🙃⏳',
+                                  size=25, font_family=FONTE
+                                  ),
+                             ft.ProgressRing()
+                             )
+                elif not estacao.value in estacoes:
+                    estacao.error_text = 'Estação inválida ❌'
+                    page.update()
+                    return
 
                 # Inputs OK! Obtendo os dados
                 try:
                     # Verificando se o usuário já tem os dados
-                    with open(f'dados\dados{ano_consulta}-{mes_consulta}.json', 'r') as arquivo:
+                    nome_arquivo = estacao.value.replace(' ', '_').lower()
+                    caminho = f'dados\{nome_arquivo}{ano_consulta}-{mes_consulta}.json'
+                    with open(caminho, 'r') as arquivo:
                         consulta_mensal.dados_mes = json.load(arquivo)
                         consulta_mensal.mes = mes_consulta
                         consulta_mensal.ano = ano_consulta
                 except FileNotFoundError:
                     try:
                         # Caso não tenha os dados, executa a raspagem no site
-                        consulta_mensal.consulta(
-                            mes_consulta, ano_consulta)
+                        consulta_mensal.consulta(estacao.value,
+                                                 mes_consulta, ano_consulta)
                         consulta_mensal.obter_json()
                     except Exception:
                         # Ocorreu algum erro durante a raspagem
@@ -448,12 +542,12 @@ Neste período a estação esteve indisponível {dias_indisponivel} dias.''',
                     ],
                     alignment='center'
                 ),
-                    Text(value='Índice de Qualidade do Ar no mês',
+                    Text(value=f'Índice de Qualidade do Ar no mês',
                          font_family=FONTE, size=12),
-                    Text(value=f'''Mínimo: {minimo}      Média:{media}      Máximo: {maximo}
-Neste período a estação esteve indisponível {dias_indisponivel} dias.''',
+                    Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
                          font_family=FONTE),
-
+                    Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
+                         font_family=FONTE),
                     PlotlyChart(fig, expand=True)
                 )
                 page.update()
@@ -470,7 +564,7 @@ Neste período a estação esteve indisponível {dias_indisponivel} dias.''',
             AppBar(title=Text('Menu Principal', font_family=FONTE)),
             Image('minerva_logo.png',
                   width=150, height=150),
-            Text(value='Dados de Poluição de Irajá'.upper(),
+            Text(value='Dados de Poluição do Rio'.upper(),
                  font_family=FONTE, size=30),
             ElevatedButton(text='Consulta Mensal',
                            width=170,

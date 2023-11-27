@@ -64,6 +64,6 @@ def criando_dicionario(lista: list, mes, ano) -> dict:
         dicionario['SO2'] = lista[4]
         dicionario['IQAr'] = lista[5]
         # Entre 2017 a 11/2019 a quantidade de colunas era menor
-        dicionario['classificacao'] = lista[-2]
+        dicionario['classificacao'] = lista[-1]
 
     return dicionario
