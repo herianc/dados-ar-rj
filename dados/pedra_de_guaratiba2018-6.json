@@ -1,0 +1,302 @@
+{
+    "2018-06-01": {
+        "MP10": 52.1,
+        "MP2.5": "NA",
+        "O3": 61.1,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 51,
+        "classificacao": "Regular"
+    },
+    "2018-06-02": {
+        "MP10": 62.5,
+        "MP2.5": "NA",
+        "O3": 67.1,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 57,
+        "classificacao": "Regular"
+    },
+    "2018-06-03": {
+        "MP10": 79.2,
+        "MP2.5": "NA",
+        "O3": 71.9,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 65,
+        "classificacao": "Regular"
+    },
+    "2018-06-04": {
+        "MP10": "NA",
+        "MP2.5": "NA",
+        "O3": "NA",
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": "NA",
+        "classificacao": "NA"
+    },
+    "2018-06-05": {
+        "MP10": 18.7,
+        "MP2.5": "NA",
+        "O3": 40.0,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 25,
+        "classificacao": "Boa"
+    },
+    "2018-06-06": {
+        "MP10": 20.7,
+        "MP2.5": "NA",
+        "O3": 39.8,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 25,
+        "classificacao": "Boa"
+    },
+    "2018-06-07": {
+        "MP10": 22.3,
+        "MP2.5": "NA",
+        "O3": 43.0,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 27,
+        "classificacao": "Boa"
+    },
+    "2018-06-08": {
+        "MP10": 21.3,
+        "MP2.5": "NA",
+        "O3": 37.0,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 23,
+        "classificacao": "Boa"
+    },
+    "2018-06-09": {
+        "MP10": 28.5,
+        "MP2.5": "NA",
+        "O3": 47.4,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 29,
+        "classificacao": "Boa"
+    },
+    "2018-06-10": {
+        "MP10": 30.4,
+        "MP2.5": "NA",
+        "O3": 46.9,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 30,
+        "classificacao": "Boa"
+    },
+    "2018-06-11": {
+        "MP10": 31.0,
+        "MP2.5": "NA",
+        "O3": 46.5,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 31,
+        "classificacao": "Boa"
+    },
+    "2018-06-12": {
+        "MP10": 35.9,
+        "MP2.5": "NA",
+        "O3": 59.3,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 37,
+        "classificacao": "Boa"
+    },
+    "2018-06-13": {
+        "MP10": 55.0,
+        "MP2.5": "NA",
+        "O3": 72.6,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 53,
+        "classificacao": "Regular"
+    },
+    "2018-06-14": {
+        "MP10": 19.7,
+        "MP2.5": "NA",
+        "O3": 67.7,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 43,
+        "classificacao": "Boa"
+    },
+    "2018-06-15": {
+        "MP10": 6.8,
+        "MP2.5": "NA",
+        "O3": 32.9,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 21,
+        "classificacao": "Boa"
+    },
+    "2018-06-16": {
+        "MP10": 10.6,
+        "MP2.5": "NA",
+        "O3": 35.9,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 23,
+        "classificacao": "Boa"
+    },
+    "2018-06-17": {
+        "MP10": 11.0,
+        "MP2.5": "NA",
+        "O3": 36.6,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 23,
+        "classificacao": "Boa"
+    },
+    "2018-06-18": {
+        "MP10": 7.0,
+        "MP2.5": "NA",
+        "O3": 38.1,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 24,
+        "classificacao": "Boa"
+    },
+    "2018-06-19": {
+        "MP10": 26.5,
+        "MP2.5": "NA",
+        "O3": 30.6,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 27,
+        "classificacao": "Boa"
+    },
+    "2018-06-20": {
+        "MP10": 26.6,
+        "MP2.5": "NA",
+        "O3": 43.7,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 28,
+        "classificacao": "Boa"
+    },
+    "2018-06-21": {
+        "MP10": 46.7,
+        "MP2.5": "NA",
+        "O3": 50.7,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 47,
+        "classificacao": "Boa"
+    },
+    "2018-06-22": {
+        "MP10": 46.6,
+        "MP2.5": "NA",
+        "O3": 62.4,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 47,
+        "classificacao": "Boa"
+    },
+    "2018-06-23": {
+        "MP10": 65.1,
+        "MP2.5": "NA",
+        "O3": 88.8,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 58,
+        "classificacao": "Regular"
+    },
+    "2018-06-24": {
+        "MP10": 64.5,
+        "MP2.5": "NA",
+        "O3": 96.1,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 60,
+        "classificacao": "Regular"
+    },
+    "2018-06-25": {
+        "MP10": 58.4,
+        "MP2.5": "NA",
+        "O3": 93.8,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 59,
+        "classificacao": "Regular"
+    },
+    "2018-06-26": {
+        "MP10": 59.3,
+        "MP2.5": "NA",
+        "O3": 68.3,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 55,
+        "classificacao": "Regular"
+    },
+    "2018-06-27": {
+        "MP10": 56.7,
+        "MP2.5": "NA",
+        "O3": 73.7,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 54,
+        "classificacao": "Regular"
+    },
+    "2018-06-28": {
+        "MP10": 61.2,
+        "MP2.5": "NA",
+        "O3": 70.8,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 56,
+        "classificacao": "Regular"
+    },
+    "2018-06-29": {
+        "MP10": 80.9,
+        "MP2.5": "NA",
+        "O3": 65.7,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 66,
+        "classificacao": "Regular"
+    },
+    "2018-06-30": {
+        "MP10": 49.7,
+        "MP2.5": "NA",
+        "O3": 52.3,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 50,
+        "classificacao": "Boa"
+    }
+}
