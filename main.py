@@ -312,7 +312,7 @@ def app(page: Page):
                                             on_click=lambda _: main())],
                                 alignment='center'
                                 ),
-                         Text(value=f'Índice de Qualidade do Ar no 1º Semestre de {ano_consulta}',
+                         Text(value=f'Índice de Qualidade do Ar no 1º Semestre de {ano_consulta} - Estação {estacao.value}',
                               font_family=FONTE),
                          Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
                               font_family=FONTE),
@@ -403,7 +403,7 @@ def app(page: Page):
                                             on_click=lambda _: main())],
                                 alignment='center'
                                 ),
-                         Text(value=f'Índice de Qualidade do Ar no 2º Semestre de {ano_consulta}',
+                         Text(value=f'Índice de Qualidade do Ar no 2º Semestre de {ano_consulta} - Estação {estacao.value}',
                               font_family=FONTE),
                          Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
                               font_family=FONTE),
