@@ -26,17 +26,17 @@ def app(page: Page):
 
     # Estilização da janela da aplicação
     page.theme_mode = ft.ThemeMode.LIGHT
-    page.window_height = 800
+    page.window_height = 720
     page.window_width = 1024
     page.vertical_alignment = MainAxisAlignment.CENTER
     page.horizontal_alignment = CrossAxisAlignment.CENTER
     page.window_center()
-    page.title = 'Boletim de Poluição de Irajá'
+    page.title = 'Boletim de Poluição do Rio'
     FONTE = 'comfortaa'
 
     # Estações disponíveis para consulta
     estacoes = ['Centro', 'Copacabana', 'São Cristóvão',
-                'Tijuca', 'Irajá', 'Bangu', 'Campo Grande']
+                'Tijuca', 'Irajá', 'Bangu', 'Campo Grande', 'Pedra de Guaratiba']
 
     # Campo de entrada da Estação
     estacao = TextField(label='Estação', value='', capitalization=True,
@@ -94,6 +94,7 @@ def app(page: Page):
     ## Página de consulta anual ##
 
     def page_consulta_anual(e):
+        estacao.error_text = ''
         consulta_anual.dados_ano.clear()
         consulta_semestral.dados_semestre.clear()
         consulta_mensal.dados_mes.clear()
@@ -208,14 +209,6 @@ def app(page: Page):
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
                               size=30, font_family=FONTE),
-                         Text(value=f'Dados de poluição de {ano_consulta} estão disponíveis',
-                              font_family=FONTE),
-                         Text(value=f'Índice de Qualidade do Ar no ano',
-                              font_family=FONTE),
-                         Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
-                              font_family=FONTE, size=12),
-                         Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
-                         font_family=FONTE),
                          ft.Row(controls=[
                              ElevatedButton(on_click=lambda _: consulta_anual.obter_excel(),
                                             text='Obter Planilha'),
@@ -225,6 +218,12 @@ def app(page: Page):
                                             on_click=lambda _: main())],
                                 alignment='center'
                                 ),
+                         Text(value=f'Índice de Qualidade do Ar no ano de {ano_consulta}',
+                              font_family=FONTE),
+                         Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
+                              font_family=FONTE),
+                         Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
+                         font_family=FONTE),
                          PlotlyChart(fig, expand=True)
                          )
         except ValueError:
@@ -287,7 +286,7 @@ def app(page: Page):
                 tabela = pd.DataFrame.from_dict(consulta_semestral.dados_semestre,
                                                 orient='index')
                 fig = px.line(tabela, y='IQAr', x=tabela.index,
-                              title=f'Índice de Qualidade do Ar de {ano_consulta}'
+                              title=f'Índice de Qualidade do Ar do 1º Semestre de {ano_consulta}'
                               )
                 fig.update_yaxes(title='Índice')
                 fig.update_xaxes(title='Meses', )
@@ -304,14 +303,6 @@ def app(page: Page):
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
                               size=30, font_family=FONTE),
-                         Text(value=f'Dados de poluição do 1º Semestre {ano_consulta} estão disponíveis',
-                              font_family=FONTE),
-                         Text(value=f'Índice de Qualidade do Ar no Semestre',
-                              font_family=FONTE),
-                         Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
-                              font_family=FONTE),
-                         Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
-                         font_family=FONTE),
                          ft.Row(controls=[
                              ElevatedButton(on_click=lambda _: consulta_semestral.obter_excel(),
                                             text='Obter Planilha'),
@@ -321,6 +312,12 @@ def app(page: Page):
                                             on_click=lambda _: main())],
                                 alignment='center'
                                 ),
+                         Text(value=f'Índice de Qualidade do Ar no 1º Semestre de {ano_consulta}',
+                              font_family=FONTE),
+                         Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
+                              font_family=FONTE),
+                         Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
+                         font_family=FONTE),
                          PlotlyChart(fig, expand=True)
                          )
         except ValueError:
@@ -350,7 +347,7 @@ def app(page: Page):
                          ),
                     ProgressRing()
                 )
-
+                limpa_terminal
                 # Inputs OK! Obtendo os dados
                 try:
                     # Verificando se o usuário já tem os dados
@@ -382,7 +379,7 @@ def app(page: Page):
                                                 orient='index')
 
                 fig = px.line(tabela, y='IQAr', x=tabela.index,
-                              title=f'Índice de Qualidade do Ar no ano de {ano_consulta}'
+                              title=f'Índice de Qualidade do Ar no semestre'
                               )
                 fig.update_yaxes(title='Índice')
                 fig.update_xaxes(title='Meses')
@@ -397,14 +394,6 @@ def app(page: Page):
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
                               size=30, font_family=FONTE),
-                         Text(value=f'Dados de poluição do 2º Semestre {ano_consulta} estão disponíveis',
-                              font_family=FONTE),
-                         Text(value=f'Índice de Qualidade do Ar no Semestre',
-                              font_family=FONTE),
-                         Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
-                              font_family=FONTE),
-                         Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
-                         font_family=FONTE),
                          ft.Row(controls=[
                              ElevatedButton(on_click=lambda _: consulta_semestral.obter_excel(),
                                             text='Obter Planilha'),
@@ -414,6 +403,12 @@ def app(page: Page):
                                             on_click=lambda _: main())],
                                 alignment='center'
                                 ),
+                         Text(value=f'Índice de Qualidade do Ar no 2º Semestre de {ano_consulta}',
+                              font_family=FONTE),
+                         Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
+                              font_family=FONTE),
+                         Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
+                         font_family=FONTE),
                          PlotlyChart(fig, expand=True)
                          )
         except ValueError:
@@ -425,6 +420,7 @@ def app(page: Page):
     def page_consulta_mensal(e):
         consulta_mensal.dados_mes.clear()
         estacao.value = ''
+        estacao.error_text = ''
 
         page.clean()
         global mes, ano
@@ -512,7 +508,7 @@ def app(page: Page):
                 data = date(ano_consulta, mes_consulta, 1)
 
                 fig = px.line(tabela, y='IQAr', x=tabela.index,
-                              title=f'Índice de Qualidade do Ar de {data.month}/{data.year}'
+                              title=f'Índice de Qualidade do Ar de {data.month}/{data.year} - Estação {estacao.value}'
                               )
                 fig.update_yaxes(title='Índice')
                 fig.update_xaxes(title='Dias', )
@@ -543,11 +539,12 @@ def app(page: Page):
                     alignment='center'
                 ),
                     Text(value=f'Índice de Qualidade do Ar no mês',
-                         font_family=FONTE, size=12),
+                         font_family=FONTE),
                     Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
                          font_family=FONTE),
-                    Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
+                    Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dia(s).',
                          font_family=FONTE),
+
                     PlotlyChart(fig, expand=True)
                 )
                 page.update()
@@ -563,7 +560,7 @@ def app(page: Page):
         page.add(
             AppBar(title=Text('Menu Principal', font_family=FONTE)),
             Image('minerva_logo.png',
-                  width=150, height=150),
+                  width=300, height=150),
             Text(value='Dados de Poluição do Rio'.upper(),
                  font_family=FONTE, size=30),
             ElevatedButton(text='Consulta Mensal',
