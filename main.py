@@ -4,12 +4,14 @@ import pandas as pd
 import json
 import webbrowser as wb
 import numpy as np
+import matplotlib.pyplot as plt
 from flet.plotly_chart import PlotlyChart
 from flet import Page, AppBar, ElevatedButton, Text, TextField, Image
 from flet import CrossAxisAlignment, MainAxisAlignment, ProgressRing
 from webscraping import ConsultaAnual, ConsultaMensal, ConsultaSemestral
 from os import system
 from datetime import date
+from flet.matplotlib_chart import MatplotlibChart
 
 limpa_terminal = system('cls')
 
@@ -285,6 +287,7 @@ def app(page: Page):
                 # Consulta OK! Plotando o Gráfico
                 tabela = pd.DataFrame.from_dict(consulta_semestral.dados_semestre,
                                                 orient='index')
+
                 fig = px.line(tabela, y='IQAr', x=tabela.index,
                               title=f'Índice de Qualidade do Ar do 1º Semestre de {ano_consulta}'
                               )
