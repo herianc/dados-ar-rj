@@ -4,14 +4,12 @@ import pandas as pd
 import json
 import webbrowser as wb
 import numpy as np
-import matplotlib.pyplot as plt
 from flet.plotly_chart import PlotlyChart
 from flet import Page, AppBar, ElevatedButton, Text, TextField, Image
 from flet import CrossAxisAlignment, MainAxisAlignment, ProgressRing
 from webscraping import ConsultaAnual, ConsultaMensal, ConsultaSemestral
 from os import system
 from datetime import date
-from flet.matplotlib_chart import MatplotlibChart
 
 limpa_terminal = system('cls')
 
@@ -208,6 +206,9 @@ def app(page: Page):
                 maximo = dados_iqar.dropna().max().to_string()[7:]
 
                 limpa_terminal
+
+                def grafico_detalhes(e):
+                    fig.show()
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
                               size=30, font_family=FONTE),
@@ -216,6 +217,8 @@ def app(page: Page):
                                             text='Obter Planilha'),
                              ElevatedButton(on_click=lambda _: consulta_anual.obter_csv(),
                                             text='Obter .csv'),
+                             ElevatedButton(on_click=grafico_detalhes,
+                                            text='Gráfico detalhado'),
                              ElevatedButton(text='Voltar',
                                             on_click=lambda _: main())],
                                 alignment='center'
@@ -287,7 +290,6 @@ def app(page: Page):
                 # Consulta OK! Plotando o Gráfico
                 tabela = pd.DataFrame.from_dict(consulta_semestral.dados_semestre,
                                                 orient='index')
-
                 fig = px.line(tabela, y='IQAr', x=tabela.index,
                               title=f'Índice de Qualidade do Ar do 1º Semestre de {ano_consulta}'
                               )
@@ -303,6 +305,10 @@ def app(page: Page):
                 maximo = dados_iqar.dropna().max().to_string()[7:]
 
                 limpa_terminal
+
+                def grafico_detalhes(e):
+                    fig.show()
+
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
                               size=30, font_family=FONTE),
@@ -311,6 +317,8 @@ def app(page: Page):
                                             text='Obter Planilha'),
                              ElevatedButton(on_click=lambda _: consulta_semestral.obter_csv(),
                                             text='Obter .csv'),
+                             ElevatedButton(on_click=grafico_detalhes,
+                                            text='Gráfico detalhado'),
                              ElevatedButton(text='Voltar',
                                             on_click=lambda _: main())],
                                 alignment='center'
@@ -394,6 +402,9 @@ def app(page: Page):
                 minimo = dados_iqar.dropna().min().to_string()[7:]
                 maximo = dados_iqar.dropna().max().to_string()[7:]
 
+                def grafico_detalhes(e):
+                    fig.show()
+
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
                               size=30, font_family=FONTE),
@@ -402,6 +413,8 @@ def app(page: Page):
                                             text='Obter Planilha'),
                              ElevatedButton(on_click=lambda _: consulta_semestral.obter_csv(),
                                             text='Obter .csv'),
+                             ElevatedButton(on_click=grafico_detalhes,
+                                            text='Gráfico detalhado'),
                              ElevatedButton(text='Voltar',
                                             on_click=lambda _: main())],
                                 alignment='center'
@@ -488,6 +501,8 @@ def app(page: Page):
                         consulta_mensal.dados_mes = json.load(arquivo)
                         consulta_mensal.mes = mes_consulta
                         consulta_mensal.ano = ano_consulta
+
+                    consulta_mensal.estacao = estacao.value
                 except FileNotFoundError:
                     try:
                         # Caso não tenha os dados, executa a raspagem no site
@@ -524,6 +539,9 @@ def app(page: Page):
                 minimo = dados_iqar.dropna().min().to_string()[7:]
                 maximo = dados_iqar.dropna().max().to_string()[7:]
 
+                def grafico_detalhes(e):
+                    fig.show()
+
                 limpa_terminal
                 print(consulta_mensal.obter_texto())
                 page.clean()
@@ -536,8 +554,11 @@ def app(page: Page):
                                        on_click=lambda _: consulta_mensal.obter_excel()),
                         ElevatedButton(text='Obter .csv',
                                        on_click=lambda _: consulta_mensal.obter_csv()),
+                        ElevatedButton(on_click=grafico_detalhes,
+                                       text='Gráfico Detalhado'),
                         ElevatedButton(text='Voltar',
-                                       on_click=lambda _: main())
+                                       on_click=lambda _: main()),
+
                     ],
                     alignment='center'
                 ),
