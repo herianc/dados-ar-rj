@@ -173,6 +173,7 @@ def app(page: Page):
                     with open(caminho, 'r') as arquivo:
                         consulta_anual.dados_ano = json.load(arquivo)
                         consulta_anual.ano = ano_consulta
+                    consulta_mensal.estacao = estacao.value
                 except FileNotFoundError:
                     # Caso não tenha os dados, executa a raspagem no site
                     try:
@@ -271,6 +272,7 @@ def app(page: Page):
                         consulta_semestral.dados_semestre = json.load(arquivo)
                         consulta_semestral.ano = ano_consulta
                         consulta_semestral.semestre = 1
+                    consulta_mensal.estacao = estacao.value
                 except FileNotFoundError:
                     # Caso não tenha os dados, executa a raspagem no site
                     try:
@@ -368,6 +370,8 @@ def app(page: Page):
                         consulta_semestral.dados_semestre = json.load(arquivo)
                         consulta_semestral.ano = ano_consulta
                         consulta_semestral.semestre = 2
+
+                    consulta_mensal.estacao = estacao.value
                 except FileNotFoundError:
                     # Usuário ainda não tem os dados, executando a consulta
                     try:
