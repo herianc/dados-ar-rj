@@ -72,7 +72,7 @@ class ConsultaMensal(Consulta):
                     if linha.get_text() == estacao:
                         # Coletando a posição de inicio e fim do conteúdo desejado
                         inicio = i+1
-                        if ano >= 2020 or (ano == 2019 and mes == 12):
+                        if ano >= 2020 or (ano == 2019 and mes >= 11 and dia >= 19):
                             fim = inicio + 8
                         else:
                             fim = inicio + 7
@@ -98,7 +98,7 @@ class ConsultaMensal(Consulta):
                                 dados_brutos, self.mes, self.ano)
                             # Criando o dicionário que armazena cada valor a seu poluente
                             dados_do_dia = criando_dicionario(
-                                dados_tratados, self.mes, self.ano)
+                                dados_tratados, dia, self.mes, self.ano)
                         else:
                             # Se nenhuma condição foi verdadeira, a estação está com dados indisponíveis
                             dados_do_dia = estacao_indisponivel()

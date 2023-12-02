@@ -42,10 +42,10 @@ def estacao_indisponivel() -> dict:
     return dicionario
 
 
-def criando_dicionario(lista: list, mes, ano) -> dict:
+def criando_dicionario(lista: list, dia: int, mes: int, ano: int) -> dict:
     '''Função que cria dicionário de acordo com o ano da consulta'''
     dicionario = {}
-    if ano >= 2020 or (ano == 2019 and mes == 12):
+    if ano >= 2020 or (ano == 2019 and mes >= 11 and dia >= 19):
         dicionario['MP10'] = lista[0]
         dicionario['MP2.5'] = lista[1]
         dicionario['O3'] = lista[2]
