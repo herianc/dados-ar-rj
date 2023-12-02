@@ -142,10 +142,6 @@ class ConsultaMensal(Consulta):
         df = df.transpose()
         df.to_excel(f'./excel/{estacao}{self.ano}-{self.mes}.xlsx')
 
-    def obter_texto(self):
-        df = pd.DataFrame.from_dict(self.dados_mes, orient='index')
-        return df.to_string()
-
 
 class ConsultaAnual(ConsultaMensal):
     def __init__(self):
@@ -167,12 +163,12 @@ class ConsultaAnual(ConsultaMensal):
 
     def obter_json(self):
         estacao = self.estacao.replace(' ', '_').lower()
-        with open(f'dados\{estacao}{self.ano}.json', 'w') as arquivo:
+        with open(f'./dados/{estacao}{self.ano}.json', 'w') as arquivo:
             json.dump(self.dados_ano, arquivo, indent=4)
 
     def obter_csv(self):
         try:
-            mkdir('.\csv')
+            mkdir('./csv')
         except FileExistsError:
             pass
 
@@ -233,7 +229,7 @@ class ConsultaSemestral(ConsultaMensal):
 
     def obter_json(self):
         estacao = self.estacao.replace(' ', '_').lower()
-        with open(f'dados\{estacao}{self.ano}-semestre{self.semestre}.json', 'w') as arquivo:
+        with open(f'./dados/{estacao}{self.ano}-semestre{self.semestre}.json', 'w') as arquivo:
             json.dump(self.dados_semestre, arquivo, indent=4)
 
     def obter_csv(self):

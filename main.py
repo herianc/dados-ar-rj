@@ -169,7 +169,7 @@ def app(page: Page):
                 try:
                     # Verificando se o usuário já tem os dados
                     nome_arquivo = estacao.value.replace(' ', '_').lower()
-                    caminho = f'dados\{nome_arquivo}{ano_consulta}.json'
+                    caminho = f'./dados/{nome_arquivo}{ano_consulta}.json'
                     with open(caminho, 'r') as arquivo:
                         consulta_anual.dados_ano = json.load(arquivo)
                         consulta_anual.ano = ano_consulta
@@ -267,7 +267,7 @@ def app(page: Page):
                 try:
                     # Verificando se o usuário já tem os dados
                     nome_arquivo = estacao.value.replace(' ', '_').lower()
-                    caminho = f'dados\{nome_arquivo}{ano_consulta}-semestre{1}.json'
+                    caminho = f'./dados/{nome_arquivo}{ano_consulta}-semestre{1}.json'
                     with open(caminho, 'r') as arquivo:
                         consulta_semestral.dados_semestre = json.load(arquivo)
                         consulta_semestral.ano = ano_consulta
@@ -365,7 +365,7 @@ def app(page: Page):
                 try:
                     # Verificando se o usuário já tem os dados
                     nome_arquivo = estacao.value.replace(' ', '_').lower()
-                    caminho = f'dados\{nome_arquivo}{ano_consulta}-semestre{2}.json'
+                    caminho = f'./dados/{nome_arquivo}{ano_consulta}-semestre{2}.json'
                     with open(caminho, 'r') as arquivo:
                         consulta_semestral.dados_semestre = json.load(arquivo)
                         consulta_semestral.ano = ano_consulta
@@ -500,7 +500,7 @@ def app(page: Page):
                 try:
                     # Verificando se o usuário já tem os dados
                     nome_arquivo = estacao.value.replace(' ', '_').lower()
-                    caminho = f'dados\{nome_arquivo}{ano_consulta}-{mes_consulta}.json'
+                    caminho = f'./dados/{nome_arquivo}{ano_consulta}-{mes_consulta}.json'
                     with open(caminho, 'r') as arquivo:
                         consulta_mensal.dados_mes = json.load(arquivo)
                         consulta_mensal.mes = mes_consulta
@@ -547,7 +547,7 @@ def app(page: Page):
                     fig.show()
 
                 limpa_terminal
-                print(consulta_mensal.obter_texto())
+
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
                               size=30, font_family=FONTE
@@ -562,7 +562,6 @@ def app(page: Page):
                                        text='Gráfico Detalhado'),
                         ElevatedButton(text='Voltar',
                                        on_click=lambda _: main()),
-
                     ],
                     alignment='center'
                 ),
@@ -572,9 +571,15 @@ def app(page: Page):
                          font_family=FONTE),
                     Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dia(s).',
                          font_family=FONTE),
-
-                    PlotlyChart(fig, expand=True)
+                    ft.Markdown(
+                    tabela.to_markdown(),
+                    selectable=True,
+                    extension_set=ft.MarkdownExtensionSet.GITHUB_FLAVORED,
+                    on_tap_link=lambda e: page.launch_url(e.data),
                 )
+                )
+                page.scroll = 'auto'
+                page.padding = 50
                 page.update()
         except ValueError:
             pass
@@ -583,7 +588,7 @@ def app(page: Page):
 
     ## Menu Principal ##
     def main():
-
+        page.scroll = None
         page.clean()
         page.add(
             AppBar(title=Text('Menu Principal', font_family=FONTE)),
