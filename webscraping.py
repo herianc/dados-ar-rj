@@ -183,9 +183,10 @@ class ConsultaAnual(ConsultaMensal):
         except FileExistsError:
             ...
 
+        estacao = self.estacao.replace(' ', '_').lower()
         df = pd.DataFrame(self.dados_ano)
         df = df.transpose()
-        df.to_excel(f'./excel/dados{self.ano}.xlsx')
+        df.to_excel(f'./excel/{estacao}{self.ano}.xlsx')
 
 
 class ConsultaSemestral(ConsultaMensal):
