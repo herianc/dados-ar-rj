@@ -230,7 +230,7 @@ def app(page: Page):
                               font_family=FONTE),
                          Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
                          font_family=FONTE),
-                         PlotlyChart(fig, expand=True)
+                         # PlotlyChart(fig, expand=True)
                          )
         except ValueError:
             pass
@@ -331,7 +331,7 @@ def app(page: Page):
                               font_family=FONTE),
                          Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
                          font_family=FONTE),
-                         PlotlyChart(fig, expand=True)
+                         # PlotlyChart(fig, expand=True)
                          )
         except ValueError:
             pass
@@ -429,7 +429,7 @@ def app(page: Page):
                               font_family=FONTE),
                          Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
                          font_family=FONTE),
-                         PlotlyChart(fig, expand=True)
+                         # PlotlyChart(fig, expand=True)
                          )
         except ValueError:
             pass
