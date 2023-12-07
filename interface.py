@@ -173,7 +173,7 @@ def app(page: Page):
                     with open(caminho, 'r') as arquivo:
                         consulta_anual.dados_ano = json.load(arquivo)
                         consulta_anual.ano = ano_consulta
-                    consulta_mensal.estacao = estacao.value
+                    consulta_anual.estacao = estacao.value
                 except FileNotFoundError:
                     # Caso não tenha os dados, executa a raspagem no site
                     try:
@@ -200,11 +200,15 @@ def app(page: Page):
                 fig.update_xaxes(title='Meses', )
 
                 dados_iqar = tabela[['IQAr']].replace('NA', np.nan)
-                dias_indisponivel = dados_iqar.isnull().sum().to_string()[
-                    7:]
-                media = dados_iqar.dropna().mean().to_string()[7:]
-                minimo = dados_iqar.dropna().min().to_string()[7:]
-                maximo = dados_iqar.dropna().max().to_string()[7:]
+                dias_indisponivel = dados_iqar.isnull().sum().to_string()[7:]
+                tabela = tabela.replace('NA', np.nan)
+                mp10 = tabela[['MP10']].mean().to_string()[7:]
+                mp25 = tabela[['MP2.5']].mean().to_string()[6:]
+                o3 = tabela[['O3']].mean().to_string()[5:]
+                co = tabela[['CO']].mean().to_string()[5:]
+                no2 = tabela[['NO2']].mean().to_string()[6:]
+                so2 = tabela[['SO2']].mean().to_string()[6:]
+                iqar = tabela[['IQAr']].mean().to_string()[7:]
 
                 limpa_terminal
 
@@ -224,13 +228,13 @@ def app(page: Page):
                                             on_click=lambda _: main())],
                                 alignment='center'
                                 ),
-                         Text(value=f'Índice de Qualidade do Ar no ano de {ano_consulta}',
+                         Text(value=f'Médias dos índices no ano de {ano_consulta}',
                               font_family=FONTE),
-                         Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
+                         Text(value=f'MP10: {mp10} | MP2.5: {mp25} | O3: {o3} | CO: {co} | NO2: {no2} | SO2: {so2} | IQAr: {iqar} ',
                               font_family=FONTE),
                          Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
                          font_family=FONTE),
-                         # PlotlyChart(fig, expand=True)
+                         PlotlyChart(fig, expand=True)
                          )
         except ValueError:
             pass
@@ -272,7 +276,7 @@ def app(page: Page):
                         consulta_semestral.dados_semestre = json.load(arquivo)
                         consulta_semestral.ano = ano_consulta
                         consulta_semestral.semestre = 1
-                    consulta_mensal.estacao = estacao.value
+                    consulta_semestral.estacao = estacao.value
                 except FileNotFoundError:
                     # Caso não tenha os dados, executa a raspagem no site
                     try:
@@ -299,12 +303,19 @@ def app(page: Page):
                 fig.update_xaxes(title='Meses', )
 
                 # Obtendo as medidas resumo
+
                 dados_iqar = tabela[['IQAr']].replace('NA', np.nan)
-                dias_indisponivel = dados_iqar.isnull().sum().to_string()[
+                dias_indisponivel = dados_iqar.isnull().sum().to_string()[7:]
+                tabela = tabela.replace('NA', np.nan)
+                mp10 = tabela[['MP10']].mean().to_string()[7:]
+                mp25 = tabela[['MP2.5']].mean().to_string()[6:]
+                o3 = tabela[['O3']].mean().to_string()[5:]
+                co = tabela[['CO']].mean().to_string()[5:]
+                no2 = tabela[['NO2']].mean().to_string()[6:]
+                so2 = tabela[['SO2']].mean().to_string()[6:]
+                iqar = tabela[['IQAr']].mean().to_string()[7:]
+                dias_indisponivel = tabela[['IQAr']].isnull().sum().to_string()[
                     7:]
-                media = dados_iqar.dropna().mean().to_string()[7:]
-                minimo = dados_iqar.dropna().min().to_string()[7:]
-                maximo = dados_iqar.dropna().max().to_string()[7:]
 
                 limpa_terminal
 
@@ -325,13 +336,13 @@ def app(page: Page):
                                             on_click=lambda _: main())],
                                 alignment='center'
                                 ),
-                         Text(value=f'Índice de Qualidade do Ar no 1º Semestre de {ano_consulta} - Estação {estacao.value}',
+                         Text(value=f'Médias no 1º Semestre de {ano_consulta} - Estação {estacao.value}',
                               font_family=FONTE),
-                         Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
+                         Text(value=f'MP10: {mp10} | MP2.5: {mp25} | O3: {o3} | CO: {co} | NO2: {no2} | SO2: {so2} | IQAr: {iqar} ',
                               font_family=FONTE),
                          Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
                          font_family=FONTE),
-                         # PlotlyChart(fig, expand=True)
+                         PlotlyChart(fig, expand=True)
                          )
         except ValueError:
             pass
@@ -371,7 +382,7 @@ def app(page: Page):
                         consulta_semestral.ano = ano_consulta
                         consulta_semestral.semestre = 2
 
-                    consulta_mensal.estacao = estacao.value
+                    consulta_semestral.estacao = estacao.value
                 except FileNotFoundError:
                     # Usuário ainda não tem os dados, executando a consulta
                     try:
@@ -429,7 +440,7 @@ def app(page: Page):
                               font_family=FONTE),
                          Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
                          font_family=FONTE),
-                         # PlotlyChart(fig, expand=True)
+                         PlotlyChart(fig, expand=True)
                          )
         except ValueError:
             pass
@@ -535,11 +546,15 @@ def app(page: Page):
                 fig.update_yaxes(title='Índice')
                 fig.update_xaxes(title='Dias', )
 
-                # Obtendo min, media e max do parametro 'IQAr'
-                dados_iqar = tabela[['IQAr']].replace('NA', np.nan)
-                media = dados_iqar.dropna().mean().to_string()[7:]
-                minimo = dados_iqar.dropna().min().to_string()[7:]
-                maximo = dados_iqar.dropna().max().to_string()[7:]
+                # Obtendo a media de cada parametro
+                tabela = tabela.replace('NA', np.nan)
+                mp10 = tabela[['MP10']].mean().to_string()[7:]
+                mp25 = tabela[['MP2.5']].mean().to_string()[7:]
+                o3 = tabela[['O3']].mean().to_string()[4:]
+                co = tabela[['CO']].mean().to_string()[6:]
+                no2 = tabela[['NO2']].mean().to_string()[6:]
+                so2 = tabela[['SO2']].mean().to_string()[6:]
+                iqar = tabela[['IQAr']].mean().to_string()[7:]
 
                 def grafico_detalhes(e):
                     fig.show()
@@ -563,15 +578,15 @@ def app(page: Page):
                     ],
                     alignment='center'
                 ),
-                    Text(value=f'Índice de Qualidade do Ar no mês',
+                    Text(value=f'Médias dos índices no mês',
                          font_family=FONTE),
-                    Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
+                    Text(value=f'MP10:{mp10} | MP2.5:{mp25} | O3: {o3} | CO: {co} | NO2: {no2} | SO2: {so2} | IQAr: {iqar} ',
                          font_family=FONTE),
                     ft.Divider(),
                     Text(
                         value=f'DADOS DE {estacao.value.upper()} {mes_consulta}/{ano_consulta}', size=16),
                     ft.Markdown(
-                    tabela.to_markdown(),
+                    tabela.replace(np.nan, 'ND').to_markdown(),
                     selectable=True,
                     extension_set=ft.MarkdownExtensionSet.GITHUB_FLAVORED,
                     on_tap_link=lambda e: page.launch_url(e.data),
