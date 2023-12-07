@@ -79,6 +79,8 @@ class ConsultaMensal(Consulta):
                     else:
                         dados_do_dia = estacao_indisponivel()
 
+                        nao_disponivel = [
+                            'Temporariamente indisponível', 'Temporariamente desativada', 'Em manutenção']
                 ## REALIZANDO O TRATAMENTO DOS DADOS##
 
                 # Verificando se existe as variaveis inicio e fim (confirmando se a estação realmente foi encontrada)
@@ -91,8 +93,7 @@ class ConsultaMensal(Consulta):
                     if len(dados_brutos) > 0:
                         # A primeira posição da lista indica ou não se a estação está com dados disponíveis
                         # É preciso realizar esta etapa pois nem sempre que a estação está no site os dados estão disponíveis
-                        if dados_brutos[0] != 'Temporariamente indisponível' and dados_brutos[0] != 'Temporariamente desativada':
-
+                        if dados_brutos[0] not in nao_disponivel:
                             # Transformando digistos em int ou float
                             dados_tratados = tratando_dados(
                                 dados_brutos, self.mes, self.ano)
