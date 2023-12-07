@@ -228,7 +228,7 @@ def app(page: Page):
                                             on_click=lambda _: main())],
                                 alignment='center'
                                 ),
-                         Text(value=f'Médias dos índices no ano de {ano_consulta}',
+                         Text(value=f'Médias dos índices no ano de {ano_consulta} - Estação {estacao.value}',
                               font_family=FONTE),
                          Text(value=f'MP10: {mp10} | MP2.5: {mp25} | O3: {o3} | CO: {co} | NO2: {no2} | SO2: {so2} | IQAr: {iqar} ',
                               font_family=FONTE),
@@ -266,6 +266,7 @@ def app(page: Page):
                 elif not estacao.value in estacoes:
                     estacao.error_text = 'Estação Inválida! ❌'
                     page.update()
+                    return
 
                 # Inputs OK! Obtendo os dados
                 try:
@@ -363,14 +364,19 @@ def app(page: Page):
                 page.update()
 
             if int(ano.value) in range(2017, 2023):
-                ano_consulta = int(ano.value)
-                page.clean()
-                page.add(
-                    Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🤏🥸⏳',
-                         size=25, font_family=FONTE
-                         ),
-                    ProgressRing()
-                )
+                if estacao.value in estacoes:
+                    ano_consulta = int(ano.value)
+                    page.clean()
+                    page.add(
+                        Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🤏🥸⏳',
+                             size=20, font_family=FONTE
+                             ),
+                        ProgressRing()
+                    )
+                elif not estacao.value in estacoes:
+                    estacao.error_text = 'Estação Inválida! ❌'
+                    page.update()
+                    return
                 limpa_terminal
                 # Inputs OK! Obtendo os dados
                 try:
@@ -411,11 +417,17 @@ def app(page: Page):
                 fig.update_xaxes(title='Meses')
 
                 dados_iqar = tabela[['IQAr']].replace('NA', np.nan)
-                dias_indisponivel = dados_iqar.isnull().sum().to_string()[
+                dias_indisponivel = dados_iqar.isnull().sum().to_string()[7:]
+                tabela = tabela.replace('NA', np.nan)
+                mp10 = tabela[['MP10']].mean().to_string()[7:]
+                mp25 = tabela[['MP2.5']].mean().to_string()[6:]
+                o3 = tabela[['O3']].mean().to_string()[5:]
+                co = tabela[['CO']].mean().to_string()[5:]
+                no2 = tabela[['NO2']].mean().to_string()[6:]
+                so2 = tabela[['SO2']].mean().to_string()[6:]
+                iqar = tabela[['IQAr']].mean().to_string()[7:]
+                dias_indisponivel = tabela[['IQAr']].isnull().sum().to_string()[
                     7:]
-                media = dados_iqar.dropna().mean().to_string()[7:]
-                minimo = dados_iqar.dropna().min().to_string()[7:]
-                maximo = dados_iqar.dropna().max().to_string()[7:]
 
                 def grafico_detalhes(e):
                     fig.show()
@@ -434,9 +446,9 @@ def app(page: Page):
                                             on_click=lambda _: main())],
                                 alignment='center'
                                 ),
-                         Text(value=f'Índice de Qualidade do Ar no 2º Semestre de {ano_consulta} - Estação {estacao.value}',
+                         Text(value=f'Médias no 2º Semestre de {ano_consulta} - Estação {estacao.value}',
                               font_family=FONTE),
-                         Text(value=f'Mínimo: {minimo}      Média:{media}      Máximo: {maximo}',
+                         Text(value=f'MP10: {mp10} | MP2.5: {mp25} | O3: {o3} | CO: {co} | NO2: {no2} | SO2: {so2} | IQAr: {iqar} ',
                               font_family=FONTE),
                          Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
                          font_family=FONTE),
