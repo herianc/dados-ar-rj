@@ -72,7 +72,7 @@ class ConsultaMensal(Consulta):
                     if linha.get_text() == estacao:
                         # Coletando a posição de inicio e fim do conteúdo desejado
                         inicio = i+1
-                        if ano >= 2020 or (ano == 2019 and mes >= 11 and dia >= 19):
+                        if ano >= 2020 or (ano == 2019 and mes == 11 and dia >= 19) or (ano == 2019 and mes == 12):
                             fim = inicio + 8
                         else:
                             fim = inicio + 7

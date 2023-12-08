@@ -11,7 +11,6 @@ from webscraping import ConsultaAnual, ConsultaMensal, ConsultaSemestral
 from os import system
 from datetime import date
 
-limpa_terminal = system('cls')
 
 consulta_anual = ConsultaAnual()
 consulta_mensal = ConsultaMensal()
@@ -209,8 +208,10 @@ def app(page: Page):
                 no2 = tabela[['NO2']].mean().to_string()[6:]
                 so2 = tabela[['SO2']].mean().to_string()[6:]
                 iqar = tabela[['IQAr']].mean().to_string()[7:]
+                dias_prejudiciais = tabela['IQAr'].loc[tabela['IQAr'] > 80].count(
+                )
 
-                limpa_terminal
+                print(dias_prejudiciais)
 
                 def grafico_detalhes(e):
                     fig.show()
@@ -232,8 +233,11 @@ def app(page: Page):
                               font_family=FONTE),
                          Text(value=f'MP10: {mp10} | MP2.5: {mp25} | O3: {o3} | CO: {co} | NO2: {no2} | SO2: {so2} | IQAr: {iqar} ',
                               font_family=FONTE),
-                         Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
-                         font_family=FONTE),
+                         Text(value=f'Dias com a Qualidade do Ar prejudicial à saúde:  {dias_prejudiciais}',
+                              font_family=FONTE),
+                         Text(value=f'\tA estação esteve indisponível {dias_indisponivel} dias.',
+                              font_family=FONTE),
+
                          PlotlyChart(fig, expand=True)
                          )
         except ValueError:
@@ -317,8 +321,8 @@ def app(page: Page):
                 iqar = tabela[['IQAr']].mean().to_string()[7:]
                 dias_indisponivel = tabela[['IQAr']].isnull().sum().to_string()[
                     7:]
-
-                limpa_terminal
+                dias_prejudiciais = tabela['IQAr'].loc[tabela['IQAr'] > 80].count(
+                )
 
                 def grafico_detalhes(e):
                     fig.show()
@@ -340,6 +344,8 @@ def app(page: Page):
                          Text(value=f'Médias no 1º Semestre de {ano_consulta} - Estação {estacao.value}',
                               font_family=FONTE),
                          Text(value=f'MP10: {mp10} | MP2.5: {mp25} | O3: {o3} | CO: {co} | NO2: {no2} | SO2: {so2} | IQAr: {iqar} ',
+                              font_family=FONTE),
+                         Text(value=f'Dias com a qualidade do ar prejudiciais à saúde: {dias_prejudiciais}',
                               font_family=FONTE),
                          Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
                          font_family=FONTE),
@@ -377,7 +383,7 @@ def app(page: Page):
                     estacao.error_text = 'Estação Inválida! ❌'
                     page.update()
                     return
-                limpa_terminal
+
                 # Inputs OK! Obtendo os dados
                 try:
                     # Verificando se o usuário já tem os dados
@@ -406,7 +412,7 @@ def app(page: Page):
                         raise Exception
 
                 # Consulta OK! Plotando o Gráfico
-                limpa_terminal
+
                 tabela = pd.DataFrame.from_dict(consulta_semestral.dados_semestre,
                                                 orient='index')
 
@@ -428,6 +434,8 @@ def app(page: Page):
                 iqar = tabela[['IQAr']].mean().to_string()[7:]
                 dias_indisponivel = tabela[['IQAr']].isnull().sum().to_string()[
                     7:]
+                dias_prejudiciais = tabela['IQAr'].loc[tabela['IQAr'] > 80].count(
+                )
 
                 def grafico_detalhes(e):
                     fig.show()
@@ -450,8 +458,11 @@ def app(page: Page):
                               font_family=FONTE),
                          Text(value=f'MP10: {mp10} | MP2.5: {mp25} | O3: {o3} | CO: {co} | NO2: {no2} | SO2: {so2} | IQAr: {iqar} ',
                               font_family=FONTE),
-                         Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
-                         font_family=FONTE),
+                         ft.Row(controls=[Text(value=f'Dias com a qualidade do ar prejudiciais à saúde: {dias_prejudiciais}',
+                                               font_family=FONTE),
+                                          Text(value=f'Neste período a estação {estacao.value} esteve indisponível {dias_indisponivel} dias.',
+                                               font_family=FONTE)]),
+
                          PlotlyChart(fig, expand=True)
                          )
         except ValueError:
@@ -567,11 +578,11 @@ def app(page: Page):
                 no2 = tabela[['NO2']].mean().to_string()[6:]
                 so2 = tabela[['SO2']].mean().to_string()[6:]
                 iqar = tabela[['IQAr']].mean().to_string()[7:]
+                dias_prejudiciais = tabela['IQAr'].loc[tabela['IQAr'] > 80].count(
+                )
 
                 def grafico_detalhes(e):
                     fig.show()
-
-                limpa_terminal
 
                 page.clean()
                 page.add(Text(value='Consulta realizada 🤓👌',
@@ -593,6 +604,8 @@ def app(page: Page):
                     Text(value=f'Médias dos índices no mês',
                          font_family=FONTE),
                     Text(value=f'MP10:{mp10} | MP2.5:{mp25} | O3: {o3} | CO: {co} | NO2: {no2} | SO2: {so2} | IQAr: {iqar} ',
+                         font_family=FONTE),
+                    Text(value=f'Dias com a qualidade do ar prejudiciais à saúde: {dias_prejudiciais}',
                          font_family=FONTE),
                     ft.Divider(),
                     Text(
