@@ -26,7 +26,7 @@ def app(page: Page):
     # Estilização da janela da aplicação
     page.theme_mode = ft.ThemeMode.LIGHT
     page.window_height = 768
-    page.window_width = 1024
+    page.window_width = 1280
     page.vertical_alignment = MainAxisAlignment.CENTER
     page.horizontal_alignment = CrossAxisAlignment.CENTER
     page.window_center()
@@ -201,13 +201,14 @@ def app(page: Page):
                 dados_iqar = tabela[['IQAr']].replace('NA', np.nan)
                 dias_indisponivel = dados_iqar.isnull().sum().to_string()[7:]
                 tabela = tabela.replace('NA', np.nan)
-                mp10 = tabela[['MP10']].mean().to_string()[7:]
-                mp25 = tabela[['MP2.5']].mean().to_string()[6:]
-                o3 = tabela[['O3']].mean().to_string()[5:]
-                co = tabela[['CO']].mean().to_string()[5:]
-                no2 = tabela[['NO2']].mean().to_string()[6:]
-                so2 = tabela[['SO2']].mean().to_string()[6:]
-                iqar = tabela[['IQAr']].mean().to_string()[7:]
+                mp10 = tabela[['MP10']].mean().round(2).to_string()[7:].strip()
+                mp25 = tabela[['MP2.5']].mean().round(
+                    2).to_string()[7:].strip()
+                o3 = tabela[['O3']].mean().round(2).to_string()[4:].strip()
+                co = tabela[['CO']].mean().round(2).to_string()[5:].strip()
+                no2 = tabela[['NO2']].mean().round(2).to_string()[6:].strip()
+                so2 = tabela[['SO2']].mean().round(2).to_string()[6:].strip()
+                iqar = tabela[['IQAr']].mean().round(2).to_string()[7:].strip()
                 dias_prejudiciais = tabela['IQAr'].loc[tabela['IQAr'] > 80].count(
                 )
 
@@ -231,7 +232,7 @@ def app(page: Page):
                                 ),
                          Text(value=f'Médias dos índices no ano de {ano_consulta} - Estação {estacao.value}',
                               font_family=FONTE),
-                         Text(value=f'MP10: {mp10} | MP2.5: {mp25} | O3: {o3} | CO: {co} | NO2: {no2} | SO2: {so2} | IQAr: {iqar} ',
+                         Text(value=f'MP10: {mp10}  |  MP2.5: {mp25}  |  O3: {o3}  |  CO: {co}  |  NO2: {no2}  |  SO2: {so2}  |  IQAr: {iqar}',
                               font_family=FONTE),
                          Text(value=f'Dias com a Qualidade do Ar prejudicial à saúde:  {dias_prejudiciais}',
                               font_family=FONTE),
@@ -312,15 +313,14 @@ def app(page: Page):
                 dados_iqar = tabela[['IQAr']].replace('NA', np.nan)
                 dias_indisponivel = dados_iqar.isnull().sum().to_string()[7:]
                 tabela = tabela.replace('NA', np.nan)
-                mp10 = tabela[['MP10']].mean().to_string()[7:]
-                mp25 = tabela[['MP2.5']].mean().to_string()[6:]
-                o3 = tabela[['O3']].mean().to_string()[5:]
-                co = tabela[['CO']].mean().to_string()[5:]
-                no2 = tabela[['NO2']].mean().to_string()[6:]
-                so2 = tabela[['SO2']].mean().to_string()[6:]
-                iqar = tabela[['IQAr']].mean().to_string()[7:]
-                dias_indisponivel = tabela[['IQAr']].isnull().sum().to_string()[
-                    7:]
+                mp10 = tabela[['MP10']].mean().round(2).to_string()[7:].strip()
+                mp25 = tabela[['MP2.5']].mean().round(
+                    2).to_string()[7:].strip()
+                o3 = tabela[['O3']].mean().round(2).to_string()[4:].strip()
+                co = tabela[['CO']].mean().round(2).to_string()[5:].strip()
+                no2 = tabela[['NO2']].mean().round(2).to_string()[6:].strip()
+                so2 = tabela[['SO2']].mean().round(2).to_string()[6:].strip()
+                iqar = tabela[['IQAr']].mean().round(2).to_string()[7:].strip()
                 dias_prejudiciais = tabela['IQAr'].loc[tabela['IQAr'] > 80].count(
                 )
 
@@ -343,7 +343,7 @@ def app(page: Page):
                                 ),
                          Text(value=f'Médias no 1º Semestre de {ano_consulta} - Estação {estacao.value}',
                               font_family=FONTE),
-                         Text(value=f'MP10: {mp10} | MP2.5: {mp25} | O3: {o3} | CO: {co} | NO2: {no2} | SO2: {so2} | IQAr: {iqar} ',
+                         Text(value=f'MP10: {mp10}  |  MP2.5: {mp25}  |  O3: {o3}  |  CO: {co}  |  NO2: {no2}  |  SO2: {so2}  |  IQAr: {iqar}',
                               font_family=FONTE),
                          Text(value=f'Dias com a qualidade do ar prejudiciais à saúde: {dias_prejudiciais}',
                               font_family=FONTE),
@@ -425,15 +425,14 @@ def app(page: Page):
                 dados_iqar = tabela[['IQAr']].replace('NA', np.nan)
                 dias_indisponivel = dados_iqar.isnull().sum().to_string()[7:]
                 tabela = tabela.replace('NA', np.nan)
-                mp10 = tabela[['MP10']].mean().to_string()[7:]
-                mp25 = tabela[['MP2.5']].mean().to_string()[6:]
-                o3 = tabela[['O3']].mean().to_string()[5:]
-                co = tabela[['CO']].mean().to_string()[5:]
-                no2 = tabela[['NO2']].mean().to_string()[6:]
-                so2 = tabela[['SO2']].mean().to_string()[6:]
-                iqar = tabela[['IQAr']].mean().to_string()[7:]
-                dias_indisponivel = tabela[['IQAr']].isnull().sum().to_string()[
-                    7:]
+                mp10 = tabela[['MP10']].mean().round(2).to_string()[7:].strip()
+                mp25 = tabela[['MP2.5']].mean().round(
+                    2).to_string()[7:].strip()
+                o3 = tabela[['O3']].mean().round(2).to_string()[4:].strip()
+                co = tabela[['CO']].mean().round(2).to_string()[5:].strip()
+                no2 = tabela[['NO2']].mean().round(2).to_string()[6:].strip()
+                so2 = tabela[['SO2']].mean().round(2).to_string()[6:].strip()
+                iqar = tabela[['IQAr']].mean().round(2).to_string()[7:].strip()
                 dias_prejudiciais = tabela['IQAr'].loc[tabela['IQAr'] > 80].count(
                 )
 
@@ -456,7 +455,7 @@ def app(page: Page):
                                 ),
                          Text(value=f'Médias no 2º Semestre de {ano_consulta} - Estação {estacao.value}',
                               font_family=FONTE),
-                         Text(value=f'MP10: {mp10} | MP2.5: {mp25} | O3: {o3} | CO: {co} | NO2: {no2} | SO2: {so2} | IQAr: {iqar} ',
+                         Text(value=f'MP10: {mp10}  |  MP2.5: {mp25}  |  O3: {o3}  |  CO: {co}  |  NO2: {no2}  |  SO2: {so2}  |  IQAr: {iqar}',
                               font_family=FONTE),
                          ft.Row(controls=[Text(value=f'Dias com a qualidade do ar prejudiciais à saúde: {dias_prejudiciais}',
                                                font_family=FONTE),
@@ -511,7 +510,7 @@ def app(page: Page):
             if not int(ano.value) in range(2017, 2024):
                 ano.error_text = 'Ano inválido ❌'
                 page.update()
-            if int(ano.value) == 2023 and int(mes.value) >= 11:
+            if int(ano.value) == 2023 and int(mes.value) >= 12:
                 mes.error_text = 'Não disponível'
                 page.update()
 
@@ -571,13 +570,14 @@ def app(page: Page):
 
                 # Obtendo a media de cada parametro
                 tabela = tabela.replace('NA', np.nan)
-                mp10 = tabela[['MP10']].mean().to_string()[7:]
-                mp25 = tabela[['MP2.5']].mean().to_string()[7:]
-                o3 = tabela[['O3']].mean().to_string()[4:]
-                co = tabela[['CO']].mean().to_string()[6:]
-                no2 = tabela[['NO2']].mean().to_string()[6:]
-                so2 = tabela[['SO2']].mean().to_string()[6:]
-                iqar = tabela[['IQAr']].mean().to_string()[7:]
+                mp10 = tabela[['MP10']].mean().round(2).to_string()[7:].strip()
+                mp25 = tabela[['MP2.5']].mean().round(
+                    2).to_string()[7:].strip()
+                o3 = tabela[['O3']].mean().round(2).to_string()[4:].strip()
+                co = tabela[['CO']].mean().round(2).to_string()[5:].strip()
+                no2 = tabela[['NO2']].mean().round(2).to_string()[6:].strip()
+                so2 = tabela[['SO2']].mean().round(2).to_string()[6:].strip()
+                iqar = tabela[['IQAr']].mean().round(2).to_string()[7:].strip()
                 dias_prejudiciais = tabela['IQAr'].loc[tabela['IQAr'] > 80].count(
                 )
 
@@ -603,8 +603,8 @@ def app(page: Page):
                 ),
                     Text(value=f'Médias dos índices no mês',
                          font_family=FONTE),
-                    Text(value=f'MP10:{mp10} | MP2.5:{mp25} | O3: {o3} | CO: {co} | NO2: {no2} | SO2: {so2} | IQAr: {iqar} ',
-                         font_family=FONTE),
+                    Text(
+                        value=f'MP10: {mp10}  |  MP2.5: {mp25}  |  O3: {o3}  |  CO: {co}  |  NO2: {no2}  |  SO2: {so2}  |  IQAr: {iqar}'),
                     Text(value=f'Dias com a qualidade do ar prejudiciais à saúde: {dias_prejudiciais}',
                          font_family=FONTE),
                     ft.Divider(),

@@ -79,8 +79,8 @@ class ConsultaMensal(Consulta):
                     else:
                         dados_do_dia = estacao_indisponivel()
 
-                        nao_disponivel = [
-                            'Temporariamente indisponível', 'Temporariamente desativada', 'Em manutenção']
+                    nao_disponivel = [
+                        'Temporariamente indisponível', 'Temporariamente desativada', 'Em manutenção']
                 ## REALIZANDO O TRATAMENTO DOS DADOS##
 
                 # Verificando se existe as variaveis inicio e fim (confirmando se a estação realmente foi encontrada)
