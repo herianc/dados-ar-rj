@@ -1,17 +1,17 @@
-# Consultor dos Índices de Poluição do Rio de Janeiro (Irajá)
+# Consultor dos Índices de Poluição do Rio de Janeiro
 
 ---
 Projeto final da disciplina de Computação 2 na UFRJ. O trabalho consiste em criar um projeto que aborde tópicos de Programação Orientada a Objetos aplicados a assuntos do curso do discente (Bacharelado em Ciências Matemáticas e da Terra).
 
 ## Ideia geral do projeto
 
-Sistema de informação que facilita a obtenção dos dados de poluição do ar na cidade do Rio de Janeiro, especificamente para o Bairro de Irajá. A obtenção da informação é feita através da raspagem de dados do site do [boletim](https://jeap.rio.rj.gov.br/je-metinfosmac/boletim) de qualidade do ar
+Sistema de informação que facilita a obtenção dos dados de poluição do ar na cidade do Rio de Janeiro. A obtenção da informação é feita através da raspagem de dados do site do [boletim](https://jeap.rio.rj.gov.br/je-metinfosmac/boletim) de qualidade do ar
 
 ---
 
 ## Objetivo
 
-Aplicação que realiza a Extração, Tratamento e o Carregamento (Pipeline ETL) dos índices de poluição da estação de monitoramento de Irajá. O objetivo principal é facilitar a obtenção dos dados mensais/semestrais/anuais da estação para medição/estudo da poluição no bairro, tendo em vista que o próprio boletim **não disponibiliza** os dados de forma conjunta por períodos. Ao final de cada consulta um arquivo json é gerado com os dados estruturados e tratados e há dando a opção ao usuário de obter uma planilha ou um arquivo csv. 
+Aplicação que realiza a Extração, Tratamento e o Carregamento (Pipeline ETL) dos índices de poluição da estação de monitoramento do Rio. O objetivo principal é facilitar a obtenção dos dados mensais/semestrais/anuais da estação para medição/estudo da poluição no bairro, tendo em vista que o próprio boletim **não disponibiliza** os dados de forma conjunta por períodos. Ao final de cada consulta um arquivo json é gerado com os dados estruturados e tratados e há dando a opção ao usuário de obter uma planilha ou um arquivo csv. 
 
 ![Boletim de Qualidade do Ar](https://github.com/herianc/dados_arRJ/blob/main/imagens/site.png?raw=true)
 
@@ -48,7 +48,7 @@ Outras: `os`, `numpy`
 
 O Sistema conta com 3 arquivos Python para diferentes funções.
 
-`main.py` - É a parte da interface gráfica e de toda a lógica por trás das interações com o usuário.
+`interface.py` - É a parte da interface gráfica e de toda a lógica por trás das interações com o usuário.
 
 `webscraping.py` - É o módulo que contém todas as classes criadas para o projeto ConsultaMensal, ConsultaAnual, ConsultaSemestral. É onde ocorre o processo de raspagem de dados, estruturação dos dados coletados e saída dos arquivos em diferentes formatos.
 
