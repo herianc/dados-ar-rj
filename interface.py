@@ -26,7 +26,7 @@ def app(page: Page):
     # Estilização da janela da aplicação
     page.theme_mode = ft.ThemeMode.LIGHT
     page.window_height = 768
-    page.window_width = 1280
+    page.window_width = 1080
     page.vertical_alignment = MainAxisAlignment.CENTER
     page.horizontal_alignment = CrossAxisAlignment.CENTER
     page.window_center()
@@ -636,14 +636,14 @@ def app(page: Page):
             Text(value='Dados de Poluição do Rio'.upper(),
                  font_family=FONTE, size=30),
             ElevatedButton(text='Consulta Mensal',
-                           width=170,
+                           width=200,
                            on_click=page_consulta_mensal),
-            ElevatedButton(text='Consulta Anual', width=170,
+            ElevatedButton(text='Consulta Anual', width=200,
                            on_click=page_consulta_anual),
-            ElevatedButton(text='Boletim', width=170,
+            ElevatedButton(text='Boletim', width=200,
                            on_click=abrir_site),
             ElevatedButton(text='Sair',
-                           width=170,
+                           width=200,
                            on_click=lambda _: page.window_close()))
 
     main()

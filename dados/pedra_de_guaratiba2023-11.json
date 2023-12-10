@@ -1,0 +1,302 @@
+{
+    "2023-11-01": {
+        "MP10": 16,
+        "MP2.5": "NA",
+        "O3": 79,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 32,
+        "classificacao": "Boa"
+    },
+    "2023-11-02": {
+        "MP10": 16,
+        "MP2.5": "NA",
+        "O3": 57,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 23,
+        "classificacao": "Boa"
+    },
+    "2023-11-03": {
+        "MP10": 32,
+        "MP2.5": "NA",
+        "O3": 95,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 38,
+        "classificacao": "Boa"
+    },
+    "2023-11-04": {
+        "MP10": "NA",
+        "MP2.5": "NA",
+        "O3": 71,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 28,
+        "classificacao": "Boa"
+    },
+    "2023-11-05": {
+        "MP10": 27,
+        "MP2.5": "NA",
+        "O3": 76,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 30,
+        "classificacao": "Boa"
+    },
+    "2023-11-06": {
+        "MP10": 31,
+        "MP2.5": "NA",
+        "O3": 69,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 28,
+        "classificacao": "Boa"
+    },
+    "2023-11-07": {
+        "MP10": 32,
+        "MP2.5": "NA",
+        "O3": 87,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 35,
+        "classificacao": "Boa"
+    },
+    "2023-11-08": {
+        "MP10": 45,
+        "MP2.5": "NA",
+        "O3": 102,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 42,
+        "classificacao": "Moderada"
+    },
+    "2023-11-09": {
+        "MP10": 49,
+        "MP2.5": "NA",
+        "O3": 137,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 89,
+        "classificacao": "Ruim"
+    },
+    "2023-11-10": {
+        "MP10": 40,
+        "MP2.5": "NA",
+        "O3": 108,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 50,
+        "classificacao": "Moderada"
+    },
+    "2023-11-11": {
+        "MP10": 53,
+        "MP2.5": "NA",
+        "O3": 131,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 81,
+        "classificacao": "Ruim"
+    },
+    "2023-11-12": {
+        "MP10": 57,
+        "MP2.5": "NA",
+        "O3": 106,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 48,
+        "classificacao": "Moderada"
+    },
+    "2023-11-13": {
+        "MP10": 55,
+        "MP2.5": "NA",
+        "O3": 109,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 52,
+        "classificacao": "Moderada"
+    },
+    "2023-11-14": {
+        "MP10": 58,
+        "MP2.5": "NA",
+        "O3": 124,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 72,
+        "classificacao": "Moderada"
+    },
+    "2023-11-15": {
+        "MP10": 36,
+        "MP2.5": "NA",
+        "O3": 115,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 60,
+        "classificacao": "Moderada"
+    },
+    "2023-11-16": {
+        "MP10": 45,
+        "MP2.5": "NA",
+        "O3": 103,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 44,
+        "classificacao": "Moderada"
+    },
+    "2023-11-17": {
+        "MP10": 62,
+        "MP2.5": "NA",
+        "O3": 187,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 174,
+        "classificacao": "Muito ruim"
+    },
+    "2023-11-18": {
+        "MP10": 60,
+        "MP2.5": "NA",
+        "O3": 154,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 112,
+        "classificacao": "Ruim"
+    },
+    "2023-11-19": {
+        "MP10": 22,
+        "MP2.5": "NA",
+        "O3": 119,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 65,
+        "classificacao": "Moderada"
+    },
+    "2023-11-20": {
+        "MP10": 18,
+        "MP2.5": "NA",
+        "O3": 93,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 37,
+        "classificacao": "Boa"
+    },
+    "2023-11-21": {
+        "MP10": 31,
+        "MP2.5": "NA",
+        "O3": 106,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 48,
+        "classificacao": "Moderada"
+    },
+    "2023-11-22": {
+        "MP10": 41,
+        "MP2.5": "NA",
+        "O3": 122,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 69,
+        "classificacao": "Moderada"
+    },
+    "2023-11-23": {
+        "MP10": 24,
+        "MP2.5": "NA",
+        "O3": 114,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 58,
+        "classificacao": "Moderada"
+    },
+    "2023-11-24": {
+        "MP10": 18,
+        "MP2.5": "NA",
+        "O3": 73,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 29,
+        "classificacao": "Boa"
+    },
+    "2023-11-25": {
+        "MP10": 32,
+        "MP2.5": "NA",
+        "O3": 67,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 27,
+        "classificacao": "Boa"
+    },
+    "2023-11-26": {
+        "MP10": 30,
+        "MP2.5": "NA",
+        "O3": 71,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 28,
+        "classificacao": "Boa"
+    },
+    "2023-11-27": {
+        "MP10": 34,
+        "MP2.5": "NA",
+        "O3": 81,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 32,
+        "classificacao": "Boa"
+    },
+    "2023-11-28": {
+        "MP10": 35,
+        "MP2.5": "NA",
+        "O3": 100,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 40,
+        "classificacao": "Boa"
+    },
+    "2023-11-29": {
+        "MP10": 20,
+        "MP2.5": "NA",
+        "O3": 91,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 36,
+        "classificacao": "Boa"
+    },
+    "2023-11-30": {
+        "MP10": 24,
+        "MP2.5": "NA",
+        "O3": 118,
+        "CO": "NA",
+        "NO2": "NA",
+        "SO2": "NA",
+        "IQAr": 64,
+        "classificacao": "Moderada"
+    }
+}
