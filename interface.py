@@ -212,8 +212,6 @@ def app(page: Page):
                 dias_prejudiciais = tabela['IQAr'].loc[tabela['IQAr'] > 80].count(
                 )
 
-                print(dias_prejudiciais)
-
                 def grafico_detalhes(e):
                     fig.show()
                 page.clean()
