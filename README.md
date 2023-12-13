@@ -80,7 +80,7 @@ As demais classes executam o método `consulta()` da classe `ConsultaMensal` par
 
 Para mais informações em relação as categorizações da Qualidade do Ar: [Acesse](https://jeap.rio.rj.gov.br/je-metinfosmac/boletim)
 
-**Observações com relação ao dados:**
+**Observações com relação aos dados:**
 
 - MP2.5 passou a ser monitorado a partir de dez/2019.
 - 1º Semestre de 2020 há muitos meses com dados indisponíveis devido a COVID-19.
