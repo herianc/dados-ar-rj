@@ -628,7 +628,8 @@ def app(page: Page):
         page.scroll = None
         page.clean()
         page.add(
-            AppBar(title=Text('Menu Principal', font_family=FONTE)),
+            AppBar(title=Text(
+                'IGEO - UFRJ', font_family=FONTE)),
             Image('minerva_logo.png',
                   width=300, height=150),
             Text(value='Dados de Poluição do Rio'.upper(),
