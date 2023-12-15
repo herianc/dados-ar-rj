@@ -19,9 +19,6 @@ Site do Boletim de Qualidade do Ar
 Tela de Menu Principal
 ![Menu Principal](https://github.com/herianc/dados_arRJ/blob/main/imagens/01_menu_principal.png?raw=true)
 
-Tela com os resultados da consulta
-![Página de Consulta Finalizada](https://github.com/herianc/dados_arRJ/blob/main/imagens/04_page_cmensal_realizada.png?raw=true)
-
 ---
 
 ## Aplicação de POO no projeto
