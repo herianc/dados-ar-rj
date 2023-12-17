@@ -5,7 +5,7 @@ Projeto final da disciplina de Computação 2 na UFRJ. O trabalho consiste em cr
 
 ## Ideia geral do projeto
 
-Sistema de informação que facilita a obtenção dos dados de poluição do ar na cidade do Rio de Janeiro. A obtenção da informação é feita através da raspagem de dados do site do [boletim](https://jeap.rio.rj.gov.br/je-metinfosmac/boletim) de qualidade do ar
+Sistema de informação que facilita a obtenção dos dados de poluição do ar na cidade do Rio de Janeiro. A extração da informação é feita através da raspagem de dados do site do [boletim](https://jeap.rio.rj.gov.br/je-metinfosmac/boletim) de qualidade do ar
 
 ---
 
