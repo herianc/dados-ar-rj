@@ -63,10 +63,9 @@ A Classe abstrata `Consulta` contém os métodos abstratos `consulta()`, `obter_
 
 A  Super Classe do sistema é a `ConsultaMensal`, onde ocorre a lógica de repetição da raspagem dia a dia durante o mês passado no parâmetro. É neste método que ocorre a raspagem diária durante o mês utilizando uma estrutura de repetição for. Além disso, acontece a estruturação dos dados após a extração dos dados do site.  
 
-Os métodos `obter_json()`, `obter_csv()`, `obter_excel()` e `obter_texto()` (este último para obter a tabela dos dados consultados no prompt) são métodos que executam funções das bibliotecas json/pandas para obter o os dados em diferentes tipos de arquivos.
+Os métodos `obter_json()`, `obter_csv()` e `obter_excel()` são métodos que executam funções das bibliotecas json/pandas para obter o os dados em diferentes tipos de arquivos.
 
-As demais classes executam o método `consulta()` da classe `ConsultaMensal` para os respectivos períodos de tempo, porém utilizando o poliformismo para executar essas consultas, tendo em vista que a consulta mensal é realizada por dentro de outro for para indicar o número de meses que serão consultados.  
-
+As demais classes executam o método `consulta()` da classe `ConsultaMensal` para os respectivos períodos de tempo utilizando o poliformismo para executar essas consultas no respectivo período de tempo.
 ---
 
 ## Dados Coletados
