@@ -66,6 +66,7 @@ A  Super Classe do sistema é a `ConsultaMensal`, onde ocorre a lógica de repet
 Os métodos `obter_json()`, `obter_csv()` e `obter_excel()` são métodos que executam funções das bibliotecas json/pandas para obter o os dados em diferentes tipos de arquivos.
 
 As demais classes executam o método `consulta()` da classe `ConsultaMensal` para os respectivos períodos de tempo utilizando o poliformismo para executar essas consultas no respectivo período de tempo.
+
 ---
 
 ## Dados Coletados
