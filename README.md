@@ -40,8 +40,8 @@ Diversos tipos de tratamentos de exceções, principalmente na entrada do usuár
 Opções ao usuário de armazenar os dados coletados em arquivos csv, excel. Também foi implementado um “sistema de cache” onde dados consultados pelo usuário geram um json, evitando que consultas já realizadas demandem outra extração no site.
 - **Uso de bibliotecas diversas:**
   - `requests`  - Requisição dos dados do site
-  - `BeautifulSoup` - tratamento e raspagem dos dados obtidos na requisição
-  - `Pandas` - Manipulação de dados e exportação de dados em formatos excel e csv
+  - `BeautifulSoup` - Tratamento e raspagem dos dados obtidos na requisição
+  - `Pandas` - Manipulação e exportação de dados em formatos excel e csv
   - `Flet` - Interface gráfica
   - `Plotly` - Plotagem do Gráfico de Índice de Qualidade do Ar no Estado do RJ no mês consultado
   - Outras: `os`, `numpy`
