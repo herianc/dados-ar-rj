@@ -31,7 +31,7 @@ def app(page: Page):
     page.horizontal_alignment = CrossAxisAlignment.CENTER
     page.window_center()
     page.title = 'Boletim de Poluição do Rio'
-    FONTE = 'comfortaa'
+    FONTE = './assets/comfortaa.ttf'
 
     # Estações disponíveis para consulta
     estacoes = ['Centro', 'Copacabana', 'São Cristóvão',
@@ -628,8 +628,7 @@ def app(page: Page):
         page.scroll = None
         page.clean()
         page.add(
-            AppBar(title=Text(
-                'IGEO - UFRJ', font_family=FONTE)),
+            AppBar(title=Text('Menu Principal', font_family=FONTE)),
             Image('minerva_logo.png',
                   width=300, height=150),
             Text(value='Dados de Poluição do Rio'.upper(),
@@ -650,4 +649,4 @@ def app(page: Page):
 
 if __name__ == '__main__':
     ft.app(target=app,
-           assets_dir='ufrj-logo.png')
+           assets_dir='./assets')
