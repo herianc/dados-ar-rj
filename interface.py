@@ -607,7 +607,7 @@ def app(page: Page):
                          font_family=FONTE),
                     ft.Divider(),
                     Text(
-                        value=f'DADOS DE {estacao.value.upper()} {mes_consulta}/{ano_consulta}', size=16),
+                        value=f'DADOS DE {estacao.value.upper()} {mes_consulta}/{ano_consulta}', size=16, width='w900'),
                     ft.Markdown(
                     tabela.replace(np.nan, 'ND').to_markdown(),
                     selectable=True,
@@ -616,7 +616,7 @@ def app(page: Page):
                 )
                 )
                 page.scroll = 'auto'
-                page.padding = 50
+                page.padding = ft.padding.only(left=100, right=100, top=50)
                 page.update()
         except ValueError:
             pass
