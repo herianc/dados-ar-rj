@@ -31,7 +31,7 @@ def app(page: Page):
     page.horizontal_alignment = CrossAxisAlignment.CENTER
     page.window_center()
     page.title = 'Boletim de Poluição do Rio'
-    FONTE = './assets/comfortaa.ttf'
+    FONTE = 'comfortaa'
 
     # Estações disponíveis para consulta
     estacoes = ['Centro', 'Copacabana', 'São Cristóvão',
@@ -181,7 +181,7 @@ def app(page: Page):
                     except Exception:
                         # Ocorreu algum erro durante a raspagem
                         page.clean()
-                        page.add(Text(value='Erro na consulta 🥴',
+                        page.add(Text(value='Erro durante a consulta 🥴',
                                       font_family=FONTE, size=25),
                                  ElevatedButton(text='Voltar',
                                                 on_click=lambda _: main()),
@@ -290,7 +290,7 @@ def app(page: Page):
                     except Exception:
                         # Ocorreu algum erro durante a raspagem
                         page.clean()
-                        page.add(Text(value='Erro na consulta 🥴',
+                        page.add(Text(value='Erro durante a consulta 🥴',
                                       font_family=FONTE, size=30),
                                  ElevatedButton(text='Voltar',
                                                 on_click=lambda _: main()),
@@ -402,7 +402,7 @@ def app(page: Page):
                     except Exception:
                         # Ocorreu algum erro durante a raspagem
                         page.clean()
-                        page.add(Text(value='Erro na consulta 🥴',
+                        page.add(Text(value='Erro durante a consulta 🥴',
                                       font_family=FONTE, size=30),
                                  ElevatedButton(text='Voltar',
                                                 on_click=lambda _: main()),
@@ -531,7 +531,7 @@ def app(page: Page):
                 try:
                     # Verificando se o usuário já tem os dados
                     nome_arquivo = estacao.value.replace(' ', '_').lower()
-                    caminho = f'./dados/{nome_arquivo}{ano_consulta}-{mes_consulta}.json'
+                    caminho = f'.\dados\{nome_arquivo}{ano_consulta}-{mes_consulta}.json'
                     with open(caminho, 'r') as arquivo:
                         consulta_mensal.dados_mes = json.load(arquivo)
                         consulta_mensal.mes = mes_consulta
@@ -547,7 +547,7 @@ def app(page: Page):
                     except Exception:
                         # Ocorreu algum erro durante a raspagem
                         page.clean()
-                        page.add(Text(value='Erro na consulta 🥴',
+                        page.add(Text(value='Erro durante a consulta 🥴',
                                       font_family=FONTE, size=25),
                                  ElevatedButton(text='Voltar',
                                                 on_click=lambda _: main()),
