@@ -237,7 +237,7 @@ def app(page: Page):
                          Text(value=f'\tA estação esteve indisponível {dias_indisponivel} dias.',
                               font_family=FONTE),
 
-                         PlotlyChart(fig, expand=True)
+                         PlotlyChart(fig, expand=True),
                          )
         except ValueError:
             pass
