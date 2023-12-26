@@ -37,61 +37,24 @@ def app(page: Page):
     estacoes = ['Centro', 'Copacabana', 'São Cristóvão',
                 'Tijuca', 'Irajá', 'Bangu', 'Campo Grande', 'Pedra de Guaratiba']
 
-    # Campo de entrada da Estação
-    estacao = TextField(label='Estação', value='', capitalization=True,
-                        width=200, max_length=20)
-
-    # Função que define a estação a partir do botão selecionado
-    def escolher_estacao(bairro):
-        match bairro:
-
-            case 'Centro':
-                estacao.value = 'Centro'
-                page.update()
-            case 'Copacabana':
-                estacao.value = 'Copacabana'
-                page.update()
-            case 'São Cristóvão':
-                estacao.value = 'São Cristóvão'
-                page.update()
-            case 'Tijuca':
-                estacao.value = 'Tijuca'
-                page.update()
-            case 'Irajá':
-                estacao.value = 'Irajá'
-                page.update()
-            case 'Bangu':
-                estacao.value = 'Bangu'
-                page.update()
-            case 'Campo Grande':
-                estacao.value = 'Campo Grande'
-                page.update()
-            case 'Pedra de Guaratiba':
-                estacao.value = 'Pedra de Guaratiba'
-                page.update()
-
-    # Botão que contem as opções de estações para consulta
-    botao_estacao = ft.PopupMenuButton(items=[
-        ft.PopupMenuItem(
-            text='Centro', on_click=lambda _: escolher_estacao('Centro')),
-        ft.PopupMenuItem(
-            text='Copacabana', on_click=lambda _: escolher_estacao('Copacabana')),
-        ft.PopupMenuItem(
-            text='São Cristóvão', on_click=lambda _: escolher_estacao('São Cristóvão')),
-        ft.PopupMenuItem(
-            text='Tijuca', on_click=lambda _: escolher_estacao('Tijuca')),
-        ft.PopupMenuItem(
-            text='Irajá', on_click=lambda _: escolher_estacao('Irajá')),
-        ft.PopupMenuItem(
-            text='Bangu', on_click=lambda _: escolher_estacao('Bangu')),
-        ft.PopupMenuItem(
-            text='Campo Grande', on_click=lambda _: escolher_estacao('Campo Grande')),
-        ft.PopupMenuItem(
-            text='Pedra de Guaratiba', on_click=lambda _: escolher_estacao('Pedra de Guaratiba')),
-    ])
+    # Menu dropdown com as estações
+    estacao = ft.Dropdown(
+        label="Estações",
+        hint_text="Estação",
+        width=200,
+        options=[
+            ft.dropdown.Option('Centro'),
+            ft.dropdown.Option('Copacabana'),
+            ft.dropdown.Option('São Cristóvão'),
+            ft.dropdown.Option('Tijuca'),
+            ft.dropdown.Option('Irajá'),
+            ft.dropdown.Option('Bangu'),
+            ft.dropdown.Option('Campo Grande'),
+            ft.dropdown.Option('Pedra de Guaratiba')
+        ],
+    )
 
     ## Página de consulta anual ##
-
     def page_consulta_anual(e):
         estacao.error_text = ''
         consulta_anual.dados_ano.clear()
@@ -101,7 +64,7 @@ def app(page: Page):
 
         page.clean()
         global ano
-        ano = TextField(label='Ano', value='', width=200, max_length=4)
+        ano = TextField(label='Ano', value='', width=200)
         estacao
         botao_consulta = ElevatedButton(text='Consultar',
                                         on_click=page_consulta_anual_click
@@ -120,7 +83,7 @@ def app(page: Page):
         page.add(
             AppBar(title=Text('Consulta Anual', font_family=FONTE)),
             Text(value='Dados disponíveis de 2017 a 2022', font_family=FONTE),
-            ft.Row(controls=[ano, estacao, botao_estacao],
+            ft.Row(controls=[ano, estacao],
                    alignment='center'),
             ft.Row(
                 controls=[botao_consulta,
@@ -159,10 +122,6 @@ def app(page: Page):
                              font_family=FONTE, size=14),
                         ProgressRing()
                     )
-                elif not estacao.value in estacoes:
-                    estacao.error_text = 'Estação inválida ❌'
-                    page.update()
-                    return
 
                 # Inputs OK! Obtendo os dados
                 try:
@@ -266,10 +225,6 @@ def app(page: Page):
                              ),
                         ProgressRing()
                     )
-                elif not estacao.value in estacoes:
-                    estacao.error_text = 'Estação Inválida! ❌'
-                    page.update()
-                    return
 
                 # Inputs OK! Obtendo os dados
                 try:
@@ -377,10 +332,6 @@ def app(page: Page):
                              ),
                         ProgressRing()
                     )
-                elif not estacao.value in estacoes:
-                    estacao.error_text = 'Estação Inválida! ❌'
-                    page.update()
-                    return
 
                 # Inputs OK! Obtendo os dados
                 try:
@@ -475,8 +426,8 @@ def app(page: Page):
 
         page.clean()
         global mes, ano
-        mes = TextField(label='Mês', value='', width=200, max_length=2)
-        ano = TextField(label='Ano', value='', width=200, max_length=4)
+        mes = TextField(label='Mês', value='', width=200)
+        ano = TextField(label='Ano', value='', width=200)
         botao_consulta = ElevatedButton(
             text='Consultar',
             on_click=page_consulta_mensal_click
@@ -489,7 +440,7 @@ def app(page: Page):
             AppBar(title=Text('Consulta Mensal', font_family=FONTE)),
             Text(value='Dados disponíveis de 2017 a 2023', font_family=FONTE),
             ft.Row(controls=[
-                mes, ano, estacao, botao_estacao,], alignment='center'),
+                mes, ano, estacao], alignment='center'),
             ft.Row(controls=[
                 botao_consulta, voltar
             ],
@@ -522,10 +473,6 @@ def app(page: Page):
                                   ),
                              ft.ProgressRing()
                              )
-                elif not estacao.value in estacoes:
-                    estacao.error_text = 'Estação inválida ❌'
-                    page.update()
-                    return
 
                 # Inputs OK! Obtendo os dados
                 try:
