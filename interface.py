@@ -478,7 +478,7 @@ def app(page: Page):
                 try:
                     # Verificando se o usuário já tem os dados
                     nome_arquivo = estacao.value.replace(' ', '_').lower()
-                    caminho = f'.\dados\{nome_arquivo}{ano_consulta}-{mes_consulta}.json'
+                    caminho = f'./dados/{nome_arquivo}{ano_consulta}-{mes_consulta}.json'
                     with open(caminho, 'r') as arquivo:
                         consulta_mensal.dados_mes = json.load(arquivo)
                         consulta_mensal.mes = mes_consulta
