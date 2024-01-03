@@ -10,11 +10,15 @@ from flet import CrossAxisAlignment, MainAxisAlignment, ProgressRing
 from webscraping import ConsultaAnual, ConsultaMensal, ConsultaSemestral
 from os import system
 from datetime import date
+from datetime import datetime
 
 
 consulta_anual = ConsultaAnual()
 consulta_mensal = ConsultaMensal()
 consulta_semestral = ConsultaSemestral()
+
+mes_atual = datetime.today().month
+ano_atual = datetime.today().year
 
 
 def abrir_site(e):
@@ -103,13 +107,15 @@ def app(page: Page):
             if not ano.value:
                 ano.error_text = 'Digite ano'
                 page.update()
-            if not int(ano.value) in range(2017, 2022):
+            if not int(ano.value) in range(2017, ano_atual):
                 ano.error_text = 'Ano inválido ❌'
                 page.update()
             if not ano.value.isdigit():
                 ano.error_text = 'Digite apenas números'
                 page.update()
-            if int(ano.value) in range(2017, 2023):
+            if int(ano.value) == ano_atual:
+                ano.error_text = 'Ano não disponível no momento'
+            if int(ano.value) in range(2017, ano_atual):
                 if estacao.value in estacoes:
                     ano_consulta = int(ano.value)
                     page.clean()
@@ -209,13 +215,13 @@ def app(page: Page):
         try:
             if not ano.value:
                 ano.error_text = 'Digite ano'
-            if not int(ano.value) in range(2017, 2022):
+            if not int(ano.value) in range(2017, ano_atual+1):
                 ano.error_text = 'Ano inválido ❌'
                 page.update()
             if not ano.value.isdigit():
                 ano.error_text = 'Digite apenas números'
                 page.update()
-            if int(ano.value) in range(2017, 2023):
+            if int(ano.value) in range(2017, ano_atual+1) and int(mes_atual >= 7):
                 if estacao.value in estacoes:
                     ano_consulta = int(ano.value)
                     page.clean()
@@ -315,14 +321,14 @@ def app(page: Page):
             # Verificando os inputs do usuário
             if not ano.value:
                 ano.error_text = 'Digite ano'
-            if not int(ano.value) in range(2017, 2023):
+            if not int(ano.value) in range(2017, ano_atual):
                 ano.error_text = 'Ano inválido ❌'
                 page.update()
             if not ano.value.isdigit():
                 ano.error_text = 'Digite apenas números'
                 page.update()
 
-            if int(ano.value) in range(2017, 2023):
+            if int(ano.value) in range(2017, ano_atual):
                 if estacao.value in estacoes:
                     ano_consulta = int(ano.value)
                     page.clean()
@@ -456,14 +462,16 @@ def app(page: Page):
             if not int(mes.value) in range(1, 13):
                 mes.error_text = 'Mês inválido ❌'
                 page.update()
-            if not int(ano.value) in range(2017, 2024):
+            if not int(ano.value) in range(2017, ano_atual + 1):
                 ano.error_text = 'Ano inválido ❌'
                 page.update()
-            if int(ano.value) == 2023 and int(mes.value) >= 12:
-                mes.error_text = 'Não disponível'
-                page.update()
 
-            elif int(mes.value) in range(1, 13) and int(ano.value) in range(2017, 2024):
+            if int(ano.value) == datetime.today().year:
+                if int(mes.value) >= datetime.today().month:
+                    mes.error_text = 'Mês ainda não disponível'
+                    page.update()
+
+            elif int(mes.value) in range(1, 13) and int(ano.value) in range(2017, ano_atual + 1):
                 if estacao.value in estacoes:
                     mes_consulta = int(mes.value)
                     ano_consulta = int(ano.value)
