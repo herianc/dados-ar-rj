@@ -52,20 +52,20 @@ Opções ao usuário de armazenar os dados coletados em arquivos csv, excel. Tam
 
 ## Explicando a estrutura do Sistema
 
-O Sistema conta com 3 arquivos Python para diferentes funções.
+O Sistema conta com 3 arquivos Python para diferentes funções.<br>
 
-`interface.py` - É a parte da interface gráfica e de toda a lógica por trás das interações com o usuário.
+`interface.py` - É a parte da interface gráfica e de toda a lógica por trás das interações com o usuário.<br>
 
 `webscraping.py` - É o módulo que contém todas as classes criadas para o projeto ConsultaMensal, ConsultaAnual, ConsultaSemestral. É onde ocorre o processo de raspagem de dados, estruturação dos dados coletados e saída dos arquivos em diferentes formatos.
 
 `tratamento_dados.py`- É o módulo que contém funções pontuais para tratamentos de dados: Tratamento dos dados brutos tipo string para valores numéricos `int` e `float`; Criação de dicionários com os poluentes e os seus respectivos índices.
 
-Entendendo o arquivo `webscraping.py`:
-A Classe abstrata `Consulta` contém os métodos abstratos `consulta()`, `obter_json()`, `obter_csv()`, `obter_excel()` que serão usadas nas demais subclasses.
+Entendendo o arquivo `webscraping.py`:<br>
+A Classe abstrata `Consulta` contém os métodos abstratos `consulta()`, `obter_json()`, `obter_csv()`, `obter_excel()` que serão usadas nas demais subclasses.<br>
 
-A  Super Classe do sistema é a `ConsultaMensal`, onde ocorre a lógica de repetição da raspagem dia a dia durante o mês passado no parâmetro. É neste método que ocorre a raspagem diária durante o mês utilizando uma estrutura de repetição for. Além disso, acontece a estruturação dos dados após a extração dos dados do site.  
+A  Super Classe do sistema é a `ConsultaMensal`, onde ocorre a lógica de repetição da raspagem dia a dia durante o mês passado no parâmetro. É neste método que ocorre a raspagem diária durante o mês utilizando uma estrutura de repetição for. Além disso, acontece a estruturação dos dados após a extração dos dados do site. <br> 
 
-Os métodos `obter_json()`, `obter_csv()` e `obter_excel()` são métodos que executam funções das bibliotecas json/pandas para obter o os dados em diferentes tipos de arquivos.
+Os métodos `obter_json()`, `obter_csv()` e `obter_excel()` são métodos que executam funções das bibliotecas json/pandas para obter o os dados em diferentes tipos de arquivos.<br>
 
 As demais classes executam o método `consulta()` da classe `ConsultaMensal` para os respectivos períodos de tempo utilizando o poliformismo para executar essas consultas no respectivo período de tempo.
 
