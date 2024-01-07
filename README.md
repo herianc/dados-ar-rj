@@ -1,15 +1,22 @@
 # Consultor dos Índices de Poluição do Rio de Janeiro
 
+Trabalho final da disciplina de Computação 2 na UFRJ. O trabalho consiste em criar um projeto que aborde tópicos de Programação Orientada a Objetos aplicados a assuntos do curso do discente (Bacharelado em Ciências Matemáticas e da Terra).<br>
+
 Última atualização: Jan/2024
 
 ---
-Trabalho final da disciplina de Computação 2 na UFRJ. O trabalho consiste em criar um projeto que aborde tópicos de Programação Orientada a Objetos aplicados a assuntos do curso do discente (Bacharelado em Ciências Matemáticas e da Terra).
+## Sumário 
+- [Objetivo](https://github.com/herianc/dados_arRJ#objetivo)
+- [Aplicação de POO no projeto](https://github.com/herianc/dados_arRJ#aplica%C3%A7%C3%A3o-de-poo-no-projeto)
+- [Estrutura do Sistema](https://github.com/herianc/dados_arRJ#explicando-a-estrutura-do-sistema)
+- [Dados Coletados](https://github.com/herianc/dados_arRJ#dados-coletados)
+- [Imagens do Projeto](https://github.com/herianc/dados_arRJ#imagens-do-projeto)
+---
+
 
 ## Ideia geral do projeto
 
 Sistema de informação que facilita a obtenção dos dados de poluição do ar na cidade do Rio de Janeiro. A extração da informação é feita através da raspagem de dados do site do [boletim](https://jeap.rio.rj.gov.br/je-metinfosmac/boletim) de qualidade do ar
-
----
 
 ## Objetivo
 
