@@ -121,7 +121,7 @@ def app(page: Page):
                     page.clean()
                     page.add(
 
-                        Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🤏🥸⏳',
+                        Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🥸🤏⏳',
                              size=20, font_family=FONTE
                              ),
                         Text('A consulta anual pode durar cerca de 3-4 minutos',
@@ -333,7 +333,7 @@ def app(page: Page):
                     ano_consulta = int(ano.value)
                     page.clean()
                     page.add(
-                        Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🤏🥸⏳',
+                        Text(value='Realizando consulta...\nPode levar alguns minutos. Vá tomar uma água e depois volte. 🥸🤏⏳',
                              size=20, font_family=FONTE
                              ),
                         ProgressRing()
@@ -476,7 +476,7 @@ def app(page: Page):
                     mes_consulta = int(mes.value)
                     ano_consulta = int(ano.value)
                     page.clean()
-                    page.add(Text(value='Realizando consulta...\nPode levar alguns instantes. Por favor, aguarde. 🙂🙃⏳',
+                    page.add(Text(value='Realizando consulta...\nPode levar alguns instantes. Por favor, aguarde. 🙂⏳',
                                   size=25, font_family=FONTE
                                   ),
                              ft.ProgressRing()
