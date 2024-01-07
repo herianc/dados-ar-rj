@@ -7,7 +7,7 @@ Trabalho final da disciplina de Computação 2 na UFRJ. O trabalho consiste em c
 ---
 ## Sumário 
 - [Objetivo](https://github.com/herianc/dados_arRJ#objetivo)
-- [Aplicação de POO no projeto](https://github.com/herianc/dados_arRJ#aplica%C3%A7%C3%A3o-de-poo-no-projeto)
+- [Aplicação de POO e Bibliotecas Utilizadas](https://github.com/herianc/dados_arRJ#aplica%C3%A7%C3%A3o-de-poo-no-projeto)
 - [Estrutura do Sistema](https://github.com/herianc/dados_arRJ#explicando-a-estrutura-do-sistema)
 - [Dados Coletados](https://github.com/herianc/dados_arRJ#dados-coletados)
 - [Imagens do Projeto](https://github.com/herianc/dados_arRJ#imagens-do-projeto)
