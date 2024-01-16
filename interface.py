@@ -9,8 +9,9 @@ from flet import Page, AppBar, ElevatedButton, Text, TextField, Image
 from flet import CrossAxisAlignment, MainAxisAlignment, ProgressRing
 from webscraping import ConsultaAnual, ConsultaMensal, ConsultaSemestral
 from os import system
-from datetime import date
 from datetime import datetime
+from datetime import date
+
 
 
 consulta_anual = ConsultaAnual()
@@ -57,6 +58,17 @@ def app(page: Page):
             ft.dropdown.Option('Pedra de Guaratiba')
         ],
     )
+    
+
+    def page_error():
+        # Ocorreu algum erro durante a raspagem
+        page.clean()
+        page.add(Text(value='Erro durante a consulta 🥴',
+                      font_family=FONTE, size=25),
+                 ElevatedButton(text='Voltar',
+                                on_click=lambda _: main()),
+                )
+    
 
     ## Página de consulta anual ##
     def page_consulta_anual(e):
@@ -145,12 +157,7 @@ def app(page: Page):
                         consulta_anual.obter_json()
                     except Exception:
                         # Ocorreu algum erro durante a raspagem
-                        page.clean()
-                        page.add(Text(value='Erro durante a consulta 🥴',
-                                      font_family=FONTE, size=25),
-                                 ElevatedButton(text='Voltar',
-                                                on_click=lambda _: main()),
-                                 )
+                        page_error()
                         raise Exception
 
                 # Consulta OK!
@@ -207,6 +214,7 @@ def app(page: Page):
         except ValueError:
             pass
         except:
+            page_error()
             raise Exception
 
     ## Página de consulta semestral 1 após apertar o click no botão ##
@@ -250,12 +258,7 @@ def app(page: Page):
                         consulta_semestral.obter_json()
                     except Exception:
                         # Ocorreu algum erro durante a raspagem
-                        page.clean()
-                        page.add(Text(value='Erro durante a consulta 🥴',
-                                      font_family=FONTE, size=30),
-                                 ElevatedButton(text='Voltar',
-                                                on_click=lambda _: main()),
-                                 )
+                        page_error()
                         raise Exception
 
                 # Consulta OK! Plotando o Gráfico
@@ -313,6 +316,7 @@ def app(page: Page):
         except ValueError:
             pass
         except:
+            page_error()
             raise Exception
 
     ## Página de consulta semestral 2 após apertar o botão ##
@@ -358,12 +362,7 @@ def app(page: Page):
                         consulta_semestral.obter_json()
                     except Exception:
                         # Ocorreu algum erro durante a raspagem
-                        page.clean()
-                        page.add(Text(value='Erro durante a consulta 🥴',
-                                      font_family=FONTE, size=30),
-                                 ElevatedButton(text='Voltar',
-                                                on_click=lambda _: main()),
-                                 )
+                        page_error()
                         raise Exception
 
                 # Consulta OK! Plotando o Gráfico
@@ -422,6 +421,7 @@ def app(page: Page):
         except ValueError:
             pass
         except:
+            page_error()
             raise Exception
 
     ## Página de consulta mensal ##
@@ -501,13 +501,7 @@ def app(page: Page):
                         consulta_mensal.obter_json()
                     except Exception:
                         # Ocorreu algum erro durante a raspagem
-                        page.clean()
-                        page.add(Text(value='Erro durante a consulta 🥴',
-                                      font_family=FONTE, size=25),
-                                 ElevatedButton(text='Voltar',
-                                                on_click=lambda _: main()),
-                                 )
-                        raise Exception
+                        page_error()
 
                 # Consulta OK! Plotando o gráfico
                 tabela = pd.DataFrame.from_dict(
@@ -576,6 +570,7 @@ def app(page: Page):
         except ValueError:
             pass
         except:
+            page_error()
             raise Exception
 
     ## Menu Principal ##
