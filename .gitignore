@@ -1,6 +1,6 @@
 
 __pycache__/tratamento_dados.cpython-312.pyc
-venv/
+.venv/
 *.pyc
 *.xlsx
 *.csv
