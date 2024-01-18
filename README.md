@@ -94,7 +94,7 @@ Para mais informações em relação as categorizações da Qualidade do Ar: [Ac
 **Observações com relação aos dados:**
 
 - MP2.5 passou a ser monitorado a partir de dez/2019.
-- 1º Semestre de 2020 há muitos meses com dados indisponíveis devido a COVID-19.
+- 1º Semestre de 2020 há muitos meses com dados indisponíveis (provavelmente devido a pandemia).
 - A estação Copacabana esteve fora da listagem do site durante o ano de 2021
 
 ---
