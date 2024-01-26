@@ -13,7 +13,6 @@ from datetime import datetime
 from datetime import date
 
 
-
 consulta_anual = ConsultaAnual()
 consulta_mensal = ConsultaMensal()
 consulta_semestral = ConsultaSemestral()
@@ -58,7 +57,6 @@ def app(page: Page):
             ft.dropdown.Option('Pedra de Guaratiba')
         ],
     )
-    
 
     def page_error():
         # Ocorreu algum erro durante a raspagem
@@ -67,10 +65,10 @@ def app(page: Page):
                       font_family=FONTE, size=25),
                  ElevatedButton(text='Voltar',
                                 on_click=lambda _: main()),
-                )
-    
+                 )
 
     ## Página de consulta anual ##
+
     def page_consulta_anual(e):
         estacao.error_text = ''
         consulta_anual.dados_ano.clear()
