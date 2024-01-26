@@ -22,11 +22,7 @@ Sistema de informação que facilita a obtenção dos dados de poluição do ar 
 
 Aplicação que realiza a Extração, Tratamento e o Carregamento (Pipeline ETL) dos índices de poluição do Rio. O objetivo principal é facilitar a obtenção dos dados mensais/semestrais/anuais das estações para medição/estudo da poluição nas estações de monitoramento do Rio, tendo em vista que o próprio boletim da Prefeitura do Rio disponibiliza **apenas dados diários**. Ao final de cada consulta um arquivo json é gerado com os dados estruturados e tratados e dando a opção ao usuário de obter uma planilha ou um arquivo csv. Além disso, oferece uma pré visualização dos dados obtidos na consulta.
 
-Site do Boletim de Qualidade do Ar 
-![Boletim de Qualidade do Ar](https://github.com/herianc/dados_arRJ/blob/main/imagens/site.png?raw=true)
-
-Tela de Menu Principal
-![Menu Principal](https://github.com/herianc/dados_arRJ/blob/main/imagens/01_menu_principal.png?raw=true)
+<img src="https://github.com/herianc/dados_arRJ/blob/main/imagens/consulta.gif.gif?raw=true" width="850" height="516" />
 
 ---
 
@@ -100,6 +96,8 @@ Para mais informações em relação as categorizações da Qualidade do Ar: [Ac
 ---
 
 ## Imagens do projeto
+Site do Boletim de Qualidade do Ar da Prefeitura do Rio
+![Boletim de Qualidade do Ar](https://github.com/herianc/dados_arRJ/blob/main/imagens/site.png?raw=true)
 
 Menu Principal
 ![Menu Principal](https://github.com/herianc/dados_arRJ/blob/main/imagens/01_menu_principal.png?raw=true)
