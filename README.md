@@ -66,7 +66,7 @@ O Sistema conta com 3 arquivos Python para diferentes funções.<br>
 Entendendo o arquivo `webscraping.py`:<br>
 A Classe abstrata `Consulta` contém os métodos abstratos `consulta()`, `obter_json()`, `obter_csv()`, `obter_excel()` que serão usadas nas demais subclasses.<br>
 
-A  Super Classe do sistema é a `ConsultaMensal`, onde ocorre a lógica de repetição da raspagem dia a dia durante o mês passado no parâmetro. É neste método que ocorre a raspagem diária durante o mês utilizando uma estrutura de repetição for. Além disso, acontece a estruturação dos dados após a extração dos dados do site. <br> 
+A  Super Classe do sistema é a `ConsultaMensal`, onde ocorre a lógica de repetição da raspagem dia a dia durante o mês passado no parâmetro. Através do método `ConsultaMensal.consulta()` que ocorre a raspagem diária durante o mês utilizando uma estrutura de repetição `for` com métodos da biblioteca Request e Beautiful Soup. Além disso, acontece a estruturação dos dados após a extração dos dados do site. <br> 
 
 Os métodos `obter_json()`, `obter_csv()` e `obter_excel()` são métodos que executam funções das bibliotecas json/pandas para obter o os dados em diferentes tipos de arquivos.<br>
 
