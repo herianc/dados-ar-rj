@@ -20,6 +20,8 @@ consulta_semestral = ConsultaSemestral()
 mes_atual = datetime.today().month
 ano_atual = datetime.today().year
 
+print(mes_atual, ano_atual)
+
 
 def abrir_site(e):
     wb.open('https://jeap.rio.rj.gov.br/je-metinfosmac/boletim')
@@ -163,7 +165,8 @@ def app(page: Page):
                                                 orient='index')
 
                 fig = px.line(tabela, y='IQAr', x=tabela.index,
-                              title=f'Índice de Qualidade do Ar de {ano_consulta} - Estação {estacao.value}'
+                              title=f'Índice de Qualidade do Ar de {
+                                  ano_consulta} - Estação {estacao.value}'
                               )
                 fig.update_yaxes(title='Índice')
                 fig.update_xaxes(title='Meses', )
@@ -242,7 +245,8 @@ def app(page: Page):
                 try:
                     # Verificando se o usuário já tem os dados
                     nome_arquivo = estacao.value.replace(' ', '_').lower()
-                    caminho = f'./dados/{nome_arquivo}{ano_consulta}-semestre{1}.json'
+                    caminho = f'./dados/{nome_arquivo}{
+                        ano_consulta}-semestre{1}.json'
                     with open(caminho, 'r') as arquivo:
                         consulta_semestral.dados_semestre = json.load(arquivo)
                         consulta_semestral.ano = ano_consulta
@@ -263,7 +267,8 @@ def app(page: Page):
                 tabela = pd.DataFrame.from_dict(consulta_semestral.dados_semestre,
                                                 orient='index')
                 fig = px.line(tabela, y='IQAr', x=tabela.index,
-                              title=f'Índice de Qualidade do Ar do 1º Semestre de {ano_consulta}'
+                              title=f'Índice de Qualidade do Ar do 1º Semestre de {
+                                  ano_consulta}'
                               )
                 fig.update_yaxes(title='Índice')
                 fig.update_xaxes(title='Meses', )
@@ -345,7 +350,8 @@ def app(page: Page):
                 try:
                     # Verificando se o usuário já tem os dados
                     nome_arquivo = estacao.value.replace(' ', '_').lower()
-                    caminho = f'./dados/{nome_arquivo}{ano_consulta}-semestre{2}.json'
+                    caminho = f'./dados/{nome_arquivo}{
+                        ano_consulta}-semestre{2}.json'
                     with open(caminho, 'r') as arquivo:
                         consulta_semestral.dados_semestre = json.load(arquivo)
                         consulta_semestral.ano = ano_consulta
@@ -460,14 +466,14 @@ def app(page: Page):
             if not int(mes.value) in range(1, 13):
                 mes.error_text = 'Mês inválido ❌'
                 page.update()
+
             if not int(ano.value) in range(2017, ano_atual + 1):
                 ano.error_text = 'Ano inválido ❌'
                 page.update()
 
-            if int(ano.value) == datetime.today().year:
-                if int(mes.value) >= datetime.today().month:
-                    mes.error_text = 'Mês ainda não disponível'
-                    page.update()
+            if int(ano.value) == datetime.today().year and int(mes.value) >= datetime.today().month:
+                mes.error_text = 'Mês ainda não disponível'
+                page.update()
 
             elif int(mes.value) in range(1, 13) and int(ano.value) in range(2017, ano_atual + 1):
                 if estacao.value in estacoes:
@@ -484,7 +490,8 @@ def app(page: Page):
                 try:
                     # Verificando se o usuário já tem os dados
                     nome_arquivo = estacao.value.replace(' ', '_').lower()
-                    caminho = f'./dados/{nome_arquivo}{ano_consulta}-{mes_consulta}.json'
+                    caminho = f'./dados/{nome_arquivo}{
+                        ano_consulta}-{mes_consulta}.json'
                     with open(caminho, 'r') as arquivo:
                         consulta_mensal.dados_mes = json.load(arquivo)
                         consulta_mensal.mes = mes_consulta
@@ -508,7 +515,8 @@ def app(page: Page):
                 data = date(ano_consulta, mes_consulta, 1)
 
                 fig = px.line(tabela, y='IQAr', x=tabela.index,
-                              title=f'Índice de Qualidade do Ar de {data.month}/{data.year} - Estação {estacao.value}'
+                              title=f'Índice de Qualidade do Ar de {
+                                  data.month}/{data.year} - Estação {estacao.value}'
                               )
                 fig.update_yaxes(title='Índice')
                 fig.update_xaxes(title='Dias', )
