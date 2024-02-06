@@ -2,7 +2,7 @@
 
 Trabalho final da disciplina de Computação 2 na UFRJ. O trabalho consiste em criar um projeto que aborde tópicos de Programação Orientada a Objetos aplicados a assuntos do curso do discente (Bacharelado em Ciências Matemáticas e da Terra).<br>
 
-Última atualização: Jan/2024
+Última atualização: Fev/2024
 
 ---
 ## Sumário 
