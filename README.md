@@ -22,7 +22,7 @@ Sistema de informação que facilita a obtenção dos dados de poluição do ar 
 
 Aplicação que realiza a Extração, Tratamento e o Carregamento (Pipeline ETL) dos índices de poluição do Rio. O objetivo principal é facilitar a obtenção dos dados mensais/semestrais/anuais das estações para medição/estudo da poluição nas estações de monitoramento do Rio, tendo em vista que o próprio boletim da Prefeitura do Rio disponibiliza **apenas dados diários**. Ao final de cada consulta um arquivo json é gerado com os dados estruturados e tratados e dando a opção ao usuário de obter uma planilha ou um arquivo csv. Além disso, oferece uma pré visualização dos dados obtidos na consulta.
 
-<img src="https://github.com/herianc/dados_arRJ/blob/main/imagens/consulta.gif.gif?raw=true" width="950" height="516" />
+<img src="https://github.com/herianc/dados_arRJ/blob/main/imagens/consulta.gif.gif?raw=true" width="810" height="480" />
 
 ---
 
